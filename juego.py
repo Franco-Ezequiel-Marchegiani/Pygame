@@ -16,7 +16,7 @@ def pythonisa():
     datos_juego = {
         "puntuacion": var.PUNTUACION_INICIAL,
         "cantidad_vidas": var.CANTIDAD_VIDAS,
-        "nombre": '',
+        "nombre": 'Player',
         "volumen_musica": var.VOLUMEN_MUSICA_INICIAL,
     }
 
