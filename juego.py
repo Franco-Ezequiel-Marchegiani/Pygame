@@ -12,12 +12,13 @@ def pythonisa():
     corriendo = True
     reloj = pg.time.Clock()
     form_actual = 'menu'
-    bandera_juego = False
+    bandera_juego = False #La bandera sirve para tema música, se puede hacer un diccionario para que cada form tenga su música
     datos_juego = {
-        "puntaje": 0, #var.PUNTUACION_INICIAL
+        "puntaje": var.PUNTUACION_INICIAL, 
         "cantidad_vidas": var.CANTIDAD_VIDAS,
         "nombre": 'Player',
         "volumen_musica": var.VOLUMEN_MUSICA_INICIAL,
+        "tiempo_finalizado": None
     }
 
     while corriendo:
@@ -35,7 +36,10 @@ def pythonisa():
             form_actual, bandera_juego = form_historia.mostrar_historia(pantalla, cola_eventos)
         
         elif form_actual == 'juego':
-            form_actual = form_juego.mostrar_juego(pantalla, cola_eventos, datos_juego)
+            if not bandera_juego:
+                aux.inicializar_musica(datos_juego)
+                bandera_juego = True
+            form_actual, bandera_juego = form_juego.mostrar_juego(pantalla, cola_eventos, datos_juego)
             
         elif form_actual == 'salir':
             corriendo = False

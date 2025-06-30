@@ -1,9 +1,10 @@
-import datetime
+from datetime import datetime
 import pygame as pg
 import os
 import random as rd
 import Pygame.carta as carta
 import Pygame.variables as var
+
 
 def crear_lista_botones(cantidad: int, dimension: tuple, color: str = 'purple'):
     lista_botones = []
@@ -142,7 +143,7 @@ def generar_mazo(mazo_dict_original: list[dict]):
 def actualizar_puntaje(dict_juego: dict, puntaje: int):
     dict_juego['puntaje'] += puntaje
 
-def verificar_tiempo_cumplido(tiempo_finalizado: int, retorno: str):
+def verificar_tiempo_cumplido(tiempo_finalizado: int, retorno: tuple[str, str]):
     tiempo_actual = pg.time.get_ticks()
     if tiempo_actual - tiempo_finalizado >= 2000:
         return retorno[0]
@@ -162,3 +163,6 @@ def inicializar_musica(dict_juego: dict):
     pg.mixer.music.load(var.RUTA_MUSICA)
     pg.mixer.music.set_volume(porcentaje_coma)
     pg.mixer.music.play(-1) #-1 para que suene en bucle infinito
+
+def terminar_musica():
+    pg.mixer.music.stop()
