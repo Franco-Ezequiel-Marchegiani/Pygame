@@ -45,10 +45,12 @@ COLOR_AZUL = (0,0,255)
 COLOR_VIOLETA = (134,23,219)
 COLOR_AMARILLO = (239,255,0)
 COLOR_VERDE_OSCURO = "#0B9827"
+COLOR_NARANJA = (255, 87, 20)
+
 
 # ======= FUENTES ===========
 
-FUENTE_ALAGARD = './assets/fonts/alagard.ttf'
+FUENTE_ALAGARD = './Pygame/assets/fonts/alagard.ttf'
 
 FUENTE_20 = pg.font.SysFont("Arial",20)
 FUENTE_22 = pg.font.Font(FUENTE_ALAGARD, 22)
@@ -60,10 +62,11 @@ FUENTE_50 = pg.font.Font(FUENTE_ALAGARD, 50)
 
 # ======= RUTA ===========
 
-RUTA_MAZO_MAIN = './assets/decks'
-RUTA_FONDO = './assets/background/fondo_tablero.png'
-RUTA_SONIDO_CLICK = './assets/sound/click.mp3'
-RUTA_MUSICA = './assets/sound/music.ogg'
+RUTA_MAZO_MAIN = './Pygame/assets/decks'
+RUTA_FONDO = './Pygame/assets/background/fondo_tablero.png'
+RUTA_SONIDO_CLICK = './Pygame/assets/sound/click.mp3'
+RUTA_MUSICA = './Pygame/assets/sound/music.ogg'
+RUTA_ICONO = './assets/icon_4_star.png'
 
 
 # ======= CONFIGS ===========
@@ -82,6 +85,10 @@ COORDENADA_CARTA_VISTA = (690,106)
 COORDENADA_CAJA_TITULO = (DIMENSION_PANTALLA[0]//2 - DIMENSION_TITULO[0] // 2,10)
 # COORDENADA_PUNTAJE = (, COORDENADA_CAJA_TITULO)
 COORDENADA_CAJA_HISTORIA = (37, 115)
+
+# ======= ARCHIVOS ===========
+RUTA_RANKING_CSV = './ranking.csv'
+
 
 # ======= OBJETOS ===========
 

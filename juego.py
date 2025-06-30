@@ -14,7 +14,7 @@ def pythonisa():
     form_actual = 'menu'
     bandera_juego = False
     datos_juego = {
-        "puntuacion": var.PUNTUACION_INICIAL,
+        "puntaje": 0, #var.PUNTUACION_INICIAL
         "cantidad_vidas": var.CANTIDAD_VIDAS,
         "nombre": 'Player',
         "volumen_musica": var.VOLUMEN_MUSICA_INICIAL,
@@ -35,7 +35,7 @@ def pythonisa():
             form_actual, bandera_juego = form_historia.mostrar_historia(pantalla, cola_eventos)
         
         elif form_actual == 'juego':
-            form_actual = form_juego.mostrar_juego(pantalla, cola_eventos, {})
+            form_actual = form_juego.mostrar_juego(pantalla, cola_eventos, datos_juego)
             
         elif form_actual == 'salir':
             corriendo = False

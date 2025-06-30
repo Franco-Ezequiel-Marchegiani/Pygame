@@ -99,6 +99,7 @@ def generar_bd(root_path_cards: str):
                     'id': f'{deck_name}-{datos}',
                     "mensaje": "",
                     "frase": "",
+                    "puntaje": 0,
                     "path_imagen_frente": path_card,
                     "path_imagen_reverso": reverse_path, #Este valor puede estar, como no, se agrega más adelante
                 }
@@ -113,7 +114,9 @@ def generar_bd(root_path_cards: str):
 def asignar_frases(lista_mazo: list[dict], lista_frases: list[dict]) -> list[dict]:
 
     for index_card in range(len(lista_mazo)):
-        lista_mazo[index_card]['frase'] = rd.choice(lista_frases).get('frase') #.get("frase") para acceder al objeto del diccionario
+        frase = rd.choice(lista_frases)
+        lista_mazo[index_card]['frase'] = frase.get('frase') #.get("frase") para acceder al objeto del diccionario
+        lista_mazo[index_card]['puntaje'] = frase.get('puntaje')
     return lista_mazo
 
 def achicar_imagen_card(path_imagen: str, porcentaje: int):
