@@ -39,10 +39,23 @@ FUENTE_50 = 50
 
 # ======= DIMENSIONES ===========
 
+#Define la caja que ocupará
+#Largo x alto
 DIMENSION_BOTON_JUGAR = (125, 115)
 DIMENSION_BOTON_HISTORIA = (125,275)
 DIMENSION_BOTON_SALIR = (125,355)
-
+DIMENSION_TITULO = (600, 80)
+DIMENSION_PUNTAJE = (200, 60)
+DIMENSION_PREGUNTA = (500,100)
+DIMENSION_FRASE = (500,100)
+DIMENSION_HISTORIA = (1200, 450)
+DIMENSION_RESPUESTA = (250,60)
+DIMENSION_BOTON = (250,60)
+DIMENSION_BOTON_BACK = (200, 60)
+CUADRO_TEXTO = (250,50)
+DIMENSION_BOTON_VOLUMEN = (60,60)
+DIMENSION_BOTON_VOLVER = (100,40)
+DIMENSION_CAJA_TEXTO = (1200, 450)
 
 # ======= RUTA ===========
 
@@ -59,22 +72,21 @@ PUNTUACION_INICIAL = 0
 VOLUMEN_MUSICA_INICIAL = 100
 PUNTUACION_ACIERTO = 100
 PUNTUACION_ERROR = 25
-""" 
-# ======= DIMENSIONES ===========
-#Define la caja que ocupará
-#Largo x alto
-DIMENSION_TITULO = (600, 80)
-DIMENSION_PUNTAJE = (200, 60)
-DIMENSION_PREGUNTA = (500,100)
-DIMENSION_FRASE = (500,100)
-DIMENSION_HISTORIA = (1200, 450)
-DIMENSION_RESPUESTA = (250,60)
-DIMENSION_BOTON = (250,60)
-DIMENSION_BOTON_BACK = (200, 60)
-CUADRO_TEXTO = (250,50)
-DIMENSION_BOTON_VOLUMEN = (60,60)
-DIMENSION_BOTON_VOLVER = (100,40)
-DIMENSION_CAJA_TEXTO = (1200, 450)
+
+# ======= COORDENADAS ===========
+
+#Define la posición de las coordenadas en donde se posicionará 
+COORDENADA_LABEL_TITULO = (340, 10)
+DIMENSION_BOTON_VOLVER = (993,580)
+COORDENADA_LABEL_TEXTO_HISTORIA = (37, 115)
+COORDENADA_CAJA_FRASE = (390,584)
+COORDENADA_CARTA_MAZO = (340,106)
+COORDENADA_CARTA_VISTA = (690,106)
+COORDENADA_CAJA_TITULO = (DIMENSION_PANTALLA[0]//2 - DIMENSION_TITULO[0] // 2,10)
+COORDENADA_PUNTAJE = (50, COORDENADA_CAJA_TITULO[1])
+COORDENADA_CAJA_HISTORIA = (37, 115)
+
+
 
 # ======= COLORES ===========
 
@@ -91,7 +103,7 @@ COLOR_NARANJA = (255, 87, 20)
 
 # ======= FUENTES ===========
 
-FUENTE_ALAGARD = './Pygame/assets/fonts/alagard.ttf'
+FUENTE_ALAGARD = './modulos/assets/fonts/alagard.ttf'
 
 FUENTE_20 = pg.font.SysFont("Arial",20)
 FUENTE_22 = pg.font.Font(FUENTE_ALAGARD, 22)
@@ -103,11 +115,11 @@ FUENTE_50 = pg.font.Font(FUENTE_ALAGARD, 50)
 
 # ======= RUTA ===========
 
-RUTA_MAZO_MAIN = './Pygame/assets/decks'
-RUTA_FONDO = './Pygame/assets/background/fondo_tablero.png'
-RUTA_SONIDO_CLICK = './Pygame/assets/sound/click.mp3'
-RUTA_MUSICA = './Pygame/assets/sound/music.ogg'
-RUTA_ICONO = './assets/icon_4_star.png'
+RUTA_MAZO_MAIN = './modulos/assets/decks'
+RUTA_FONDO = './modulos/assets/background/fondo_tablero.png'
+RUTA_SONIDO_CLICK = './modulos/assets/sound/click.mp3'
+RUTA_MUSICA = './modulos/assets/sound/music.ogg'
+RUTA_ICONO = './modulos/assets/icon_4_star.png'
 
 
 # ======= CONFIGS ===========
@@ -122,6 +134,7 @@ PUNTUACION_ERROR = 25
 
 #Define la posición de las coordenadas en donde se posicionará 
 COORDENADA_CAJA_FRASE = (390,584)
+COORDENADA_CAJA_FRASE = (993, 580)
 COORDENADA_CARTA_MAZO = (340,106)
 COORDENADA_CARTA_VISTA = (690,106)
 COORDENADA_CAJA_TITULO = (DIMENSION_PANTALLA[0]//2 - DIMENSION_TITULO[0] // 2,10)
@@ -137,6 +150,3 @@ RUTA_RANKING_CSV = './ranking.csv'
 
 FONDO = pg.image.load(RUTA_FONDO)
 CLICK_SONIDO = pg.mixer.Sound(RUTA_SONIDO_CLICK)
-
-
- """

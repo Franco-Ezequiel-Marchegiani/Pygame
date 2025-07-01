@@ -1,48 +1,54 @@
 import pygame as pg
+import sys
 import modulos.forms.base_form as base_form
 import modulos.variables as var
+import modulos.auxiliar as aux
 from utn_fra.pygame_widgets import (
-    Button, Label
+    Button, Label, ButtonImage
 )
+
 
 def init_form_main_menu(dict_form_data: dict):
     form = base_form.create_base_form(dict_form_data)
-    #Imagen de fondo y sus dimensiones
-    form['surface'] = pg.image.load(var.RUTA_FONDO).convert_alpha()
-    form['surface'] = pg.transform.scale(form.get('surface'), var.DIMENSION_PANTALLA)
-
-    #Rectángulo de la imagen cargada
-    form['rect'] = form.get('surface').get_rect()
-    form['rect'].x = dict_form_data.get('coords')[0]
-    form['rect'].y = dict_form_data.get('coords')[1] 
-
-    #Características de cada botón
-    form['btn_jugar'] = Button(x=var.DIMENSION_BOTON_JUGAR[0], y=var.DIMENSION_BOTON_JUGAR[1], text='JUGAR', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=var.FUENTE_30, on_click=click_start, on_click_param='Boton Start')
-    form['btn_historia'] = Button(x=var.DIMENSION_BOTON_HISTORIA[0], y=var.DIMENSION_BOTON_HISTORIA[1], text='HISTORIA', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=var.FUENTE_30, on_click=click_historia, on_click_param='Boton Historia')
-    form['btn_salir'] = Button(x=var.DIMENSION_BOTON_SALIR[0], y=var.DIMENSION_BOTON_SALIR[1], text='SALIR', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=var.FUENTE_30, on_click=click_salir, on_click_param='Boton Salir')
-
-    #Listado de las fotos
+    
+    form['lbl_titulo'] = Label(x=var.DIMENSION_PANTALLA[0]//2, y=100,text='La PYTHONisa del Tarot', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=50)
+    
+    form['btn_jugar'] = Button(x=var.DIMENSION_PANTALLA[0]//2, y=150, text='JUGAR', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=30, on_click=click_start, on_click_param='Boton Start')
+    form['btn_ranking'] = Button(x=var.DIMENSION_PANTALLA[0]//2, y=225, text='RANKING', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=30, on_click=cambiar_formulario_on_click, on_click_param='form_ranking')
+    form['btn_historia'] = Button(x=var.DIMENSION_PANTALLA[0]//2, y=290, text='HISTORIA', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=30, on_click=cambiar_formulario_on_click, on_click_param='form_historia')
+    form['btn_config'] = Button(x=var.DIMENSION_PANTALLA[0]//2, y=370, text='CONFIG', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=30, on_click=cambiar_formulario_on_click, on_click_param='form_config')
+    form['btn_salir'] = Button(x=var.DIMENSION_PANTALLA[0]//2, y=430, text='SALIR', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=30, on_click=click_salir, on_click_param='Boton Salir')
+    
     form['widgets_list'] = [
-        form.get('btn_jugar'), form.get('btn_historia'), form.get('btn_salir')
+        form.get('lbl_titulo'), 
+        form.get('btn_jugar'), 
+        form.get('btn_ranking'),
+        form.get('btn_historia'), 
+        form.get('btn_config'), 
+        form.get('btn_salir')
     ]
-
+    
+    base_form.forms_dict[dict_form_data.get('name')] = form
+    
     return form
 
 def click_start(parametro: str):
-    print(f'Boton start {parametro}')
+    print(parametro)
 
-def click_historia(parametro: str):
-    print(f'Boton historia {parametro}')
-    
+def cambiar_formulario_on_click(parametro: str):
+    print(parametro)
+    base_form.set_active(parametro)
+
 def click_salir(parametro: str):
-    print(f'Boton salir {parametro}')
+    print(parametro)
+    sys.exit()
 
 def draw(form_data: dict):
     base_form.draw(form_data)
 
-    for widget in form_data.get('widgets_list'):
-        widget.draw()
-
-def update(form_data: dict):
-    for widget in form_data.get('widgets_list'):
-        widget.update()
+def update(form_data: dict, event_list: list[pg.event.Event]):
+    base_form.update(form_data)
+    #Pequeño for para obtener coordenadas
+    for evento in event_list:
+        if evento.type == pg.MOUSEBUTTONDOWN:
+            print(f"Coordenada: {evento.pos}")   
