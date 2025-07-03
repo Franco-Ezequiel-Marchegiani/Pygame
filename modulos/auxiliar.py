@@ -159,13 +159,32 @@ def grabar_puntaje(dict_juego: dict):
         file.write(data)
 
 def inicializar_musica(dict_juego: dict):
-    porcentaje_coma = dict_juego.get('volumen_musica') / 100
+    porcentaje_coma = dict_juego.get('volumen_musica') / 50
+    #Calculamos cuanto dura la primera canción, para que se ejecute una vez
+    sound = pg.mixer.Sound(var.RUTA_MUSICA)
+    dur_ms = int(sound.get_length() * 1000)
+    #Indicamos un evento para que se inicie el loop una vez terminado
+    pg.time.set_timer(pg.USEREVENT+5, dur_ms, loops=1) 
+
+    #Musica inicial
     pg.mixer.music.load(var.RUTA_MUSICA)
     pg.mixer.music.set_volume(porcentaje_coma)
+    pg.mixer.music.play() #Suena una sola vez
+
+
+
+def inicializar_bucle_musica():
+    print(f"BUCLE TIME!")
+    #Musica en bucle dsp de la primera
+    pg.mixer.music.load(var.RUTA_MUSICA_BUCLE)
+    pg.mixer.music.set_volume(100)
     pg.mixer.music.play(-1) #-1 para que suene en bucle infinito
 
-def terminar_musica():
+
+def terminar_musica(dict_juego: dict):
+    dict_juego["musica_bucle_iniciada"] = True
     pg.mixer.music.stop()
+
 
 
 

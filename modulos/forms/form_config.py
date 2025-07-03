@@ -1,6 +1,7 @@
 import pygame as pg
 import modulos.forms.base_form as base_form
 import modulos.variables as var
+import modulos.auxiliar as aux
 from utn_fra.pygame_widgets import (
     Button, Label, TextBox, TextBoxSound
 )
@@ -11,8 +12,8 @@ def init_form_config(dict_form_data: dict):
     form['texto'] = 'HOLA MUNDO'
     form['lbl_titulo'] = Label(x=var.DIMENSION_PANTALLA[0]//2, y=100,text='DRAGON BALL Z TCG', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=50)
     form['lbl_sub_titulo'] = Label(x=var.DIMENSION_PANTALLA[0]//2, y=100,text='Options', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=40)
-    form['lbl_music_on'] = Button(x=var.DIMENSION_PANTALLA[0]//2, y=350,text='MUSIC ON', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=22, on_click=click_music_on, on_click_param='music_on')
-    form['lbl_music_off'] = Button(x=var.DIMENSION_PANTALLA[0]//2, y=400,text='MUSIC OFF', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=22, on_click=click_music_off, on_click_param='music_off')
+    form['lbl_music_on'] = Button(x=var.DIMENSION_PANTALLA[0]//2, y=350,text='MUSIC ON', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=22, on_click=click_music_on, on_click_param = dict_form_data)
+    form['lbl_music_off'] = Button(x=var.DIMENSION_PANTALLA[0]//2, y=400,text='MUSIC OFF', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=22, on_click=click_music_off, on_click_param=dict_form_data)
     form['btn_volver'] = Button(x=993, y=580, text='VOLVER', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=30, on_click=click_volver, on_click_param='form_main_menu')
     
     
@@ -33,12 +34,14 @@ def click_volver(parametro: str):
     print(parametro)
     base_form.set_active(parametro)
 
-def click_music_on(parametro: str):
-    print(f"PONÉ LA MÚSICA!! {parametro}")
+def click_music_on(dict_form_data: dict):
+    print(f"PONÉ LA MÚSICA!! {dict_form_data}")
+    aux.inicializar_musica(dict_form_data)
     #base_form.set_active(parametro)
 
 def click_music_off(parametro: str):
     print(f"*Ruido de cd deteniendose {parametro}")
+    aux.terminar_musica(parametro)
     #base_form.set_active(parametro)
 
 def draw(form_data: dict):

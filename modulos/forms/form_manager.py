@@ -49,6 +49,8 @@ def create_form_manager(screen: pg.Surface, datos_juego: dict):
                 "coords":(0,0), 
                 "level_num":1, 
                 "music_path":var.RUTA_MUSICA,
+                "volumen_musica": var.VOLUMEN_MUSICA_INICIAL,
+                "musica_bucle_iniciada": False,
                 "background_path": './modulos/assets/background/fondo_tablero.png',
                 "screen_dimentions": var.DIMENSION_PANTALLA
             }

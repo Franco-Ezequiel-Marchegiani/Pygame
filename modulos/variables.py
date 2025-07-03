@@ -59,17 +59,17 @@ DIMENSION_CAJA_TEXTO = (1200, 450)
 
 # ======= RUTA ===========
 
-RUTA_MAZO_MAIN = './assets/decks'
+""" RUTA_MAZO_MAIN = './assets/decks'
 RUTA_FONDO = './assets/background/fondo_tablero.png'
 RUTA_SONIDO_CLICK = './assets/sound/click.mp3'
 RUTA_MUSICA = './assets/sound/music.ogg'
-RUTA_ICONO = './assets/icon_4_star.png'
+RUTA_ICONO = './assets/icon_4_star.png' """
 
 # ======= CONFIGS ===========
 
 CANTIDAD_VIDAS = 3
 PUNTUACION_INICIAL = 0
-VOLUMEN_MUSICA_INICIAL = 100
+VOLUMEN_MUSICA_INICIAL = 20
 PUNTUACION_ACIERTO = 100
 PUNTUACION_ERROR = 25
 
@@ -118,7 +118,8 @@ FUENTE_50 = pg.font.Font(FUENTE_ALAGARD, 50)
 RUTA_MAZO_MAIN = './modulos/assets/decks'
 RUTA_FONDO = './modulos/assets/background/fondo_tablero.png'
 RUTA_SONIDO_CLICK = './modulos/assets/sound/click.mp3'
-RUTA_MUSICA = './modulos/assets/sound/music.ogg'
+RUTA_MUSICA = './modulos/assets/sound/pista_corta.mp3'
+RUTA_MUSICA_BUCLE = './modulos/assets/sound/music_dragon_ball_bucle.mp3'
 RUTA_ICONO = './modulos/assets/icon_4_star.png'
 
 

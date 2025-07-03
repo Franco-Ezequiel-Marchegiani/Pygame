@@ -1,6 +1,7 @@
 import pygame as pg
 import modulos.variables as var
 import sys
+import modulos.auxiliar as aux
 import modulos.forms.form_manager as form_manager
 def pythonisa():
     pg.init()
@@ -10,7 +11,6 @@ def pythonisa():
     corriendo = True
     reloj = pg.time.Clock()
     datos_juego = {
-        "volumen_musica": var.VOLUMEN_MUSICA_INICIAL,
         "tiempo_finalizado": None,
         "player":{
             "name": 'Player',
@@ -29,6 +29,9 @@ def pythonisa():
         for event in event_list:
             if event.type == pg.QUIT:
                 corriendo = False
+            elif event.type == pg.USEREVENT+5:
+                print("Terminó la música inicial, comenzando bucle...")
+                aux.inicializar_bucle_musica()
         
         #Actualiza las vistas
         form_manager.update(f_manager, event_list)
