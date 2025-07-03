@@ -13,7 +13,7 @@ def init_form_main_menu(dict_form_data: dict):
     
     form['lbl_titulo'] = Label(x=var.DIMENSION_PANTALLA[0]//2, y=100,text='La PYTHONisa del Tarot', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=50)
     
-    form['btn_jugar'] = Button(x=var.DIMENSION_PANTALLA[0]//2, y=150, text='JUGAR', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=30, on_click=click_start, on_click_param='Boton Start')
+    form['btn_jugar'] = Button(x=var.DIMENSION_PANTALLA[0]//2, y=150, text='JUGAR', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=30, on_click=cambiar_formulario_on_click, on_click_param='form_juego')
     form['btn_ranking'] = Button(x=var.DIMENSION_PANTALLA[0]//2, y=225, text='RANKING', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=30, on_click=cambiar_formulario_on_click, on_click_param='form_ranking')
     form['btn_historia'] = Button(x=var.DIMENSION_PANTALLA[0]//2, y=290, text='HISTORIA', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=30, on_click=cambiar_formulario_on_click, on_click_param='form_historia')
     form['btn_config'] = Button(x=var.DIMENSION_PANTALLA[0]//2, y=370, text='CONFIG', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=30, on_click=cambiar_formulario_on_click, on_click_param='form_config')

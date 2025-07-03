@@ -5,9 +5,9 @@ import modulos.auxiliar as aux
 def inicializar_carta(carta_dict: dict, coordenadas: tuple[int, int]) -> dict:
     carta_dict_final = {}
     carta_dict_final['id'] = carta_dict.get('id')
-    carta_dict_final['nombre'] = carta_dict.get('nombre')
-    carta_dict_final['frase'] = carta_dict.get('frase')
-    carta_dict_final['puntaje'] = carta_dict.get('puntaje')
+    carta_dict_final['hp'] = carta_dict.get('hp')
+    carta_dict_final['atk'] = carta_dict.get('atk')
+    carta_dict_final['def'] = carta_dict.get('def')
     carta_dict_final['path_imagen_frente'] = carta_dict.get('path_imagen_frente')
     carta_dict_final['path_imagen_reverso'] = carta_dict.get('path_imagen_reverso')
 

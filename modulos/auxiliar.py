@@ -79,7 +79,6 @@ def generar_bd(root_path_cards: str):
 
     carta_dict = {
         "cartas": {}
-        
     }
 
     for root, dir, files in os.walk(root_path_cards, topdown=True):
@@ -95,12 +94,16 @@ def generar_bd(root_path_cards: str):
                 file = file.replace('\\', '/')
                 filename = file.split('/')[-1]
                 datos = filename.split('.')[-2]
-
+                print(f"datos: {datos}")
+                #Tmb se puede optar por esto para el bonus
+                #data_bonus = datos[-1] 
+                list_data = datos.split('_')
                 card = {
                     'id': f'{deck_name}-{datos}',
-                    "mensaje": "",
-                    "frase": "",
-                    "puntaje": 0,
+                    "hp": int(list_data[2]),
+                    "atk": int(list_data[4]),
+                    "def": int(list_data[6]),
+                    "bonus": int(list_data[7]),
                     "path_imagen_frente": path_card,
                     "path_imagen_reverso": reverse_path, #Este valor puede estar, como no, se agrega más adelante
                 }

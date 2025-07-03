@@ -11,10 +11,10 @@ def init_form_config(dict_form_data: dict):
     
     form['texto'] = 'HOLA MUNDO'
     form['lbl_titulo'] = Label(x=var.DIMENSION_PANTALLA[0]//2, y=100,text='DRAGON BALL Z TCG', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=50)
-    form['lbl_sub_titulo'] = Label(x=var.DIMENSION_PANTALLA[0]//2, y=100,text='Options', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=40)
-    form['lbl_music_on'] = Button(x=var.DIMENSION_PANTALLA[0]//2, y=350,text='MUSIC ON', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=22, on_click=click_music_on, on_click_param = dict_form_data)
-    form['lbl_music_off'] = Button(x=var.DIMENSION_PANTALLA[0]//2, y=400,text='MUSIC OFF', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=22, on_click=click_music_off, on_click_param=dict_form_data)
-    form['btn_volver'] = Button(x=993, y=580, text='VOLVER', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=30, on_click=click_volver, on_click_param='form_main_menu')
+    form['lbl_sub_titulo'] = Label(x=var.DIMENSION_PANTALLA[0]//2, y=175,text='Options', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=40)
+    form['lbl_music_on'] = Button(x=var.DIMENSION_PANTALLA[0]//2, y=325,text='MUSIC ON', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=22, on_click=click_music_on, on_click_param = dict_form_data)
+    form['lbl_music_off'] = Button(x=var.DIMENSION_PANTALLA[0]//2, y=375,text='MUSIC OFF', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=22, on_click=click_music_off, on_click_param=dict_form_data)
+    form['btn_volver'] = Button(x=var.DIMENSION_PANTALLA[0]//2, y=580, text='BACK TO MENU', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=30, on_click=click_volver, on_click_param='form_main_menu')
     
     
     form['widgets_list'] = [

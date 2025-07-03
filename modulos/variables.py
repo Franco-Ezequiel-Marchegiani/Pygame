@@ -115,10 +115,10 @@ FUENTE_50 = pg.font.Font(FUENTE_ALAGARD, 50)
 
 # ======= RUTA ===========
 
-RUTA_MAZO_MAIN = './modulos/assets/decks'
+RUTA_MAZO_MAIN = './modulos/assets/img/decks'
 RUTA_FONDO = './modulos/assets/background/fondo_tablero.png'
 RUTA_SONIDO_CLICK = './modulos/assets/sound/click.mp3'
-RUTA_MUSICA = './modulos/assets/sound/pista_corta.mp3'
+RUTA_MUSICA = './modulos/assets/sound/music_dragon_ball_1.mp3'
 RUTA_MUSICA_BUCLE = './modulos/assets/sound/music_dragon_ball_bucle.mp3'
 RUTA_ICONO = './modulos/assets/icon_4_star.png'
 

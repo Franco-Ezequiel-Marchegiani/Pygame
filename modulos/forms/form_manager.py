@@ -1,6 +1,7 @@
 import pygame as pg
 import modulos.variables as var
 import modulos.forms.form_main_menu as form_main_menu
+import modulos.forms.form_juego as form_juego
 import modulos.forms.form_historia as form_historia
 import modulos.forms.form_config as form_config
 import modulos.forms.form_ranking as form_ranking
@@ -20,6 +21,18 @@ def create_form_manager(screen: pg.Surface, datos_juego: dict):
         form_main_menu.init_form_main_menu(
             dict_form_data={
                 "name":'form_main_menu', 
+                "screen":form.get('main_screen'), 
+                "active":True, 
+                "coords":(0,0), 
+                "level_num":1, 
+                "music_path":var.RUTA_MUSICA,
+                "background_path": './modulos/assets/background/fondo_3.png',
+                "screen_dimentions": var.DIMENSION_PANTALLA
+            }
+        ),
+        form_juego.init_form_juego(
+            dict_form_data={
+                "name":'form_juego', 
                 "screen":form.get('main_screen'), 
                 "active":True, 
                 "coords":(0,0), 
@@ -51,7 +64,7 @@ def create_form_manager(screen: pg.Surface, datos_juego: dict):
                 "music_path":var.RUTA_MUSICA,
                 "volumen_musica": var.VOLUMEN_MUSICA_INICIAL,
                 "musica_bucle_iniciada": False,
-                "background_path": './modulos/assets/background/fondo_tablero.png',
+                "background_path": './modulos/assets/img/forms/img_6.png',
                 "screen_dimentions": var.DIMENSION_PANTALLA
             }
         ),
@@ -63,7 +76,7 @@ def create_form_manager(screen: pg.Surface, datos_juego: dict):
                 "coords":(0,0), 
                 "level_num":1, 
                 "music_path":var.RUTA_MUSICA,
-                "background_path": './modulos/assets/background/fondo_4.png',
+                "background_path": './modulos/assets/img/forms/img_8.png',
                 "screen_dimentions": var.DIMENSION_PANTALLA
             }, jugador=form.get('jugador')
         )
@@ -81,20 +94,25 @@ def forms_update(form_manager: dict, event_list: pg.event.Event):
         form_main_menu.update(form_manager.get('form_list')[0], event_list)
         form_main_menu.draw(form_manager.get('form_list')[0],)
     
-    # FORM HISTORIA
+    # FORM JUEGO
     elif form_manager.get('form_list')[1].get('active'):
-        form_historia.update(form_manager.get('form_list')[1], event_list)
-        form_historia.draw(form_manager.get('form_list')[1],)
+        form_juego.update(form_manager.get('form_list')[1], event_list)
+        form_juego.draw(form_manager.get('form_list')[1],)
+    
+    # FORM HISTORIA
+    elif form_manager.get('form_list')[2].get('active'):
+        form_historia.update(form_manager.get('form_list')[2], event_list)
+        form_historia.draw(form_manager.get('form_list')[2],)
     
     # FORM CONFIG
-    elif form_manager.get('form_list')[2].get('active'):
-        form_config.update(form_manager.get('form_list')[2], event_list)
-        form_config.draw(form_manager.get('form_list')[2])
+    elif form_manager.get('form_list')[3].get('active'):
+        form_config.update(form_manager.get('form_list')[3], event_list)
+        form_config.draw(form_manager.get('form_list')[3])
     
     # FORM RANKING
-    elif form_manager.get('form_list')[3].get('active'):
-        form_ranking.update(form_manager.get('form_list')[3], event_list)
-        form_ranking.draw(form_manager.get('form_list')[3],)
+    elif form_manager.get('form_list')[4].get('active'):
+        form_ranking.update(form_manager.get('form_list')[4], event_list)
+        form_ranking.draw(form_manager.get('form_list')[4],)
 
 
 def update(form_manager: dict, event_list: pg.event.Event):
