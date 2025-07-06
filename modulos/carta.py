@@ -26,6 +26,9 @@ def inicializar_carta(carta_dict: dict, coordenadas: tuple[int, int]) -> dict:
 
     return carta_dict_final
 
+def get_puntaje_carta(card_dict: dict):
+    return card_dict.get('puntaje')
+
 def draw_carta(card_data: dict, screen: pg.Surface):
     #Función que simula el evento de tirar una carta, revisa si es visible o no para mostrar el frente o dorso
     if card_data.get('visible'):

@@ -130,16 +130,18 @@ def update(form_data: dict, event_list: list[pg.event.Event]):
     #    inicializar_juego(form_data)
     base_form.update(form_data)
     form_data['lbl_clock'].update_text(f'TIME LEFT: {form_data.get('level_timer')}', (255,0,0)) #Valor actualizado, y color del mismo
-    nivel_cartas.draw(form_data.get('level'))
+    nivel_cartas.update(form_data.get('level'), event_list)
 
     mazo_vistas = form_data.get('level').get('cartas_mazo_juego_final_vistas')
     #
     if mazo_vistas:
-        form_data['txp_info_card'].update_text(mazo_vistas[-1].get('atk')) #Escribimos el ataque
+        form_data['txp_info_card'].update_text(str(mazo_vistas[-1].get('atk'))) #Escribimos el ataque
 
     form_data['clock'].tick(var.FPS)
     #Actualizamos el timer
     actualizar_timer(form_data)
+
+
     #Pequeño for para obtener coordenadas
     for evento in event_list:
         if evento.type == pg.MOUSEBUTTONDOWN:

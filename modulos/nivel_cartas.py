@@ -117,9 +117,9 @@ def eventos(nivel_data: dict, cola_eventos: list[pg.event.Event]):
                 nivel_data.get('cartas_mazo_juego_final_vistas').append(carta_vista)
                 
                 carta_actual = nivel_data.get('cartas_mazo_juego_final_vistas')[-1]
-                jugador_humano.sumar_puntaje_carta_actual(nivel_data.get('jugador'), carta_actual)
-                
-                print(f'Puntaje Actual: {jugador_humano.get_puntaje_actual(nivel_data["jugador"])}')
+                #jugador_humano.sumar_puntaje_carta_actual(nivel_data.get('jugador'), carta_actual)
+                #
+                #print(f'Puntaje Actual: {jugador_humano.get_puntaje_actual(nivel_data["jugador"])}')
                 
                 print(f'Frase actual: {nivel_data.get('cartas_mazo_juego_final_vistas')[-1].get('frase')}')
 
