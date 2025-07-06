@@ -8,6 +8,7 @@ def inicializar_carta(carta_dict: dict, coordenadas: tuple[int, int]) -> dict:
     carta_dict_final['hp'] = carta_dict.get('hp')
     carta_dict_final['atk'] = carta_dict.get('atk')
     carta_dict_final['def'] = carta_dict.get('def')
+    carta_dict_final['bonus'] = carta_dict.get('bonus')
     carta_dict_final['path_imagen_frente'] = carta_dict.get('path_imagen_frente')
     carta_dict_final['path_imagen_reverso'] = carta_dict.get('path_imagen_reverso')
 
@@ -26,7 +27,7 @@ def inicializar_carta(carta_dict: dict, coordenadas: tuple[int, int]) -> dict:
     return carta_dict_final
 
 def draw_carta(card_data: dict, screen: pg.Surface):
-
+    #Función que simula el evento de tirar una carta, revisa si es visible o no para mostrar el frente o dorso
     if card_data.get('visible'):
         screen.blit(card_data.get('imagen'), card_data.get('rect'))
     else:

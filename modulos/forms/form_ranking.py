@@ -21,7 +21,8 @@ def init_form_ranking(dict_form_data: dict, jugador: dict):
     form['btn_volver'] = Button(x=var.DIMENSION_PANTALLA[0]//2, y=var.DIMENSION_PANTALLA[1]//2 + 250, text='VOLVER AL MENU', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, color=var.COLOR_NARANJA, font_size=40, on_click=click_return_menu, on_click_param='form_main_menu')
     
     form['widgets_list'] = [
-        form.get('lbl_titulo'), form.get('lbl_subtitulo'),
+        form.get('lbl_titulo'), 
+        form.get('lbl_subtitulo'),
         form.get('btn_volver')
     ]
     

@@ -3,40 +3,68 @@ import modulos.forms.base_form as base_form
 import modulos.variables as var
 from utn_fra.pygame_widgets import (Button, Label)
 import modulos.auxiliar as aux
+import modulos.nivel_cartas as nivel_Cartas
 import random as rd
-
+from utn_fra.pygame_widgets import(
+    Button, Label, TextPoster, ButtonImage
+)
 #rd.shuffle(fra.lista_frases)
 
-def init_form_juego(dict_form_data: dict):
+def init_form_start_level(dict_form_data: dict, jugador: dict):
     # print(f"cartas: {cartas}")
     form = base_form.create_base_form(dict_form_data)
-    
-    form['ranking_screen'] = []
-    form['cards_list_dictionary'] = []
-    form['cards_list_vistas'] = []
+    form['jugador'] = jugador
+    form['level'] = nivel_Cartas.inicializar_nivel_cartas(form.get('jugador'), form.get('screen'), form.get('level_num'))
+    form['clock'] = pg.time.Clock()
 
-    form['texto'] = 'HOLA MUNDO - GAMEPLAY'
-    form['lbl_titulo'] = Label(x=var.DIMENSION_PANTALLA[0]//2, y=100,text='La PYTHONisa del Tarot', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=50)
-    form['lbl_texto'] = Label(x=400, y=200,text=form.get('texto'), screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=22)
-    form['btn_volver'] = Button(x=993, y=580, text='VOLVER', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=30, on_click=click_volver, on_click_param='form_main_menu')
-    
+    #Acá desarrollamos una función que vaya restando el tiempo
+    form['level_timer'] = var.TIMER #2000 segundos de base, a modificar
+    form['first_last_timer'] = pg.time.get_ticks()
+
+
+    form['first_last_timer'] = pg.time.get_ticks()
+
+    print(f"form Clock: {form.get('clock')}")
+    form['texto'] = f'SCORE: {form.get('jugador').get('puntaje_actual')}'
+
+    form['lbl_clock'] = Label(x=var.DIMENSION_PANTALLA[0] // 2, y=100,text=f'TIME LEFT: {form.get('level_timer')}', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=50)
+    form['lbl_score'] = Label(x=250, y=50,text=form.get('texto'), screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=22)
+    #Text Poster
+    form['txp_info_card'] = TextPoster( #Probar volver a instalar pygame_widtget o utn_Fra, no aparece
+        text='', screen=form.get('screen'), background_dimentions=(500, 100), background_coords=(390, 584),
+        font_path=var.FUENTE_ALAGARD, font_size=25, color=(0,255,0), background_color=(0,0,0)
+    )
+
+    form['btn_bonus_1'] = ButtonImage
     
     form['widgets_list'] = [
-        form.get('lbl_titulo'), 
-        form.get('lbl_texto'), 
-        form.get('btn_volver')
+        form.get('lbl_clock'), 
+        form.get('lbl_score'), 
+        form.get('txp_info_card')
     ]
     
     base_form.forms_dict[dict_form_data.get('name')] = form
     
     return form
 
+
+def select_bonus(bonus_name: str):
+    pass
+
+def actualizar_timer(form_data: dict):
+    if form_data.get('level_timer') > 0:
+        tiempo_actual = pg.time.get_ticks()
+        #el first_last_timer, guarda la hora más reciente, la más actual
+        #Si el tiempo actual, menos el valor que se actualizó el marcador
+        #Superó los 1000 de valor, pasó un segundo, entonces se actualizan los timers
+        if tiempo_actual - form_data.get('first_last_timer') > 1000:
+            #Restamos 1seg al lever timer, y el first_last_timer
+            form_data['level_timer'] -= 1 #Este valor es el que se va a mostrar
+            form_data['first_last_timer'] = tiempo_actual #Y este el que se toma como referencia para calcular
+
 def click_volver(parametro: str):
     print(parametro)
     base_form.set_active(parametro)
-
-def draw(form_data: dict):
-    base_form.draw(form_data)
 
 def init_game(form_data: dict):
 
@@ -86,15 +114,31 @@ def init_game(form_data: dict):
         )
     
     
+    
+def draw(form_data: dict):
+    base_form.draw(form_data)
+    nivel_Cartas.draw(form_data.get('level'))
+
 
 def inicializar_juego(form_data: dict):
     form_data['cards_list'] = aux.cargar_ranking()[:10]
     init_game(form_data)
 
 def update(form_data: dict, event_list: list[pg.event.Event]):
-    if form_data.get('active'):
-        inicializar_juego(form_data)
+    #if form_data.get('active'):
+    #    inicializar_juego(form_data)
     base_form.update(form_data)
+    form_data['lbl_clock'].update_text(f'TIME LEFT: {form_data.get('level_timer')}', (255,0,0)) #Valor actualizado, y color del mismo
+    nivel_Cartas.draw(form_data.get('level'))
+
+    mazo_vistas = form_data.get('level').get('cartas_mazo_juego_final_vistas')
+    #
+    if mazo_vistas:
+        form_data['txp_info_card'].update_text(mazo_vistas[-1].get('atk')) #Escribimos el ataque
+
+    form_data['clock'].tick(var.FPS)
+    #Actualizamos el timer
+    actualizar_timer(form_data)
     #Pequeño for para obtener coordenadas
     for evento in event_list:
         if evento.type == pg.MOUSEBUTTONDOWN:

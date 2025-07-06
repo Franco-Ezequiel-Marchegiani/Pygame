@@ -130,6 +130,7 @@ PUNTUACION_INICIAL = 0
 VOLUMEN_MUSICA_INICIAL = 100
 PUNTUACION_ACIERTO = 100
 PUNTUACION_ERROR = 25
+TIMER = 30
 
 # ======= COORDENADAS ===========
 
@@ -145,9 +146,11 @@ COORDENADA_CAJA_HISTORIA = (37, 115)
 # ======= ARCHIVOS ===========
 RUTA_RANKING = './ranking_usuario.csv'
 RUTA_RANKING_CSV = './ranking.csv'
-
+RUTA_CONFIGS_JSON = './configs.json'
 
 # ======= OBJETOS ===========
 
 FONDO = pg.image.load(RUTA_FONDO)
 CLICK_SONIDO = pg.mixer.Sound(RUTA_SONIDO_CLICK)
+
+TIMER = 2000

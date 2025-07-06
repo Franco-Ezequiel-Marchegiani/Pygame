@@ -27,18 +27,22 @@ def set_active(name: str):
     print(f'Form Activo: {name}')
 
 def update_widgets(form_data: dict):
+    #Itera la lista de widgets y los actualiza
     for widget in form_data.get('widgets_list'):
         widget.update()
 
 def draw_widgets(form_data: dict):
+    #Itera la lista de widgets y los dibuja
     for widget in form_data.get('widgets_list'):
         widget.draw()
 
 def draw(form_data: dict):
+    #Muestra las superficies en pantalla, y dsp llama a draw_widgets
     form_data['screen'].blit(form_data.get('surface'), form_data.get('rect'))
     draw_widgets(form_data)
 
 def update(form_data: dict):
+    #Pasa por parámetro el dict/listado de widgets
     update_widgets(form_data)
     
     

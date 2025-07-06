@@ -4,7 +4,7 @@ import os
 import random as rd
 import modulos.carta as carta
 import modulos.variables as var
-
+import json
 
 def crear_lista_botones(cantidad: int, dimension: tuple, color: str = 'purple'):
     lista_botones = []
@@ -94,7 +94,7 @@ def generar_bd(root_path_cards: str):
                 file = file.replace('\\', '/')
                 filename = file.split('/')[-1]
                 datos = filename.split('.')[-2]
-                print(f"datos: {datos}")
+                print(f"deck_name: {deck_name}")
                 #Tmb se puede optar por esto para el bonus
                 #data_bonus = datos[-1] 
                 list_data = datos.split('_')
@@ -134,7 +134,6 @@ def achicar_imagen_card(path_imagen: str, porcentaje: int):
 def generar_mazo(mazo_dict_original: list[dict]):
     lista_mazo_resultado = []
     for card in mazo_dict_original:
-        #Acá es cambiar el for para que el index_Card en vez de ser un número, sea un objeto
         carta_final = carta.inicializar_carta(card, var.COORDENADA_CARTA_MAZO)
         lista_mazo_resultado.append(carta_final)
 
@@ -222,3 +221,10 @@ def cargar_ranking():
     
     return ranking
 
+def cargar_configs(path: str) -> dict:
+    configuraciones = {}
+    #Leemos "r" en la ruta pasada en param
+    with open(path, 'r', encoding='utf-8') as file:
+        configuraciones = json.load(file)
+    #Cargamos la info del json, y lo devolvemos
+    return configuraciones

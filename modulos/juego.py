@@ -12,9 +12,10 @@ def pythonisa():
     reloj = pg.time.Clock()
     datos_juego = {
         "tiempo_finalizado": None,
-        "player":{
-            "name": 'Player',
-            "puntaje": var.PUNTUACION_INICIAL, 
+        "jugador":{
+            "name": 'jugador',
+            "puntaje_actual": var.PUNTUACION_INICIAL, 
+            "puntaje_total": 0, 
             "cantidad_vidas": var.CANTIDAD_VIDAS,
         }
     }
