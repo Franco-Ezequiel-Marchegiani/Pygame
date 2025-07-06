@@ -146,7 +146,7 @@ COORDENADA_CAJA_HISTORIA = (37, 115)
 # ======= ARCHIVOS ===========
 RUTA_RANKING = './ranking_usuario.csv'
 RUTA_RANKING_CSV = './ranking.csv'
-RUTA_CONFIGS_JSON = './configs.json'
+RUTA_CONFIGS_JSON = './config.json'
 
 # ======= OBJETOS ===========
 

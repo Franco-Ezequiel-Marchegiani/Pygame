@@ -23,11 +23,11 @@ def inicializar_nivel_cartas(jugador: dict, pantalla: pg.Surface, nro_nivel: int
     nivel_data['level_timer'] = var.TIMER
     nivel_data['ganador'] = None
     
-    nivel_data['surface'] = pg.image.load('./modulos/assets/img/background_cards.png').convert_alpha()
+    """ nivel_data['surface'] = pg.image.load('./modulos/assets/img/background_cards.png').convert_alpha()
     nivel_data['surface'] = pg.transform.scale(nivel_data.get('surface'), var.DIMENSION_PANTALLA)
     
     nivel_data['rect'] = nivel_data.get('surface').get_rect()
-    nivel_data['rect'].topleft = (0,0)
+    nivel_data['rect'].topleft = (0,0) """
     
     nivel_data['puntaje_nivel'] = 0
     nivel_data['data_cargada'] = False
@@ -50,6 +50,8 @@ def cargar_configs_nivel(nivel_data: dict):
         configs_globales = aux.cargar_configs(var.RUTA_CONFIGS_JSON)
         #Asigamos estos valores al dict del nivel_data
         nivel_data['configs'] = configs_globales.get(f'nivel_{nivel_data.get("nro_nivel")}')
+        print(f"nivel_data['configs']: {nivel_data['configs']}")
+
         nivel_data['ruta_mazo'] = nivel_data.get('configs').get('ruta_mazo')
         nivel_data['coords_iniciales'] = nivel_data.get('configs').get('coordenada_mazo_1')
         nivel_data['coords_finales'] = nivel_data.get('configs').get('coordenada_mazo_2')
@@ -60,7 +62,9 @@ def cargar_bd_cartas(nivel_data: dict):
     if not nivel_data.get('juego_finalizado'):
         print('=============== GENERANDO BD CARTAS INICIALES ===============')
         #Cargamos las cartas en el mazo con la función Generar BD, y devuelve un dict, y obtenemos el listado de cartas
+        #Se agrega la ruta del get, ya que devuelve un objeto con la ruta, y de ahí el diccionario
         nivel_data['cartas_mazo_juego'] = aux.generar_bd(nivel_data.get('ruta_mazo')).get('cartas').get('./modulos/assets/img/decks/blue_deck_expansion_1')
+        print(f'AFTER Nivel Cartas Mazo Juego: {nivel_data.get('cartas_mazo_juego')}')
 
 #Reciclar esta función por el tema de asignar puntaje
 """ def asignar_frases(nivel_data: dict) -> list[dict]:
@@ -78,10 +82,10 @@ def generar_mazo(nivel_data: dict):
     #Para generar el mazo, obtenemos las cartas del mazo del dic, y los recorremos
     lista_mazo_original = nivel_data.get('cartas_mazo_juego')
     nivel_data['cartas_mazo_juego_final'] = []
-    # print(
-    #     f'Coord iniciales: {nivel_data.get('coords_iniciales')}',
-    #     f'Coord finales: {nivel_data.get('coords_finales')}', sep='\n'
-    # )
+    print(
+        f'Coord iniciales: {nivel_data.get('coords_iniciales')}',
+        f'Coord finales: {nivel_data.get('coords_finales')}', sep='\n'
+    )
     for card in lista_mazo_original:
         carta_final = carta.inicializar_carta(card, nivel_data.get('coords_iniciales'))
         nivel_data['cartas_mazo_juego_final'].append(carta_final)

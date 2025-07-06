@@ -1,5 +1,3 @@
-// Cada nivel, tendrá un deck distinto, a medida que avance, usar decks más papotas
-// Definir tmb una música para cada lvl
 {
     "nivel_1": {
         "ruta_mazo": "./modulos/assets/img/decks/blue_deck_expansion_1",

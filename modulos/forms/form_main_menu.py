@@ -3,6 +3,7 @@ import sys
 import modulos.forms.base_form as base_form
 import modulos.variables as var
 import modulos.auxiliar as aux
+import modulos.nivel_cartas as nivel_cartas
 from utn_fra.pygame_widgets import (
     Button, Label, ButtonImage
 )
@@ -40,6 +41,12 @@ def cambiar_formulario_on_click(parametro: str):
     #Para poder activar y mostrar el mismo en pantalla
     print(parametro)
     base_form.set_active(parametro)
+
+    #Si vamos al form de start_level, recién ahí iniciamos y cargamos la data
+    #Esto con la finalidad de administrar recursos
+    if parametro == 'form_start_level':
+        form_start_level = base_form.forms_dict[parametro]
+        nivel_cartas.inicializar_data_nivel(form_start_level.get('level'))
 
 def click_salir(parametro: str):
     print(parametro)

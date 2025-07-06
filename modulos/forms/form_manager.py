@@ -24,7 +24,7 @@ def create_form_manager(screen: pg.Surface, datos_juego: dict):
                 "screen":form.get('main_screen'), 
                 "active":True, 
                 "coords":(0,0), 
-                "level_num":1, 
+                "stage_number":1, 
                 "music_path":var.RUTA_MUSICA,
                 "background_path": './modulos/assets/background/fondo_3.png',
                 "screen_dimentions": var.DIMENSION_PANTALLA
@@ -36,7 +36,7 @@ def create_form_manager(screen: pg.Surface, datos_juego: dict):
                 "screen":form.get('main_screen'), 
                 "active":True, 
                 "coords":(0,0), 
-                "level_num":1, 
+                "stage_number":1, 
                 "music_path":var.RUTA_MUSICA,
                 "background_path": './modulos/assets/background/fondo_3.png',
                 "screen_dimentions": var.DIMENSION_PANTALLA
@@ -48,7 +48,7 @@ def create_form_manager(screen: pg.Surface, datos_juego: dict):
         #         "screen":form.get('main_screen'), 
         #         "active":True, 
         #         "coords":(0,0), 
-        #         "level_num":1, 
+        #         "stage_number":1, 
         #         "music_path":var.RUTA_MUSICA,
         #         "background_path": './modulos/assets/background/fondo_3.png',
         #         "screen_dimentions": var.DIMENSION_PANTALLA
@@ -60,7 +60,7 @@ def create_form_manager(screen: pg.Surface, datos_juego: dict):
                 "screen":form.get('main_screen'), 
                 "active":True, 
                 "coords":(0,0), 
-                "level_num":1, 
+                "stage_number":1, 
                 "music_path":var.RUTA_MUSICA,
                 "background_path": './modulos/assets/background/fondo_tablero.png',
                 "screen_dimentions": var.DIMENSION_PANTALLA
@@ -72,7 +72,7 @@ def create_form_manager(screen: pg.Surface, datos_juego: dict):
                 "screen":form.get('main_screen'), 
                 "active":True, 
                 "coords":(0,0), 
-                "level_num":1, 
+                "stage_number":1, 
                 "music_path":var.RUTA_MUSICA,
                 "volumen_musica": var.VOLUMEN_MUSICA_INICIAL,
                 "musica_bucle_iniciada": False,
@@ -86,7 +86,7 @@ def create_form_manager(screen: pg.Surface, datos_juego: dict):
                 "screen":form.get('main_screen'), 
                 "active":True, 
                 "coords":(0,0), 
-                "level_num":1, 
+                "stage_number":1, 
                 "music_path":var.RUTA_MUSICA,
                 "background_path": './modulos/assets/img/forms/img_8.png',
                 "screen_dimentions": var.DIMENSION_PANTALLA
@@ -98,7 +98,7 @@ def create_form_manager(screen: pg.Surface, datos_juego: dict):
                 "screen":form.get('main_screen'), 
                 "active":True, 
                 "coords":(0,0), 
-                "level_num":1, 
+                "stage_number":1, 
                 "music_path":var.RUTA_MUSICA,
                 "background_path": './modulos/assets/img/forms/img_9.png',
                 "screen_dimentions": var.DIMENSION_PANTALLA

@@ -3,7 +3,7 @@ import modulos.forms.base_form as base_form
 import modulos.variables as var
 from utn_fra.pygame_widgets import (Button, Label)
 import modulos.auxiliar as aux
-import modulos.nivel_cartas as nivel_Cartas
+import modulos.nivel_cartas as nivel_cartas
 import random as rd
 from utn_fra.pygame_widgets import(
     Button, Label, TextPoster, ButtonImage
@@ -14,7 +14,8 @@ def init_form_start_level(dict_form_data: dict, jugador: dict):
     # print(f"cartas: {cartas}")
     form = base_form.create_base_form(dict_form_data)
     form['jugador'] = jugador
-    form['level'] = nivel_Cartas.inicializar_nivel_cartas(form.get('jugador'), form.get('screen'), form.get('level_num'))
+    form['level'] = nivel_cartas.inicializar_nivel_cartas(form.get('jugador'), form.get('screen'), form.get('level_number'))
+    
     form['clock'] = pg.time.Clock()
 
     #Acá desarrollamos una función que vaya restando el tiempo
@@ -117,7 +118,7 @@ def init_game(form_data: dict):
     
 def draw(form_data: dict):
     base_form.draw(form_data)
-    nivel_Cartas.draw(form_data.get('level'))
+    nivel_cartas.draw(form_data.get('level'))
 
 
 def inicializar_juego(form_data: dict):
@@ -129,7 +130,7 @@ def update(form_data: dict, event_list: list[pg.event.Event]):
     #    inicializar_juego(form_data)
     base_form.update(form_data)
     form_data['lbl_clock'].update_text(f'TIME LEFT: {form_data.get('level_timer')}', (255,0,0)) #Valor actualizado, y color del mismo
-    nivel_Cartas.draw(form_data.get('level'))
+    nivel_cartas.draw(form_data.get('level'))
 
     mazo_vistas = form_data.get('level').get('cartas_mazo_juego_final_vistas')
     #

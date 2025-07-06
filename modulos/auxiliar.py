@@ -223,8 +223,10 @@ def cargar_ranking():
 
 def cargar_configs(path: str) -> dict:
     configuraciones = {}
+    print(f"path: {path}")
     #Leemos "r" en la ruta pasada en param
     with open(path, 'r', encoding='utf-8') as file:
+        print(f"File: {file}")
         configuraciones = json.load(file)
     #Cargamos la info del json, y lo devolvemos
     return configuraciones
