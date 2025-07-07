@@ -98,11 +98,19 @@ def generar_bd(root_path_cards: str):
                 #Tmb se puede optar por esto para el bonus
                 #data_bonus = datos[-1] 
                 list_data = datos.split('_')
+                hp = int(list_data[2])
+                atk = int(list_data[4])
+                defense = int(list_data[6])
+                bonus = int(list_data[7])
+                #Definimos los valores ya buffeados
+                final_hp = hp + (hp * bonus / 100)
+                final_atk = atk + (atk * bonus / 100)
+                final_defense = defense + (defense * bonus / 100)
                 card = {
-                    'id': f'{deck_name}-{datos}',
-                    "hp": int(list_data[2]),
-                    "atk": int(list_data[4]),
-                    "def": int(list_data[6]),
+                    'id': f'{deck_name}-{list_data[0]}',
+                    "hp": hp, #Cambiar luego al final, ya con el bonus potenciado
+                    "atk": atk, #Cambiar luego al final, ya con el bonus potenciado
+                    "def": defense, #Cambiar luego al final, ya con el bonus potenciado
                     "bonus": int(list_data[7]),
                     "path_imagen_frente": path_card,
                     "path_imagen_reverso": reverse_path, #Este valor puede estar, como no, se agrega más adelante
@@ -176,7 +184,6 @@ def inicializar_musica(dict_juego: dict):
 
 
 def inicializar_bucle_musica():
-    print(f"BUCLE TIME!")
     #Musica en bucle dsp de la primera
     pg.mixer.music.load(var.RUTA_MUSICA_BUCLE)
     pg.mixer.music.set_volume(100)
@@ -221,6 +228,16 @@ def cargar_ranking():
     
     return ranking
 
+def guardar_ranking(jugador_dict: dict):
+    #Por parámetro recibe el dict del jugador para que guarde la info
+    #w es para escribir pero borra todo
+    #Para eso, usar append para añadir 'a'
+    with open(var.RUTA_RANKING_CSV, 'a', encoding='utf-8') as file:
+        #Mensaje con la data del nombre y puntaje
+        data = f'{jugador_dict.get('nombre')},{jugador_dict.get('puntaje_actual')}\n'
+        file.write(data)
+        print(f'Datos guardados con éxito! -> {data}')
+        #Por ahora, solo guardar nombre y puntaje
 def cargar_configs(path: str) -> dict:
     configuraciones = {}
     print(f"path: {path}")

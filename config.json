@@ -1,10 +1,11 @@
 {
     "nivel_1": {
         "ruta_mazo": "./modulos/assets/img/decks/blue_deck_expansion_1",
-        "coordenada_mazo_1": [340,106],
-        "coordenada_mazo_2": [690,106],
-        "coordenada_mazo_rival_1": [740,106],
-        "coordenada_mazo_rival_2": [990,106]
+        "ruta_mazo_rival": "./modulos/assets/img/decks/blue_deck_expansion_2",
+        "coordenada_mazo_1": [400,456],
+        "coordenada_mazo_2": [660,456],
+        "coordenada_mazo_rival_1": [400,206],
+        "coordenada_mazo_rival_2": [660,206]
     },
     "nivel_2": {},
     "nivel_3": {}

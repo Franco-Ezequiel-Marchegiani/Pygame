@@ -8,10 +8,7 @@ import random as rd
 from utn_fra.pygame_widgets import(
     Button, Label, TextPoster, ButtonImage
 )
-#rd.shuffle(fra.lista_frases)
-
 def init_form_start_level(dict_form_data: dict, jugador: dict):
-    # print(f"cartas: {cartas}")
     form = base_form.create_base_form(dict_form_data)
     form['jugador'] = jugador
     form['level'] = nivel_cartas.inicializar_nivel_cartas(form.get('jugador'), form.get('screen'), form.get('level_number'))
@@ -23,13 +20,11 @@ def init_form_start_level(dict_form_data: dict, jugador: dict):
     form['first_last_timer'] = pg.time.get_ticks()
 
 
-    form['first_last_timer'] = pg.time.get_ticks()
-
     print(f"form Clock: {form.get('clock')}")
     form['texto'] = f'SCORE: {form.get('jugador').get('puntaje_actual')}'
 
-    form['lbl_clock'] = Label(x=var.DIMENSION_PANTALLA[0] // 2, y=100,text=f'TIME LEFT: {form.get('level').get('level_timer')}', screen=form.get('screen'), font_path=var.FUENTE_SAIYAN, font_size=50)
-    form['lbl_score'] = Label(x=250, y=50,text=form.get('texto'), screen=form.get('screen'), font_path=var.FUENTE_SAIYAN, font_size=22)
+    form['lbl_clock'] = Label(x=950, y=50,text=f'TIME LEFT: {form.get('level').get('level_timer')}', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=22)
+    form['lbl_score'] = Label(x=150, y=50,text=form.get('texto'), screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=22)
     #Text Poster
     form['txp_info_card'] = TextPoster( #Probar volver a instalar pygame_widtget o utn_Fra, no aparece
         text='', screen=form.get('screen'), background_dimentions=(500, 100), background_coords=(390, 584),
@@ -40,8 +35,7 @@ def init_form_start_level(dict_form_data: dict, jugador: dict):
     
     form['widgets_list'] = [
         form.get('lbl_clock'), 
-        form.get('lbl_score'), 
-        form.get('txp_info_card')
+        form.get('lbl_score')
     ]
     
     base_form.forms_dict[dict_form_data.get('name')] = form
@@ -144,7 +138,12 @@ def update(form_data: dict, event_list: list[pg.event.Event]):
     #Actualizamos el timer
     actualizar_timer(form_data)
 
-
+    if nivel_cartas.juego_terminado(form_data.get('level')):
+        #Hasta acá el juego terminó y se guardó el puntaje, esto lo que hace es que
+        #Si "juego_terminado" devuelve True, entonces activa el form del menú principal
+        #Y devuelve al usuario ahí
+        #(De acá se puede enviar a otro form para que guarde o escriba su nombre, por ejemplo)
+        base_form.set_active('form_main_menu')
     #Pequeño for para obtener coordenadas
     for evento in event_list:
         if evento.type == pg.MOUSEBUTTONDOWN:

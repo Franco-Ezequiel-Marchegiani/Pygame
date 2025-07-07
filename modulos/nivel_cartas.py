@@ -14,14 +14,19 @@ def inicializar_nivel_cartas(jugador: dict, pantalla: pg.Surface, nro_nivel: int
     nivel_data['cartas_mazo_juego'] = []
     nivel_data['cartas_mazo_juego_final'] = []
     nivel_data['cartas_mazo_juego_final_vistas'] = []
+
+    nivel_data['cartas_mazo_juego_rival'] = []
+    nivel_data['cartas_mazo_juego_final_rival'] = []
+    nivel_data['cartas_mazo_juego_final_vistas_rival'] = []
     nivel_data['ruta_mazo'] = ''
+    nivel_data['ruta_mazo_rival'] = ''
     nivel_data['screen'] = pantalla
     nivel_data['jugador'] = jugador
     
     nivel_data['juego_finalizado'] = False
     nivel_data['puntaje_guardado'] = False
     nivel_data['level_timer'] = var.TIMER
-    nivel_data['ganador'] = None
+    nivel_data['ganador'] = None #Guardar acá quién gane, si el jugador o el enemigo, entre esas 2 opciones
     
     """ nivel_data['surface'] = pg.image.load('./modulos/assets/img/background_cards.png').convert_alpha()
     nivel_data['surface'] = pg.transform.scale(nivel_data.get('surface'), var.DIMENSION_PANTALLA)
@@ -41,6 +46,7 @@ def inicializar_data_nivel(nivel_data: dict):
     cargar_bd_cartas(nivel_data)
     #asignar_frases(nivel_data)
     generar_mazo(nivel_data)
+    generar_mazo_rival(nivel_data)
 
 def cargar_configs_nivel(nivel_data: dict):
     #Si el juego no finalizó, o no se cargó la data...
@@ -53,6 +59,7 @@ def cargar_configs_nivel(nivel_data: dict):
         print(f"nivel_data['configs']: {nivel_data['configs']}")
 
         nivel_data['ruta_mazo'] = nivel_data.get('configs').get('ruta_mazo')
+        nivel_data['ruta_mazo_rival'] = nivel_data.get('configs').get('ruta_mazo_rival')
         nivel_data['coords_iniciales'] = nivel_data.get('configs').get('coordenada_mazo_1')
         nivel_data['coords_finales'] = nivel_data.get('configs').get('coordenada_mazo_2')
         nivel_data['coords_rival_iniciales'] = nivel_data.get('configs').get('coordenada_mazo_rival_1')
@@ -65,10 +72,13 @@ def cargar_bd_cartas(nivel_data: dict):
         #Se agrega la ruta del get, ya que devuelve un objeto con la ruta, y de ahí el diccionario
         nivel_data['cartas_mazo_juego'] = aux.generar_bd(nivel_data.get('ruta_mazo')).get('cartas').get('./modulos/assets/img/decks/blue_deck_expansion_1')
         print(f'AFTER Nivel Cartas Mazo Juego: {nivel_data.get('cartas_mazo_juego')}')
+        #Asignación cartas al rival
+        nivel_data['cartas_mazo_juego_rival'] = aux.generar_bd(nivel_data.get('ruta_mazo_rival')).get('cartas').get('./modulos/assets/img/decks/blue_deck_expansion_2')
+        print(f'AFTER Nivel Cartas Mazo Juego Rival: {nivel_data.get('cartas_mazo_juego_rival')}')
 
 #Reciclar esta función por el tema de asignar puntaje
-""" def asignar_frases(nivel_data: dict) -> list[dict]:
-    print('=============== ASIGNANDO FRASES ALEATORIAS ===============')
+""" def asignar_puntaje(nivel_data: dict) -> list[dict]:
+    print('=============== ASIGNANDO PUNTAJE ===============')
     lista_mazo = nivel_data.get('cartas_mazo_juego')
     for index_card in range(len(lista_mazo)):
         frase = rd.choice(fra.lista_frases)
@@ -95,6 +105,25 @@ def generar_mazo(nivel_data: dict):
     #Las mezclamos, y creamos en el mismo dict la propiedad para ya utilizar
     rd.shuffle(nivel_data.get('cartas_mazo_juego_final'))
 
+def generar_mazo_rival(nivel_data: dict):
+    print('=============== GENERANDO MAZO FINAL ===============')
+    #Para generar el mazo, obtenemos las cartas del mazo del dic, y los recorremos
+    lista_mazo_original = nivel_data.get('cartas_mazo_juego_rival')
+    nivel_data['cartas_mazo_juego_final_rival'] = []
+    print(
+        f'Coord iniciales - Rival: {nivel_data.get('coords_rival_iniciales')}',
+        f'Coord finales - Rival: {nivel_data.get('coords_rival_finales')}', sep='\n'
+    )
+    for card in lista_mazo_original:
+        carta_final = carta.inicializar_carta(card, nivel_data.get('coords_rival_iniciales'))
+        nivel_data['cartas_mazo_juego_final_rival'].append(carta_final)
+    
+    #Se definen 10 cartas
+    nivel_data['cartas_mazo_juego_final_rival'] = nivel_data['cartas_mazo_juego_final_rival'][:10]
+    #Las mezclamos, y creamos en el mismo dict la propiedad para ya utilizar
+    print(f"Cartas del rival: {nivel_data.get('cartas_mazo_juego_final_rival')}")
+    rd.shuffle(nivel_data.get('cartas_mazo_juego_final_rival'))
+
 def eventos(nivel_data: dict, cola_eventos: list[pg.event.Event]):
     
     for evento in cola_eventos:
@@ -111,20 +140,35 @@ def eventos(nivel_data: dict, cola_eventos: list[pg.event.Event]):
                 # var.CLICK_SONIDO.play()
                 carta.asignar_coordenadas_carta(nivel_data.get('cartas_mazo_juego_final')[-1], nivel_data.get('coords_finales'))
                 carta.cambiar_visibilidad_carta(nivel_data.get('cartas_mazo_juego_final')[-1])
+
+                #Asignar cartas tmb al rival
+                carta.asignar_coordenadas_carta(nivel_data.get('cartas_mazo_juego_final_rival')[-1], nivel_data.get('coords_rival_finales'))
+                carta.cambiar_visibilidad_carta(nivel_data.get('cartas_mazo_juego_final_rival')[-1])
                 
                 #Selecciona una carta random con .pop, y la sumamos a cartas vistas
-                carta_vista = nivel_data.get('cartas_mazo_juego_final').pop()
-                nivel_data.get('cartas_mazo_juego_final_vistas').append(carta_vista)
-                nivel_data['jugador']['puntaje_actual'] += nivel_data.get('cartas_mazo_juego_final_vistas')[-1].get('atk')
+                carta_vista_jugador = nivel_data.get('cartas_mazo_juego_final').pop()
+                nivel_data.get('cartas_mazo_juego_final_vistas').append(carta_vista_jugador)
+                
+                #Carta rival
+                carta_vista_rival = nivel_data.get('cartas_mazo_juego_final_rival').pop()
+                nivel_data.get('cartas_mazo_juego_final_vistas_rival').append(carta_vista_rival)
+
+                #Esto funciona, guarda el puntaje del jugador en base al ataque (dsp analizar bien cómo sumar el puntaje)
+                puntaje_carta_actual_jugador = nivel_data.get('cartas_mazo_juego_final_vistas')[-1].get('atk')
                 #Hacer que el puntaje del jugador, sea el resultado del sobrante de la resta del dato que le hace al rival
                 #Ej, si tiene 2000 de defensa, y el usuario 2500 de atque, el puntaje en esa mano es de 500, por ej
-                carta_actual = nivel_data.get('cartas_mazo_juego_final_vistas')[-1]
-                print(f"Puntaje Actual: {nivel_data['jugador']['puntaje_actual']}")
+                
+                print(f"puntaje_carta_actual_jugador: {puntaje_carta_actual_jugador}")
 
-                #jugador_humano.sumar_puntaje_carta_actual(nivel_data.get('jugador'), carta_actual)
-                #
-                #print(f'Puntaje Actual: {jugador_humano.get_puntaje_actual(nivel_data["jugador"])}')
-                #
+                print(f"nivel_data.get('jugador'): {nivel_data.get('jugador')}")
+                print(f"Puntaje Actual BEFORE: {nivel_data.get('jugador').get('puntaje_actual')}")
+                #Sumamos los puntos de cada ronda con esta función
+                jugador_humano.sumar_puntaje_actual(nivel_data.get('jugador'), puntaje_carta_actual_jugador)
+                #Y a este punto, actualiza los elementos del dic "jugador"
+                #Ahí se va sumando el puntaje en cada ronda
+                print(f"Puntaje Actual AFTER: {nivel_data.get('jugador').get('puntaje_actual')}")
+                print(f'Puntaje Acumulado en Partida: {jugador_humano.get_puntaje_actual(nivel_data["jugador"])}')
+                
                 #print(f'Frase actual: {nivel_data.get('cartas_mazo_juego_final_vistas')[-1].get('frase')}')
 
 def tiempo_esta_terminado(nivel_data: dict) -> bool:
@@ -144,13 +188,17 @@ def check_juego_terminado(nivel_data: dict):
         tiempo_esta_terminado(nivel_data):
             nivel_data['juego_finalizado'] = True
 
-def juego_terminado(nivel_data: dict):
-    return nivel_data.get('juego_finalizado')
+def juego_terminado(nivel_data: dict) -> bool:
+    #Nos devuelve el valor bool que tenemos en 'juego_finalizado'
+    return nivel_data.get('juego_finalizado') 
 
 def reiniciar_nivel(nivel_cartas: dict, jugador: dict, pantalla: pg.Surface, nro_nivel: int):
     print('=============== REINICIANDO NIVEL ===============')
+    #Llama a la función para setear el puntaje y reiniciarlo pasandole el valor de 0
     jugador_humano.set_puntaje_actual(jugador, 0)
+    #Reiniciamos los valores de "inicializar_nivel_Cartas" para que pueda jugar nuevamente
     nivel_cartas = inicializar_nivel_cartas(jugador, pantalla, nro_nivel)
+    #Al pasarle los valores y ejecutar la función, lo que hacemos es pisar los valores del dict e inicia de nuevo
     return nivel_cartas
 
 def draw(nivel_data: dict):
@@ -163,11 +211,24 @@ def draw(nivel_data: dict):
 
 def update(nivel_data: dict, cola_eventos: list[pg.event.Event]):
     eventos(nivel_data, cola_eventos)
+    #Revisa si la partida/juego ya terminó
     check_juego_terminado(nivel_data)
+    #Si el juego terminó, y NO se guardó el puntaje...
     if juego_terminado(nivel_data) and not nivel_data.get('puntaje_guardado'):
+        #Actualiza el puntaje del jugador
         jugador_humano.actualizar_puntaje_total(nivel_data.get("jugador"))
         nombre_elegido = rd.choice(var.nombres)
         jugador_humano.set_nombre(nivel_data.get("jugador"), nombre_elegido)
+        #Guarda la info en el archivo de ranking
         aux.guardar_ranking(nivel_data.get('jugador'))
-        nivel_data['puntaje_guardado'] = True
-        print(f'Puntaje acumulado: {jugador_humano.get_puntaje_total(nivel_data.get("jugador"))}')
+        #Guardamos una sola vez el puntaje guardado.
+        nivel_data['puntaje_guardado'] = True 
+        print(f'Puntaje final alcanzado: {jugador_humano.get_puntaje_total(nivel_data.get("jugador"))}')
+
+#Manejar acá la lógica de definir ganador, y demás, en los forms va solo info que se muestre, acá va toda la lógica pesada
+
+#Crear la clave de "mazo" para el usuario y el enemigo, crear un dic para el enemigo tmb
+
+#Que recorra todo el dict de cartas, y que a medida que levante una carta, se arme un dict.
+
+#Probar tmb usando rd.sample para mezclar y distribuir las cartas seleccionadas
