@@ -19,7 +19,7 @@ def init_form_start_level(dict_form_data: dict, jugador: dict):
     form['clock'] = pg.time.Clock()
 
     #Acá desarrollamos una función que vaya restando el tiempo
-    form['level_timer'] = var.TIMER #2000 segundos de base, a modificar
+    # form['level_timer'] = var.TIMER #2000 segundos de base, a modificar
     form['first_last_timer'] = pg.time.get_ticks()
 
 
@@ -28,12 +28,12 @@ def init_form_start_level(dict_form_data: dict, jugador: dict):
     print(f"form Clock: {form.get('clock')}")
     form['texto'] = f'SCORE: {form.get('jugador').get('puntaje_actual')}'
 
-    form['lbl_clock'] = Label(x=var.DIMENSION_PANTALLA[0] // 2, y=100,text=f'TIME LEFT: {form.get('level_timer')}', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=50)
-    form['lbl_score'] = Label(x=250, y=50,text=form.get('texto'), screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=22)
+    form['lbl_clock'] = Label(x=var.DIMENSION_PANTALLA[0] // 2, y=100,text=f'TIME LEFT: {form.get('level').get('level_timer')}', screen=form.get('screen'), font_path=var.FUENTE_SAIYAN, font_size=50)
+    form['lbl_score'] = Label(x=250, y=50,text=form.get('texto'), screen=form.get('screen'), font_path=var.FUENTE_SAIYAN, font_size=22)
     #Text Poster
     form['txp_info_card'] = TextPoster( #Probar volver a instalar pygame_widtget o utn_Fra, no aparece
         text='', screen=form.get('screen'), background_dimentions=(500, 100), background_coords=(390, 584),
-        font_path=var.FUENTE_ALAGARD, font_size=25, color=(0,255,0), background_color=(0,0,0)
+        font_path=var.FUENTE_SAIYAN, font_size=25, color=(0,255,0), background_color=(0,0,0)
     )
 
     form['btn_bonus_1'] = ButtonImage
@@ -53,14 +53,14 @@ def select_bonus(bonus_name: str):
     pass
 
 def actualizar_timer(form_data: dict):
-    if form_data.get('level_timer') > 0:
+    if form_data.get('level').get('level_timer') > 0:
         tiempo_actual = pg.time.get_ticks()
         #el first_last_timer, guarda la hora más reciente, la más actual
         #Si el tiempo actual, menos el valor que se actualizó el marcador
         #Superó los 1000 de valor, pasó un segundo, entonces se actualizan los timers
         if tiempo_actual - form_data.get('first_last_timer') > 1000:
             #Restamos 1seg al lever timer, y el first_last_timer
-            form_data['level_timer'] -= 1 #Este valor es el que se va a mostrar
+            form_data.get('level')['level_timer'] -= 1 #Este valor es el que se va a mostrar
             form_data['first_last_timer'] = tiempo_actual #Y este el que se toma como referencia para calcular
 
 def click_volver(parametro: str):
@@ -101,17 +101,17 @@ def init_game(form_data: dict):
         
         # numero
         form_data['ranking_screen'].append(
-            Label(x=var.DIMENSION_PANTALLA[0]//2 - 220, y=var.DIMENSION_PANTALLA[1]//2.9+indice_fila*31,text=f'{indice_fila + 1}', screen=form_data.get('screen'), font_path=var.FUENTE_ALAGARD, color=var.COLOR_NARANJA, font_size=40)
+            Label(x=var.DIMENSION_PANTALLA[0]//2 - 220, y=var.DIMENSION_PANTALLA[1]//2.9+indice_fila*31,text=f'{indice_fila + 1}', screen=form_data.get('screen'), font_path=var.FUENTE_SAIYAN, color=var.COLOR_NARANJA, font_size=40)
         )
         
         # nombre
         form_data['ranking_screen'].append(
-            Label(x=var.DIMENSION_PANTALLA[0]//2, y=var.DIMENSION_PANTALLA[1]//2.9+indice_fila*31,text=f'{fila[0]}', screen=form_data.get('screen'), font_path=var.FUENTE_ALAGARD, color=var.COLOR_NARANJA, font_size=40)
+            Label(x=var.DIMENSION_PANTALLA[0]//2, y=var.DIMENSION_PANTALLA[1]//2.9+indice_fila*31,text=f'{fila[0]}', screen=form_data.get('screen'), font_path=var.FUENTE_SAIYAN, color=var.COLOR_NARANJA, font_size=40)
         )
         
         # score
         form_data['ranking_screen'].append(
-            Label(x=var.DIMENSION_PANTALLA[0]//2 + 220, y=var.DIMENSION_PANTALLA[1]//2.9+indice_fila*31,text=f'{fila[1]}', screen=form_data.get('screen'), font_path=var.FUENTE_ALAGARD, color=var.COLOR_NARANJA, font_size=40)
+            Label(x=var.DIMENSION_PANTALLA[0]//2 + 220, y=var.DIMENSION_PANTALLA[1]//2.9+indice_fila*31,text=f'{fila[1]}', screen=form_data.get('screen'), font_path=var.FUENTE_SAIYAN, color=var.COLOR_NARANJA, font_size=40)
         )
     
     
@@ -129,8 +129,11 @@ def update(form_data: dict, event_list: list[pg.event.Event]):
     #if form_data.get('active'):
     #    inicializar_juego(form_data)
     base_form.update(form_data)
-    form_data['lbl_clock'].update_text(f'TIME LEFT: {form_data.get('level_timer')}', (255,0,0)) #Valor actualizado, y color del mismo
+    form_data['lbl_clock'].update_text(f'TIME LEFT: {form_data.get('level').get('level_timer')}', (255,0,0)) #Valor actualizado, y color del mismo
     nivel_cartas.update(form_data.get('level'), event_list)
+
+    form_data['lbl_score'].update_text(f'SCORE: {form_data.get('jugador').get('puntaje_actual')}', (255,0,0)) #Valor actualizado, y color del mismo
+
 
     mazo_vistas = form_data.get('level').get('cartas_mazo_juego_final_vistas')
     #

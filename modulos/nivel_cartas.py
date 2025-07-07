@@ -115,21 +115,31 @@ def eventos(nivel_data: dict, cola_eventos: list[pg.event.Event]):
                 #Selecciona una carta random con .pop, y la sumamos a cartas vistas
                 carta_vista = nivel_data.get('cartas_mazo_juego_final').pop()
                 nivel_data.get('cartas_mazo_juego_final_vistas').append(carta_vista)
-                
+                nivel_data['jugador']['puntaje_actual'] += nivel_data.get('cartas_mazo_juego_final_vistas')[-1].get('atk')
+                #Hacer que el puntaje del jugador, sea el resultado del sobrante de la resta del dato que le hace al rival
+                #Ej, si tiene 2000 de defensa, y el usuario 2500 de atque, el puntaje en esa mano es de 500, por ej
                 carta_actual = nivel_data.get('cartas_mazo_juego_final_vistas')[-1]
+                print(f"Puntaje Actual: {nivel_data['jugador']['puntaje_actual']}")
+
                 #jugador_humano.sumar_puntaje_carta_actual(nivel_data.get('jugador'), carta_actual)
                 #
                 #print(f'Puntaje Actual: {jugador_humano.get_puntaje_actual(nivel_data["jugador"])}')
-                
-                print(f'Frase actual: {nivel_data.get('cartas_mazo_juego_final_vistas')[-1].get('frase')}')
+                #
+                #print(f'Frase actual: {nivel_data.get('cartas_mazo_juego_final_vistas')[-1].get('frase')}')
 
-def tiempo_esta_terminado(nivel_data: dict):
+def tiempo_esta_terminado(nivel_data: dict) -> bool:
+    #Devuelve true o false, si el tiempo llegó a 0
     return nivel_data.get('level_timer') <= 0
 
-def mazo_esta_vacio(nivel_data: dict):
+def mazo_esta_vacio(nivel_data: dict) -> bool:
+    #Revisa cuando se terminaron las cartas para jugar
     return len(nivel_data.get('cartas_mazo_juego_final')) == 0
+    #Tmb válido:
+    # return not nivel_data.get('cartas_mazo_juego_final')
 
 def check_juego_terminado(nivel_data: dict):
+    # Si se termina el mazo, o el tiempo, finaliza el juego
+    # Para eso, cambia el valor bool de "juego_finalizado"
     if mazo_esta_vacio(nivel_data) or\
         tiempo_esta_terminado(nivel_data):
             nivel_data['juego_finalizado'] = True

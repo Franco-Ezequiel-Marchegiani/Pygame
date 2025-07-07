@@ -23,11 +23,16 @@ BOTON_AJUSTES = 1
 BOTON_HISTORIA = 2
 BOTON_SALIR = 3
 
-
-
+MAIN_TITLE = 'DRAGON BALL Z TCG'
+SUB_TITLE_MENU = ''
+SUB_TITLE_GAME = ''
+SUB_TITLE_RANKING = ''
+SUB_TITLE_OPTIONS = ''
+SUB_TITLE_ = ''
 # ======= FUENTES ===========
 
-FUENTE_ALAGARD = './assets/fonts/alagard.ttf'
+FUENTE_ALAGARD = './modulos/assets/fonts/alagard.ttf'
+FUENTE_SAIYAN = './modulos/assets/fonts/saiyan_sans.ttf'
 
 # FUENTE_20 = pg.font.SysFont("Arial",20)
 FUENTE_22 = 22
@@ -102,7 +107,7 @@ COLOR_NARANJA = (255, 87, 20)
 
 
 # ======= FUENTES ===========
-
+""" 
 FUENTE_ALAGARD = './modulos/assets/fonts/alagard.ttf'
 
 FUENTE_20 = pg.font.SysFont("Arial",20)
@@ -111,7 +116,7 @@ FUENTE_25 = pg.font.Font(FUENTE_ALAGARD, 25)
 FUENTE_27 = pg.font.Font(FUENTE_ALAGARD, 27)
 FUENTE_30 = pg.font.Font(FUENTE_ALAGARD, 30)
 FUENTE_32 = pg.font.Font(FUENTE_ALAGARD, 32)
-FUENTE_50 = pg.font.Font(FUENTE_ALAGARD, 50)
+FUENTE_50 = pg.font.Font(FUENTE_ALAGARD, 50) """
 
 # ======= RUTA ===========
 
@@ -154,3 +159,7 @@ FONDO = pg.image.load(RUTA_FONDO)
 CLICK_SONIDO = pg.mixer.Sound(RUTA_SONIDO_CLICK)
 
 TIMER = 2000
+
+nombres = [
+    "Pepe", "Moni", "Fatiga", "Dardo", "Guarani"
+]

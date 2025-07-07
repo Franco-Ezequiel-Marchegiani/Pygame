@@ -15,10 +15,10 @@ def init_form_ranking(dict_form_data: dict, jugador: dict):
     form['ranking_screen'] = []
     form['ranking_list'] = []
     
-    form['lbl_titulo'] = Label(x=var.DIMENSION_PANTALLA[0]//2, y=var.DIMENSION_PANTALLA[1]//2 - 250,text='La PYTHONisa del Tarot', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=70)
+    form['lbl_titulo'] = Label(x=var.DIMENSION_PANTALLA[0]//2, y=var.DIMENSION_PANTALLA[1]//2 - 250,text = var.MAIN_TITLE, screen=form.get('screen'), font_path=var.FUENTE_SAIYAN, font_size=70)
     form['lbl_subtitulo'] = Label(x=var.DIMENSION_PANTALLA[0]//2, y=var.DIMENSION_PANTALLA[1]//2 - 175,text='TOP 10 Ranking', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=50)
     
-    form['btn_volver'] = Button(x=var.DIMENSION_PANTALLA[0]//2, y=var.DIMENSION_PANTALLA[1]//2 + 250, text='VOLVER AL MENU', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, color=var.COLOR_NARANJA, font_size=40, on_click=click_return_menu, on_click_param='form_main_menu')
+    form['btn_volver'] = Button(x=var.DIMENSION_PANTALLA[0]//2, y=var.DIMENSION_PANTALLA[1]//2 + 250, text='VOLVER AL MENU', screen=form.get('screen'), font_path=var.FUENTE_SAIYAN, color=var.COLOR_NARANJA, font_size=40, on_click=click_return_menu, on_click_param='form_main_menu')
     
     form['widgets_list'] = [
         form.get('lbl_titulo'), 

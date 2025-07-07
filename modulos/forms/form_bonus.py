@@ -11,10 +11,10 @@ def init_form_bonus(dict_form_data: dict, jugador: dict):
     form['jugador'] = jugador
     form['bonus_info'] = ''
 
-    form['lbl_titulo'] = Label(x=var.DIMENSION_PANTALLA[0]//2, y=var.DIMENSION_PANTALLA[1] // 2 - 250,text='La PYTHONisa del Tarot', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=75)
-    form['lbl_subtitle'] = Label(x=400, y=var.DIMENSION_PANTALLA[1] // 2 - 175,text=form.get('texto'), screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=50)
-    form['btn_select'] = Button(x=var.DIMENSION_PANTALLA[0]//2, y=var.DIMENSION_PANTALLA[1] // 2 + 175,text='SELECCIONAR', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=22, on_click=click_select_bonus, on_click_param=form)
-    form['btn_back'] = Button(x=var.DIMENSION_PANTALLA[0]//2, y=var.DIMENSION_PANTALLA[1] // 2 + 250,text='VOLVER AL MENU', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=22, on_click=click_change_form, on_click_param='form_start_level')
+    form['lbl_titulo'] = Label(x=var.DIMENSION_PANTALLA[0]//2, y=var.DIMENSION_PANTALLA[1] // 2 - 250,text='La PYTHONisa del Tarot', screen=form.get('screen'), font_path=var.FUENTE_SAIYAN, font_size=75)
+    form['lbl_subtitle'] = Label(x=400, y=var.DIMENSION_PANTALLA[1] // 2 - 175,text=form.get('texto'), screen=form.get('screen'), font_path=var.FUENTE_SAIYAN, font_size=50)
+    form['btn_select'] = Button(x=var.DIMENSION_PANTALLA[0]//2, y=var.DIMENSION_PANTALLA[1] // 2 + 175,text='SELECCIONAR', screen=form.get('screen'), font_path=var.FUENTE_SAIYAN, font_size=22, on_click=click_select_bonus, on_click_param=form)
+    form['btn_back'] = Button(x=var.DIMENSION_PANTALLA[0]//2, y=var.DIMENSION_PANTALLA[1] // 2 + 250,text='VOLVER AL MENU', screen=form.get('screen'), font_path=var.FUENTE_SAIYAN, font_size=22, on_click=click_change_form, on_click_param='form_start_level')
 
     form['widgets_list'] = [
         form.get('lbl_titulo'),
