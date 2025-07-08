@@ -2,7 +2,7 @@ import modulos.carta as carta
 
 #Adaptar este dict para que sirva como jugador en general
 #Y usar diferenciador "nombre" para ver si es el jugador, o la IA
-def inicializar_jugador(inicializar_screen):
+def inicializar_oponente(inicializar_screen):
     jugador_actual = {}
     jugador_actual['puntaje_actual'] = 0
     jugador_actual['puntaje_total'] = 0

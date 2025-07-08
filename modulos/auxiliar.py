@@ -106,6 +106,13 @@ def generar_bd(root_path_cards: str):
                 final_hp = hp + (hp * bonus / 100)
                 final_atk = atk + (atk * bonus / 100)
                 final_defense = defense + (defense * bonus / 100)
+
+                #Redondear para arriba
+                round(final_defense, 0) #Retorna tipo float, se puede parsear a entero. Redondea para arriba
+                #Tema para definir cuantos puntos gana el usuario por ronda, hacer que la diferencia de puntos
+                #Que el usuario le saque al enemigo, sea el puntaje que ganó en la ronda. Por ej:
+                #Si tiene 1000 de ataque, el usuario 700 de defensa, entonces gana 300 puntos esa ronda.
+                
                 card = {
                     'id': f'{deck_name}-{list_data[0]}',
                     "hp": hp, #Cambiar luego al final, ya con el bonus potenciado
@@ -224,6 +231,9 @@ def cargar_ranking():
             if linea:
                 ranking.append(linea.split(','))
     mapear_valores(ranking, 1, parsear_entero)
+    print(f"Ranking BEFORE: {ranking}")
+    #Este ordena
+    #En caso de querer que sea ASC, cambiar valor del Reverse
     ranking.sort(key=lambda fila: fila[1], reverse=True)
     
     return ranking

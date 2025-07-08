@@ -13,18 +13,15 @@ def inicializar_nivel_cartas(jugador: dict, pantalla: pg.Surface, nro_nivel: int
     nivel_data['configs'] = {}
 
     #Estas listas, tendría que pasarla al módulo de "jugador", y pasarlo acá.
+    #Guarda por acá los decks generados de la DB del usuario y el rival
     nivel_data['cartas_mazo_juego'] = []
-    #nivel_data['cartas_mazo_juego_final'] = []
-    #nivel_data['cartas_mazo_juego_final_vistas'] = []
-
     nivel_data['cartas_mazo_juego_rival'] = []
-    #nivel_data['cartas_mazo_juego_final_rival'] = []
-    #nivel_data['cartas_mazo_juego_final_vistas_rival'] = []
+    #Define ambas rutas
     nivel_data['ruta_mazo'] = ''
     nivel_data['ruta_mazo_rival'] = ''
     nivel_data['screen'] = pantalla
     nivel_data['jugador'] = jugador #Pasar param para generar mazo, junto al listado ya cargado, cartas_mazo_juego
-    nivel_data['rival'] = jugador_humano.inicializar_jugador(nivel_data['screen']) #jugador #Pasar param para generar mazo, junto al listado ya cargado, cartas_mazo_juego
+    nivel_data['rival'] = jugador_humano.inicializar_oponente(nivel_data['screen']) #jugador #Pasar param para generar mazo, junto al listado ya cargado, cartas_mazo_juego
 
     nivel_data['juego_finalizado'] = False
     nivel_data['puntaje_guardado'] = False
@@ -231,23 +228,10 @@ def reiniciar_nivel(nivel_cartas: dict, jugador: dict, pantalla: pg.Surface, nro
 
 
 def draw(nivel_data: dict):
-
+    #Dibuja cada deck, del jugador y el rival
+    #En una función optimizada, y por parámetro se le pasa el dict de cada uno
     jugador_humano.draw_participante(nivel_data.get('jugador'))
     jugador_humano.draw_participante(nivel_data.get('rival'))
-
-    #Llama a la función "draw_carta" y le pasa la última de cada mazo
-    """ if nivel_data.get('cartas_mazo_juego_final'):
-        carta.draw_carta(nivel_data.get('cartas_mazo_juego_final')[-1], nivel_data.get('screen'))
-        
-    if nivel_data.get('cartas_mazo_juego_final_vistas'):
-        carta.draw_carta(nivel_data.get('cartas_mazo_juego_final_vistas')[-1], nivel_data.get('screen'))
-    
-    # Deck Rival
-    if nivel_data.get('cartas_mazo_juego_final_rival'):
-        carta.draw_carta(nivel_data.get('cartas_mazo_juego_final_rival')[-1], nivel_data.get('screen'))
-        
-    if nivel_data.get('cartas_mazo_juego_final_vistas_rival'):
-        carta.draw_carta(nivel_data.get('cartas_mazo_juego_final_vistas_rival')[-1], nivel_data.get('screen')) """
 
 def update(nivel_data: dict, cola_eventos: list[pg.event.Event]):
     #Manejar acá todo lo que se tenga que actualizar, ya sea la vida, barrera, etc.
@@ -260,6 +244,8 @@ def update(nivel_data: dict, cola_eventos: list[pg.event.Event]):
         jugador_humano.actualizar_puntaje_total(nivel_data.get("jugador"))
         nombre_elegido = rd.choice(var.nombres)
         jugador_humano.set_nombre(nivel_data.get("jugador"), nombre_elegido)
+
+        #Esto la idea sería que lo guarde en otro formulario de ranking
         #Guarda la info en el archivo de ranking
         aux.guardar_ranking(nivel_data.get('jugador'))
         #Guardamos una sola vez el puntaje guardado.

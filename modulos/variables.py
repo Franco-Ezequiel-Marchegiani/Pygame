@@ -133,7 +133,7 @@ PUNTUACION_INICIAL = 0
 VOLUMEN_MUSICA_INICIAL = 100
 PUNTUACION_ACIERTO = 100
 PUNTUACION_ERROR = 25
-TIMER = 30
+TIMER = 3000
 
 # ======= COORDENADAS ===========
 
@@ -156,7 +156,6 @@ RUTA_CONFIGS_JSON = './config.json'
 FONDO = pg.image.load(RUTA_FONDO)
 CLICK_SONIDO = pg.mixer.Sound(RUTA_SONIDO_CLICK)
 
-TIMER = 15
 
 nombres = [
     "Pepe", "Moni", "Fatiga", "Dardo", "Guarani"

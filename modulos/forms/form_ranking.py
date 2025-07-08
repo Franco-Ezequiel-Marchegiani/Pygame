@@ -19,7 +19,7 @@ def init_form_ranking(dict_form_data: dict, jugador: dict):
     form['lbl_subtitulo'] = Label(x=var.DIMENSION_PANTALLA[0]//2, y=var.DIMENSION_PANTALLA[1]//2 - 175,text='TOP 10 Ranking', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=50)
     
     form['btn_volver'] = Button(x=var.DIMENSION_PANTALLA[0]//2, y=var.DIMENSION_PANTALLA[1]//2 + 250, text='VOLVER AL MENU', screen=form.get('screen'), font_path=var.FUENTE_SAIYAN, color=var.COLOR_NARANJA, font_size=40, on_click=click_return_menu, on_click_param='form_main_menu')
-    
+    form['data_loaded'] = False
     form['widgets_list'] = [
         form.get('lbl_titulo'), 
         form.get('lbl_subtitulo'),
@@ -33,6 +33,8 @@ def init_form_ranking(dict_form_data: dict, jugador: dict):
 
 def click_return_menu(parametro: str):
     base_form.set_active(parametro)
+    #Accedemos al diccionario de form_data desde el base_form
+    base_form.forms_dict['form_ranking']['data_loaded'] = False
 
 
 def init_ranking(form_data: dict):
@@ -41,24 +43,14 @@ def init_ranking(form_data: dict):
     for indice_fila in range(len(matrix)):
         
         fila = matrix[indice_fila]
-        
-        """
-        
-        1                   fulano              20
-        2                   mengano             15
-        
-        """
-        
         # numero
         form_data['ranking_screen'].append(
             Label(x=var.DIMENSION_PANTALLA[0]//2 - 220, y=var.DIMENSION_PANTALLA[1]//2.9+indice_fila*31,text=f'{indice_fila + 1}', screen=form_data.get('screen'), font_path=var.FUENTE_ALAGARD, color=var.COLOR_NARANJA, font_size=40)
         )
-        
         # nombre
         form_data['ranking_screen'].append(
             Label(x=var.DIMENSION_PANTALLA[0]//2, y=var.DIMENSION_PANTALLA[1]//2.9+indice_fila*31,text=f'{fila[0]}', screen=form_data.get('screen'), font_path=var.FUENTE_ALAGARD, color=var.COLOR_NARANJA, font_size=40)
         )
-        
         # score
         form_data['ranking_screen'].append(
             Label(x=var.DIMENSION_PANTALLA[0]//2 + 220, y=var.DIMENSION_PANTALLA[1]//2.9+indice_fila*31,text=f'{fila[1]}', screen=form_data.get('screen'), font_path=var.FUENTE_ALAGARD, color=var.COLOR_NARANJA, font_size=40)
@@ -67,8 +59,11 @@ def init_ranking(form_data: dict):
     
 
 def inicializar_ranking(form_data: dict):
-    form_data['ranking_list'] = aux.cargar_ranking()[:10]
-    init_ranking(form_data)
+    #Si NO se cargó la data, inicializamos el ranking
+    if not form_data.get('data_loaded'):
+        form_data['ranking_list'] = aux.cargar_ranking()[:10]
+        init_ranking(form_data)
+        form_data['data_loaded'] = True
 
 def draw(form_data: dict):
     base_form.draw(form_data)
