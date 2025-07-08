@@ -13,7 +13,8 @@ def pythonisa():
     reloj = pg.time.Clock()
     datos_juego = {
         "tiempo_finalizado": None,
-        "jugador": jugador_humano.inicializar_jugador()
+        "jugador": jugador_humano.inicializar_jugador(pantalla),
+        #Esto puede estar definido acá, o tmb en el file "nivel_cartas"
     }
 
     f_manager = form_manager.create_form_manager(pantalla, datos_juego)

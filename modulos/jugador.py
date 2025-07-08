@@ -1,13 +1,26 @@
 import modulos.carta as carta
 
-def inicializar_jugador():
+#Adaptar este dict para que sirva como jugador en general
+#Y usar diferenciador "nombre" para ver si es el jugador, o la IA
+def inicializar_jugador(inicializar_screen):
     jugador_actual = {}
     jugador_actual['puntaje_actual'] = 0
     jugador_actual['puntaje_total'] = 0
-    jugador_actual['nombre'] = 'jugador'
-    
+    jugador_actual['nombre'] = ''
+    jugador_actual['screen'] = inicializar_screen
+    jugador_actual['coords_iniciales'] = []
+    jugador_actual['coords_finales'] = []
+    jugador_actual['cartas_mazo_juego_final'] = []
+    jugador_actual['cartas_mazo_juego_final_vistas'] = []
     return jugador_actual
 
+def draw_participante(jugador: dict):
+    if jugador.get('cartas_mazo_juego_final'):
+        carta.draw_carta(jugador.get('cartas_mazo_juego_final')[-1], jugador.get('screen'))
+        
+    if jugador.get('cartas_mazo_juego_final_vistas'):
+        carta.draw_carta(jugador.get('cartas_mazo_juego_final_vistas')[-1], jugador.get('screen'))
+    
 #De acá, se puede añadir tmb de asignarle al usuario un mazo de cartas, y hacer una función que haga un get sobre eso
 
 def sumar_puntaje_actual(jugador_actual: dict, nuevo_puntaje: int) -> None:
@@ -44,3 +57,4 @@ def set_puntaje_total(jugador_actual: dict, nuevo_puntaje: int):
 
 def set_nombre(jugador_actual: dict, nuevo_puntaje: int):
     jugador_actual['nombre'] = nuevo_puntaje
+
