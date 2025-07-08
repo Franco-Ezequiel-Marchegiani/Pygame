@@ -139,11 +139,7 @@ def update(form_data: dict, event_list: list[pg.event.Event]):
     actualizar_timer(form_data)
 
     if nivel_cartas.juego_terminado(form_data.get('level')):
-        #Hasta acá el juego terminó y se guardó el puntaje, esto lo que hace es que
-        #Si "juego_terminado" devuelve True, entonces activa el form del menú principal
-        #Y devuelve al usuario ahí
-        #(De acá se puede enviar a otro form para que guarde o escriba su nombre, por ejemplo)
-        base_form.set_active('form_main_menu')
+        base_form.set_active('form_enter_name')
     #Pequeño for para obtener coordenadas
     for evento in event_list:
         if evento.type == pg.MOUSEBUTTONDOWN:
