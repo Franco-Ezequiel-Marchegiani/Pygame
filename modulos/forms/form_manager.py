@@ -26,7 +26,7 @@ def create_form_manager(screen: pg.Surface, datos_juego: dict):
                 "active":True, 
                 "coords":(0,0), 
                 "stage_number":1, 
-                "music_path":var.RUTA_MUSICA,
+                "music_path":var.RUTA_MUSICA, #Cambiar acá la ruta de la música que se quiera que suene
                 "background_path": './modulos/assets/background/fondo_3.png',
                 "screen_dimentions": var.DIMENSION_PANTALLA
             }

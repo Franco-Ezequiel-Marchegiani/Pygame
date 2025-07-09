@@ -38,7 +38,7 @@ def cambiar_formulario_on_click(parametro: str):
     #Recibe por parámetro un string, con el nombre del form 
     #Para poder activar y mostrar el mismo en pantalla
     print(parametro)
-    base_form.set_active(parametro)
+    
 
     #Si vamos al form de start_level, recién ahí iniciamos y cargamos la data
     #Esto con la finalidad de administrar recursos
@@ -50,6 +50,10 @@ def cambiar_formulario_on_click(parametro: str):
             form_start_level.get('screen'), form_start_level.get('level_number')
         )
         nivel_cartas.inicializar_data_nivel(form_start_level.get('level'))
+    base_form.set_active(parametro)
+    base_form.stop_music()
+    base_form.play_music(base_form.forms_dict[parametro])
+
 
 def click_salir(parametro: str):
     print(parametro)

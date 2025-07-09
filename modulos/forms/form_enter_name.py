@@ -65,6 +65,8 @@ def click_confirm_name(form_dict: dict):
     #Guardamos el ranking
     aux.guardar_ranking(form_dict.get('jugador'))
     #Luego de guardarlo, enviamos al usuario a la vista de ranking
+    base_form.stop_music()
+    base_form.play_music(base_form.forms_dict['form_enter_name'])
     base_form.set_active('form_ranking')
 
 def draw(form_dict: dict):

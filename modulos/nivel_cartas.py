@@ -161,7 +161,7 @@ def eventos(nivel_data: dict, cola_eventos: list[pg.event.Event]):
             if nivel_data.get('jugador').get('cartas_mazo_juego_final') and\
                 nivel_data.get('jugador').get('cartas_mazo_juego_final')[-1].get('rect').collidepoint(evento.pos) and\
                 not nivel_data.get('jugador').get('cartas_mazo_juego_final')[-1].get('visible'):
-                # var.CLICK_SONIDO.play()
+                var.SOUND_CLICK.play()
                 carta.asignar_coordenadas_carta(nivel_data.get('jugador').get('cartas_mazo_juego_final')[-1], nivel_data.get('jugador').get('coords_finales'))
                 carta.cambiar_visibilidad_carta(nivel_data.get('jugador').get('cartas_mazo_juego_final')[-1])
 

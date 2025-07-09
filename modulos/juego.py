@@ -5,7 +5,6 @@ import modulos.auxiliar as aux
 import modulos.forms.form_manager as form_manager
 import modulos.jugador as jugador_humano
 def pythonisa():
-    pg.init()
     pg.display.set_caption(var.MAIN_TITLE)
     pantalla = pg.display.set_mode(var.DIMENSION_PANTALLA)
     pg.display.set_icon(pg.image.load(var.RUTA_ICONO))

@@ -128,6 +128,7 @@ RUTA_MUSICA = './modulos/assets/sound/music_dragon_ball_1.mp3'
 RUTA_MUSICA_BUCLE = './modulos/assets/sound/music_dragon_ball_bucle.mp3'
 RUTA_ICONO = './modulos/assets/icon_4_star.png'
 
+SOUND_CLICK = pg.mixer.Sound(RUTA_SONIDO_CLICK)
 
 # ======= CONFIGS ===========
 

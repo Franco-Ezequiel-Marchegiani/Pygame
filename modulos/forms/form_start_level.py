@@ -58,6 +58,8 @@ def init_form_start_level(dict_form_data: dict, jugador: dict):
 
 
 def select_bonus(form_y_bonus_name: dict):
+    base_form.stop_music()
+    base_form.play_music(base_form.forms_dict['form_bonus'])
     #Recibimos un dict, activamos la vista de form_bonus
     #Actualizamos los botones, y también revisamos si ya utilizó
     #Algunos de los bonus, y cambia su valor de Bool
@@ -93,7 +95,8 @@ def events_handler(events_list: list[pg.event.Event]):
                     base_form.set_active('form_main_menu')
                 elif evento.key == pg.K_SPACE:
                     base_form.set_active('form_pause')
-                    #self.writing += evento.unicode
+                    base_form.stop_music()
+                    base_form.play_music(base_form.forms_dict['form_pause'])
 
 def click_volver(parametro: str):
     print(parametro)
@@ -151,6 +154,7 @@ def init_game(form_data: dict):
 def draw(form_data: dict):
     base_form.draw(form_data)
 
+    #ESTO HACERLO UNA FUNCIÓN, YA QUE SE REPITE EN EL DRAW Y EL UPDATE
     for widget_index in range(len(form_data.get('widgets_list'))):
         #Si está en true, ya se usó
         if widget_index == 2 and form_data.get('bonus_shield_used') or\
@@ -167,10 +171,20 @@ def inicializar_juego(form_data: dict):
     init_game(form_data)
 
 def update(form_data: dict, event_list: list[pg.event.Event]):
-    base_form.update(form_data)
+    # base_form.update(form_data)
     form_data['lbl_clock'].update_text(f'TIME LEFT: {form_data.get('level').get('level_timer')}', (255,0,0)) #Valor actualizado, y color del mismo
-    nivel_cartas.update(form_data.get('level'), event_list)
     form_data['lbl_score'].update_text(f'SCORE: {form_data.get('jugador').get('puntaje_actual')}', (255,0,0)) #Valor actualizado, y color del mismo
+    
+    for widget_index in range(len(form_data.get('widgets_list'))):
+        #Si está en true, ya se usó
+        if widget_index == 2 and form_data.get('bonus_shield_used') or\
+            widget_index == 3 and form_data.get('bonus_heal_used'):
+            #Si es true y ya se usó, no hace nada, continúa
+            continue
+        form_data.get('widgets_list')[widget_index].update()
+    
+    nivel_cartas.update(form_data.get('level'), event_list)
+    
 
     mazo_vistas = form_data.get('level').get('cartas_mazo_juego_final_vistas')
     #
@@ -182,6 +196,8 @@ def update(form_data: dict, event_list: list[pg.event.Event]):
     actualizar_timer(form_data)
 
     if nivel_cartas.juego_terminado(form_data.get('level')):
+        base_form.stop_music()
+        base_form.play_music(base_form.forms_dict['form_enter_name'])
         base_form.set_active('form_enter_name')
     #Pequeño for para obtener coordenadas
     for evento in event_list:

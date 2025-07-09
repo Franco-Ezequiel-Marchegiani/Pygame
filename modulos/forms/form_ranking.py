@@ -32,6 +32,8 @@ def init_form_ranking(dict_form_data: dict, jugador: dict):
 
 
 def click_return_menu(parametro: str):
+    base_form.stop_music()
+    base_form.play_music(base_form.forms_dict[parametro])
     base_form.set_active(parametro)
     #Accedemos al diccionario de form_data desde el base_form
     base_form.forms_dict['form_ranking']['data_loaded'] = False

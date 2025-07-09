@@ -20,6 +20,20 @@ def create_base_form(dict_form_data: dict) -> dict:
     form['rect'].y = dict_form_data.get('coords')[1]
     return form
 
+def form_music(form_dict: dict, form_name: str):
+    stop_music()
+    play_music(form_dict[form_name])
+
+def play_music(form_dict: dict):
+    #Pone la música que tenga según el path en cada form
+    #Con el volumen seteado y en loop
+    pg.mixer.music.load(form_dict.get('music_path'))
+    pg.mixer.music.set_volume(0.4)
+    pg.mixer.music.play(loops=-1, fade_ms=400)
+
+def stop_music():
+    pg.mixer.music.stop()
+
 def set_active(name: str):
     for form in forms_dict.values():
         form['active'] = False
