@@ -4,6 +4,7 @@ import modulos.variables as var
 from utn_fra.pygame_widgets import (Button, Label)
 import modulos.auxiliar as aux
 import modulos.nivel_cartas as nivel_cartas
+import modulos.forms.form_bonus as form_bonus
 import random as rd
 from utn_fra.pygame_widgets import(
     Button, Label, TextPoster, ButtonImage
@@ -31,11 +32,23 @@ def init_form_start_level(dict_form_data: dict, jugador: dict):
         font_path=var.FUENTE_SAIYAN, font_size=25, color=(0,255,0), background_color=(0,0,0)
     )
 
-    form['btn_bonus_1'] = ButtonImage
+    #form['btn_bonus_1'] = ButtonImage
+    form['btn_bonus_shield'] = Button(
+        x=1200, y=var.CENTRO_DIMENSION_Y + 200, text='shield',
+        screen=form.get('screen'), font_path=var.FUENTE_SAIYAN, font_size=40, 
+        color=var.COLOR_NEGRO, on_click=select_bonus, on_click_param='shield'
+    )
+    form['btn_bonus_heal'] = Button(
+        x=1200, y=var.CENTRO_DIMENSION_Y + 250, text='heal',
+        screen=form.get('screen'),font_path=var.FUENTE_SAIYAN, font_size=40, 
+        color=var.COLOR_NEGRO, on_click=select_bonus, on_click_param='heal'
+    )
     
     form['widgets_list'] = [
         form.get('lbl_clock'), 
-        form.get('lbl_score')
+        form.get('lbl_score'),
+        form.get('btn_bonus_shield'),
+        form.get('btn_bonus_heal'),
     ]
     
     base_form.forms_dict[dict_form_data.get('name')] = form
@@ -44,7 +57,10 @@ def init_form_start_level(dict_form_data: dict, jugador: dict):
 
 
 def select_bonus(bonus_name: str):
-    pass
+    #Activamos la vista de form_bonus
+    base_form.set_active('form_bonus')
+    #Le pasamos por parámetro el texto del bonus que el usuario seleccionó para mostrar en pantalla
+    form_bonus.update_button_bonus(base_form.forms_dict['form_bonus'], bonus_name)
 
 def actualizar_timer(form_data: dict):
     if form_data.get('level').get('level_timer') > 0:
@@ -56,6 +72,17 @@ def actualizar_timer(form_data: dict):
             #Restamos 1seg al lever timer, y el first_last_timer
             form_data.get('level')['level_timer'] -= 1 #Este valor es el que se va a mostrar
             form_data['first_last_timer'] = tiempo_actual #Y este el que se toma como referencia para calcular
+
+def events_handler(events_list: list[pg.event.Event]):
+    for evento in events_list:
+            #Si el usuario presiona una tecla
+            if evento.type == pg.KEYDOWN:
+                #Y si presiona la tecla de escape, lo
+                if evento.key == pg.K_ESCAPE:
+                    base_form.set_active('form_main_menu')
+                elif evento.key == pg.K_SPACE:
+                    base_form.set_active('form_pause')
+                    #self.writing += evento.unicode
 
 def click_volver(parametro: str):
     print(parametro)
@@ -120,14 +147,10 @@ def inicializar_juego(form_data: dict):
     init_game(form_data)
 
 def update(form_data: dict, event_list: list[pg.event.Event]):
-    #if form_data.get('active'):
-    #    inicializar_juego(form_data)
     base_form.update(form_data)
     form_data['lbl_clock'].update_text(f'TIME LEFT: {form_data.get('level').get('level_timer')}', (255,0,0)) #Valor actualizado, y color del mismo
     nivel_cartas.update(form_data.get('level'), event_list)
-
     form_data['lbl_score'].update_text(f'SCORE: {form_data.get('jugador').get('puntaje_actual')}', (255,0,0)) #Valor actualizado, y color del mismo
-
 
     mazo_vistas = form_data.get('level').get('cartas_mazo_juego_final_vistas')
     #
@@ -144,4 +167,4 @@ def update(form_data: dict, event_list: list[pg.event.Event]):
     for evento in event_list:
         if evento.type == pg.MOUSEBUTTONDOWN:
             print(f"Coordenada: {evento.pos}")   
-        
+    events_handler(event_list)

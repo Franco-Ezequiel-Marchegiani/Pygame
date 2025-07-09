@@ -1,0 +1,7 @@
+Guardar acá, cuando toque optimizar el proyecto, el file "auxiliar.py"
+Y a su vez, separar en otros archivos o agrupar por funciones que cumplan roles similares.
+
+Ej. uno para música, otro que se encarga del ranking, otro del nivel de cartas, etc.
+
+Prestar atención tmb que luego eso no afecte y que se pueda llamar todas las funciones desde un mismo archivo, 
+ya sea "main" o "auxiliar".

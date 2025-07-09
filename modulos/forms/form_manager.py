@@ -7,6 +7,7 @@ import modulos.forms.form_config as form_config
 import modulos.forms.form_ranking as form_ranking
 import modulos.forms.form_bonus as form_bonus
 import modulos.forms.form_enter_name as form_enter_name
+import modulos.forms.form_pause as form_pause
 
 def create_form_manager(screen: pg.Surface, datos_juego: dict):
     form = {}
@@ -103,6 +104,18 @@ def create_form_manager(screen: pg.Surface, datos_juego: dict):
                 "background_path": './modulos/assets/img/forms/img_3.jpg',
                 "screen_dimentions": var.DIMENSION_PANTALLA
             }, jugador=form.get('jugador')
+        ),
+        form_pause.init_form_pause(
+            dict_form_data={
+                "name":'form_pause', 
+                "screen":form.get('main_screen'), 
+                "active":True, 
+                "coords":(0,0), 
+                "stage_number":1, 
+                "music_path":var.RUTA_MUSICA,
+                "background_path": './modulos/assets/img/forms/img_20.jpg',
+                "screen_dimentions": var.DIMENSION_PANTALLA
+            }
         )
     ]
     
@@ -135,13 +148,18 @@ def forms_update(form_manager: dict, event_list: pg.event.Event):
 
     # FORM BONUS
     elif form_manager.get('form_list')[4].get('active'):
-        form_ranking.update(form_manager.get('form_list')[4], event_list)
-        form_ranking.draw(form_manager.get('form_list')[4],)
+        form_bonus.update(form_manager.get('form_list')[4], event_list)
+        form_bonus.draw(form_manager.get('form_list')[4],)
 
     # FORM ENTER NAME
     elif form_manager.get('form_list')[5].get('active'):
         form_enter_name.update(form_manager.get('form_list')[5], event_list)
         form_enter_name.draw(form_manager.get('form_list')[5],)
+
+    # FORM PAUSE
+    elif form_manager.get('form_list')[6].get('active'):
+        form_pause.update(form_manager.get('form_list')[6], event_list)
+        form_pause.draw(form_manager.get('form_list')[6],)
 
 
 def update(form_manager: dict, event_list: pg.event.Event):

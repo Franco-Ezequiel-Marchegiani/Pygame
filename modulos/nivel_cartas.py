@@ -242,12 +242,7 @@ def update(nivel_data: dict, cola_eventos: list[pg.event.Event]):
     if juego_terminado(nivel_data) and not nivel_data.get('puntaje_guardado'):
         #Actualiza el puntaje del jugador
         jugador_humano.actualizar_puntaje_total(nivel_data.get("jugador"))
-        nombre_elegido = rd.choice(var.nombres)
-        jugador_humano.set_nombre(nivel_data.get("jugador"), nombre_elegido)
-
-        #Esto la idea sería que lo guarde en otro formulario de ranking
-        #Guarda la info en el archivo de ranking
-        aux.guardar_ranking(nivel_data.get('jugador'))
+        
         #Guardamos una sola vez el puntaje guardado.
         nivel_data['puntaje_guardado'] = True 
         print(f'Puntaje final alcanzado: {jugador_humano.get_puntaje_total(nivel_data.get("jugador"))}')

@@ -6,8 +6,6 @@ from utn_fra.pygame_widgets import (
     Button, Label, TextBox
 )
 #Centro de las dimensiones horizontales y verticales
-dimension_x = var.DIMENSION_PANTALLA[0] // 2
-dimension_y = var.DIMENSION_PANTALLA[1] // 2 
 
 def init_form_enter_name(dict_form_data: dict, jugador: dict):
     form = base_form.create_base_form(dict_form_data)
@@ -18,31 +16,30 @@ def init_form_enter_name(dict_form_data: dict, jugador: dict):
 
     form['score'] = jugador_mod.get_puntaje_total(form.get('jugador'))
     form['confirm_name'] = False
-    
     form['title'] = Label(
-        x=dimension_x, y=dimension_y - 200, text=var.MAIN_TITLE, 
+        x=var.CENTRO_DIMENSION_X, y=var.CENTRO_DIMENSION_Y - 200, text=var.MAIN_TITLE, 
         screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=75
     )
     form['title_2'] = Label(
-        x=dimension_x, y=dimension_y - 150, text='Ganaste!', 
+        x=var.CENTRO_DIMENSION_X, y= var.CENTRO_DIMENSION_Y - 150, text='Ganaste!', 
         screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=75
     )
     form['subtitle'] = Label(
-        x=dimension_x, y=dimension_y - 90, text='ESCRIBE TU NOMBRE', 
+        x=var.CENTRO_DIMENSION_X, y= var.CENTRO_DIMENSION_Y - 90, text='ESCRIBE TU NOMBRE', 
         screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=50, color=var.COLOR_NARANJA
     )
     form['subtitle_score'] = Label(
-        x=dimension_x, y=dimension_y - 20, text=f'Score: {form.get('score')}', 
+        x=var.CENTRO_DIMENSION_X, y= var.CENTRO_DIMENSION_Y - 20, text=f'Score: {form.get('score')}', 
         screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=30, color=var.COLOR_VERDE_OSCURO
     )
 
     form['text_box'] = TextBox(
-        x=dimension_x, y=dimension_y + 40, text='__________', 
+        x=var.CENTRO_DIMENSION_X, y= var.CENTRO_DIMENSION_Y + 40, text='__________', 
         screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=25, color=var.COLOR_VERDE_OSCURO
     )
 
     form['btn_confirm_name'] = Button(
-        x=dimension_x, y=dimension_y + 100, text='CONFIRMAR NOMBRE', 
+        x=var.CENTRO_DIMENSION_X, y= var.CENTRO_DIMENSION_Y + 100, text='CONFIRMAR NOMBRE', 
         screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, on_click= click_confirm_name, on_click_param=form
     )
 
@@ -76,7 +73,7 @@ def draw(form_dict: dict):
     form_dict.get('text_box').draw()
 
     form_dict['writing_text'] = Label(
-        x=dimension_x, y=dimension_y + 30, text=f'{form_dict.get("text_box").writing.upper()}',
+        x=var.CENTRO_DIMENSION_X, y= var.CENTRO_DIMENSION_Y + 30, text=f'{form_dict.get("text_box").writing.upper()}',
         screen=form_dict.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=30, color=var.COLOR_AMARILLO
     )
 

@@ -44,6 +44,9 @@ FUENTE_50 = 50
 # ======= DIMENSIONES ===========
 
 #Define la caja que ocupará
+#Centro de las dimensiones horizontales y verticales
+CENTRO_DIMENSION_X = DIMENSION_PANTALLA[0] // 2
+CENTRO_DIMENSION_Y = DIMENSION_PANTALLA[1] // 2 
 #Largo x alto
 DIMENSION_BOTON_JUGAR = (125, 115)
 DIMENSION_BOTON_HISTORIA = (125,275)
