@@ -19,7 +19,8 @@ def init_form_start_level(dict_form_data: dict, jugador: dict):
     #Acá desarrollamos una función que vaya restando el tiempo
     # form['level_timer'] = var.TIMER #2000 segundos de base, a modificar
     form['first_last_timer'] = pg.time.get_ticks()
-
+    form['bonus_shield_used'] = False
+    form['bonus_heal_used'] = False
 
     print(f"form Clock: {form.get('clock')}")
     form['texto'] = f'SCORE: {form.get('jugador').get('puntaje_actual')}'
@@ -36,12 +37,12 @@ def init_form_start_level(dict_form_data: dict, jugador: dict):
     form['btn_bonus_shield'] = Button(
         x=1200, y=var.CENTRO_DIMENSION_Y + 200, text='shield',
         screen=form.get('screen'), font_path=var.FUENTE_SAIYAN, font_size=40, 
-        color=var.COLOR_NEGRO, on_click=select_bonus, on_click_param='shield'
+        color=var.COLOR_NEGRO, on_click=select_bonus, on_click_param={'form': form, 'bonus': 'shield'}
     )
     form['btn_bonus_heal'] = Button(
         x=1200, y=var.CENTRO_DIMENSION_Y + 250, text='heal',
         screen=form.get('screen'),font_path=var.FUENTE_SAIYAN, font_size=40, 
-        color=var.COLOR_NEGRO, on_click=select_bonus, on_click_param='heal'
+        color=var.COLOR_NEGRO, on_click=select_bonus, on_click_param={'form': form, 'bonus': 'heal'}
     )
     
     form['widgets_list'] = [
@@ -56,11 +57,21 @@ def init_form_start_level(dict_form_data: dict, jugador: dict):
     return form
 
 
-def select_bonus(bonus_name: str):
+def select_bonus(form_y_bonus_name: dict):
+    #Recibimos un dict, activamos la vista de form_bonus
+    #Actualizamos los botones, y también revisamos si ya utilizó
+    #Algunos de los bonus, y cambia su valor de Bool
+
     #Activamos la vista de form_bonus
     base_form.set_active('form_bonus')
     #Le pasamos por parámetro el texto del bonus que el usuario seleccionó para mostrar en pantalla
-    form_bonus.update_button_bonus(base_form.forms_dict['form_bonus'], bonus_name)
+    form_bonus.update_button_bonus(base_form.forms_dict['form_bonus'], form_y_bonus_name.get('bonus'))
+    if form_y_bonus_name.get('bonus') == 'shield':
+        form_y_bonus_name.get('form')['bonus_shield_used'] = True
+    else:
+        form_y_bonus_name.get('form')['bonus_heal_used'] = True
+
+        #heal
 
 def actualizar_timer(form_data: dict):
     if form_data.get('level').get('level_timer') > 0:
@@ -139,6 +150,15 @@ def init_game(form_data: dict):
     
 def draw(form_data: dict):
     base_form.draw(form_data)
+
+    for widget_index in range(len(form_data.get('widgets_list'))):
+        #Si está en true, ya se usó
+        if widget_index == 2 and form_data.get('bonus_shield_used') or\
+            widget_index == 3 and form_data.get('bonus_heal_used'):
+            #Si es true y ya se usó, no hace nada, continúa
+            continue
+        form_data.get('widgets_list')[widget_index].draw()
+
     nivel_cartas.draw(form_data.get('level'))
 
 

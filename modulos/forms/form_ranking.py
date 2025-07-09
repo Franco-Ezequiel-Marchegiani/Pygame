@@ -67,6 +67,7 @@ def inicializar_ranking(form_data: dict):
 
 def draw(form_data: dict):
     base_form.draw(form_data)
+    base_form.draw_widgets(form_data)
     for lbl in form_data.get('ranking_screen'):
         lbl.draw()
 

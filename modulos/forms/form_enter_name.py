@@ -69,7 +69,7 @@ def click_confirm_name(form_dict: dict):
 
 def draw(form_dict: dict):
     base_form.draw(form_dict)
-
+    base_form.draw_widgets(form_dict)
     form_dict.get('text_box').draw()
 
     form_dict['writing_text'] = Label(

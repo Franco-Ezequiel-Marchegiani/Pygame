@@ -64,6 +64,7 @@ def update_button_bonus(form_dict: dict, new_text: str):
 
 def draw(form_dict: dict):
     base_form.draw(form_dict)
+    base_form.draw_widgets(form_dict)
 
 def update(form_data: dict, event_list: list[pg.event.Event]):
     base_form.update(form_data)

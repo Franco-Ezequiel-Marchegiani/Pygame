@@ -53,6 +53,7 @@ def draw(form_dict: dict):
 
 def update(form_dict: dict):
     base_form.update(form_dict)
+    base_form.draw_widgets(form_dict)
 
 #Ver si puedo globalizar este draw y update, y llamarlo en cada función, ya que se repiten mucho
 def update(form_data: dict, event_list: list[pg.event.Event]):

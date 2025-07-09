@@ -57,6 +57,7 @@ def click_salir(parametro: str):
 
 def draw(form_data: dict):
     base_form.draw(form_data)
+    base_form.draw_widgets(form_data)
 
 def update(form_data: dict, event_list: list[pg.event.Event]):
     base_form.update(form_data)

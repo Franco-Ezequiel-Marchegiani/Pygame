@@ -39,7 +39,8 @@ def draw_widgets(form_data: dict):
 def draw(form_data: dict):
     #Muestra las superficies en pantalla, y dsp llama a draw_widgets
     form_data['screen'].blit(form_data.get('surface'), form_data.get('rect'))
-    draw_widgets(form_data)
+    #Ya no es necesario que llame a draw_widgets
+    #draw_widgets(form_data)
 
 def update(form_data: dict):
     #Pasa por parámetro el dict/listado de widgets
