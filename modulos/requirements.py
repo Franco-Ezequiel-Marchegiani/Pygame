@@ -1,3 +1,4 @@
+#Por las dudas esto que quede en stand by
 import os
 def install_requirements():
     # Ejecuta este comando de python, que hace que instale las dependencias y librerías

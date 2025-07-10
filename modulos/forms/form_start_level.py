@@ -15,12 +15,11 @@ def init_form_start_level(dict_form_data: dict, jugador: dict):
     form['level'] = nivel_cartas.inicializar_nivel_cartas(form.get('jugador'), form.get('screen'), form.get('level_number'))
     
     form['clock'] = pg.time.Clock()
-
+    form['bonus_shield_used'] = False
+    form['bonus_heal_used'] = False
     #Acá desarrollamos una función que vaya restando el tiempo
     # form['level_timer'] = var.TIMER #2000 segundos de base, a modificar
     form['first_last_timer'] = pg.time.get_ticks()
-    form['bonus_shield_used'] = False
-    form['bonus_heal_used'] = False
 
     print(f"form Clock: {form.get('clock')}")
     form['texto'] = f'SCORE: {form.get('jugador').get('puntaje_actual')}'
@@ -64,16 +63,16 @@ def select_bonus(form_y_bonus_name: dict):
     #Actualizamos los botones, y también revisamos si ya utilizó
     #Algunos de los bonus, y cambia su valor de Bool
 
+    print(f'Atento acá: {form_y_bonus_name}')
+    print(f'Ahora acá: {base_form.forms_dict['form_bonus'].get('bonus_info')}')
     #Activamos la vista de form_bonus
     base_form.set_active('form_bonus')
-    #Le pasamos por parámetro el texto del bonus que el usuario seleccionó para mostrar en pantalla
-    form_bonus.update_button_bonus(base_form.forms_dict['form_bonus'], form_y_bonus_name.get('bonus'))
-    if form_y_bonus_name.get('bonus') == 'shield':
-        form_y_bonus_name.get('form')['bonus_shield_used'] = True
-    else:
-        form_y_bonus_name.get('form')['bonus_heal_used'] = True
 
-        #heal
+    #Le pasamos por parámetro el texto del bonus que el usuario seleccionó para mostrar en pantalla
+    #Y a la vez, para que se guarde el valor
+    form_bonus.update_button_bonus(base_form.forms_dict['form_bonus'], form_y_bonus_name.get('bonus'))
+    print(f'Ahora acá AFTER: {base_form.forms_dict['form_bonus'].get('bonus_info')}')
+    
 
 def actualizar_timer(form_data: dict):
     if form_data.get('level').get('level_timer') > 0:
@@ -157,6 +156,7 @@ def draw(form_data: dict):
     #ESTO HACERLO UNA FUNCIÓN, YA QUE SE REPITE EN EL DRAW Y EL UPDATE
     for widget_index in range(len(form_data.get('widgets_list'))):
         #Si está en true, ya se usó
+        #LLAMAR ACÁ AL DICT DE FORM_BONUS Y QUE LEAN DE AHÍ PARA MOSTRARLOS O NO
         if widget_index == 2 and form_data.get('bonus_shield_used') or\
             widget_index == 3 and form_data.get('bonus_heal_used'):
             #Si es true y ya se usó, no hace nada, continúa
