@@ -77,10 +77,18 @@ def mostrar_boton(boton_dict: dict):
     
 def generar_bd(root_path_cards: str):
 
+    contenedor_hp = 0
+    contenedor_atk = 0
+    contenedor_def = 0
+    
     carta_dict = {
-        "cartas": {}
+        "cartas": {},
+        "max_stats": {
+            "hp": 0,
+            "atk": 0,
+            "def": 0,
+        }
     }
-
     for root, dir, files in os.walk(root_path_cards, topdown=True):
         reverse_path = ''
         deck_cards = []
@@ -122,11 +130,19 @@ def generar_bd(root_path_cards: str):
                     "path_imagen_frente": path_card,
                     "path_imagen_reverso": reverse_path, #Este valor puede estar, como no, se agrega más adelante
                 }
+                #Agregamos la carta al listado
                 deck_cards.append(card)
+                #Sumamos cada estadística de cada carta para obtener el total:
+                contenedor_hp += hp
+                contenedor_atk += atk
+                contenedor_def += defense
         
         for index_Card in range(len(deck_cards)):
             deck_cards[index_Card]['path_imagen_reverso'] = reverse_path
-
+        #Actualizo los valores habiendo acumulado
+        carta_dict["max_stats"]["hp"] = contenedor_hp
+        carta_dict["max_stats"]["atk"] = contenedor_atk
+        carta_dict["max_stats"]["def"] = contenedor_def
         carta_dict['cartas'][deck_name] = deck_cards
     return carta_dict
 

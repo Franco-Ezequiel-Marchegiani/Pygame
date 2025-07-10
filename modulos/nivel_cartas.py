@@ -28,12 +28,6 @@ def inicializar_nivel_cartas(jugador: dict, pantalla: pg.Surface, nro_nivel: int
     nivel_data['level_timer'] = var.TIMER
     nivel_data['ganador'] = None #Guardar acá quién gane, si el jugador o el enemigo, entre esas 2 opciones
     
-    """ nivel_data['surface'] = pg.image.load('./modulos/assets/img/background_cards.png').convert_alpha()
-    nivel_data['surface'] = pg.transform.scale(nivel_data.get('surface'), var.DIMENSION_PANTALLA)
-    
-    nivel_data['rect'] = nivel_data.get('surface').get_rect()
-    nivel_data['rect'].topleft = (0,0) """
-    
     nivel_data['puntaje_nivel'] = 0
     nivel_data['data_cargada'] = False
     
@@ -47,8 +41,6 @@ def inicializar_data_nivel(nivel_data: dict):
     #asignar_frases(nivel_data)
     copia_generar_mazo(nivel_data['cartas_mazo_juego'], nivel_data['jugador'])
     copia_generar_mazo(nivel_data['cartas_mazo_juego_rival'], nivel_data['rival'])
-    #generar_mazo(nivel_data)
-    #generar_mazo_rival(nivel_data)
 
 def cargar_configs_nivel(nivel_data: dict):
     #Si el juego no finalizó, o no se cargó la data...
@@ -67,16 +59,50 @@ def cargar_configs_nivel(nivel_data: dict):
         nivel_data.get('rival')['coords_iniciales'] = nivel_data.get('configs').get('coordenada_mazo_rival_1')
         nivel_data.get('rival')['coords_finales'] = nivel_data.get('configs').get('coordenada_mazo_rival_2')
 
+def cargar_bd_oponente(nivel_data: dict, cartas_mazo_juego: str, form_ruta_mazo: str,ruta_mazo: str,):
+    #Cargamos las cartas en el mazo con la función Generar BD, y devuelve un dict, y obtenemos el listado de cartas
+    #Se agrega la ruta del get, ya que devuelve un objeto con la ruta, y de ahí el diccionario
+    dict_mazo = aux.generar_bd(nivel_data.get(form_ruta_mazo))
+    nivel_data[cartas_mazo_juego] = dict_mazo.get('cartas').get(ruta_mazo)
+    print(f'Oponente ya poblado: {dict_mazo.get('max_stats')}')
+    
+    #Ya que se recorrió el bucle una vez, aprovechamos y brindamos las max estadísticas a cada oponente
+    nivel_data['jugador']['vida_total'] = dict_mazo.get('max_stats').get('hp')
+    nivel_data['jugador']['atk_total'] = dict_mazo.get('max_stats').get('atk')
+    nivel_data['jugador']['def_total'] = dict_mazo.get('max_stats').get('def')
+
 def cargar_bd_cartas(nivel_data: dict):
     if not nivel_data.get('juego_finalizado'):
         print('=============== GENERANDO BD CARTAS INICIALES ===============')
+        cargar_bd_oponente(nivel_data, 'cartas_mazo_juego', 'ruta_mazo', './modulos/assets/img/decks/blue_deck_expansion_1')
+        cargar_bd_oponente(nivel_data, 'cartas_mazo_juego_rival', 'ruta_mazo_rival', './modulos/assets/img/decks/blue_deck_expansion_2')
+        print(f"Data jugador: {nivel_data['jugador']}")
+        
+""" def cargar_bd_cartas(nivel_data: dict):
+    if not nivel_data.get('juego_finalizado'):
+        print('=============== GENERANDO BD CARTAS INICIALES ===============')
+        mazo_aliado = cargar_bd_oponente(nivel_data, 'cartas_mazo_juego', 'ruta_mazo', './modulos/assets/img/decks/blue_deck_expansion_1')
+        cargar_bd_oponente(nivel_data, 'cartas_mazo_juego_rival', 'ruta_mazo_rival', './modulos/assets/img/decks/blue_deck_expansion_2')
         #Cargamos las cartas en el mazo con la función Generar BD, y devuelve un dict, y obtenemos el listado de cartas
         #Se agrega la ruta del get, ya que devuelve un objeto con la ruta, y de ahí el diccionario
-        nivel_data['cartas_mazo_juego'] = aux.generar_bd(nivel_data.get('ruta_mazo')).get('cartas').get('./modulos/assets/img/decks/blue_deck_expansion_1')
-        print(f'AFTER Nivel Cartas Mazo Juego: {nivel_data.get('cartas_mazo_juego')}')
+        mazo_aliado = aux.generar_bd(nivel_data.get('ruta_mazo'))
+        nivel_data['cartas_mazo_juego'] = mazo_aliado.get('cartas').get('./modulos/assets/img/decks/blue_deck_expansion_1')
+        print(f'mazo_aliado testing: {mazo_aliado.get('max_stats')}')
+        #Ya que se recorrió el bucle una vez, aprovechamos y brindamos las max estadísticas a cada oponente
+        nivel_data['jugador']['vida_total'] = mazo_aliado.get('max_stats').get('hp')
+        nivel_data['jugador']['atk_total'] = mazo_aliado.get('max_stats').get('atk')
+        nivel_data['jugador']['def_total'] = mazo_aliado.get('max_stats').get('def')
+
         #Asignación cartas al rival
-        nivel_data['cartas_mazo_juego_rival'] = aux.generar_bd(nivel_data.get('ruta_mazo_rival')).get('cartas').get('./modulos/assets/img/decks/blue_deck_expansion_2')
-        print(f'AFTER Nivel Cartas Mazo Juego Rival: {nivel_data.get('cartas_mazo_juego_rival')}')
+        mazo_rival = aux.generar_bd(nivel_data.get('ruta_mazo_rival'))
+        nivel_data['cartas_mazo_juego_rival'] = mazo_rival.get('cartas').get('./modulos/assets/img/decks/blue_deck_expansion_2')
+        print(f"Jugador ya poblado: {nivel_data.get('jugador')}")
+
+        nivel_data['rival']['vida_total'] = mazo_rival.get('max_stats').get('hp')
+        nivel_data['rival']['atk_total'] = mazo_rival.get('max_stats').get('atk')
+        nivel_data['rival']['def_total'] = mazo_rival.get('max_stats').get('def')
+        print(f"Rival ya poblado: {nivel_data.get('rival')}")
+         """
 
 #Reciclar esta función por el tema de asignar puntaje
 """ def asignar_puntaje(nivel_data: dict) -> list[dict]:
@@ -94,24 +120,6 @@ def cargar_bd_cartas(nivel_data: dict):
 #Pasar por segundo param el dic del jugador o enemigo
 #Primer param, pasar la lista donde quiero guardarlo.
 #Y como segundo param, 
-def generar_mazo(nivel_data: dict):
-    print('=============== GENERANDO MAZO FINAL ===============')
-    #Para generar el mazo, obtenemos las cartas del mazo del dic, y los recorremos
-    lista_mazo_original = nivel_data.get('cartas_mazo_juego')
-    nivel_data['cartas_mazo_juego_final'] = []
-    print(
-        f'Coord iniciales: {nivel_data.get('coords_iniciales')}',
-        f'Coord finales: {nivel_data.get('coords_finales')}', sep='\n'
-    )
-    for card in lista_mazo_original:
-        carta_final = carta.inicializar_carta(card, nivel_data.get('coords_iniciales'))
-        nivel_data['cartas_mazo_juego_final'].append(carta_final)
-    
-    #Se definen 10 cartas
-    nivel_data['cartas_mazo_juego_final'] = nivel_data['cartas_mazo_juego_final'][:10]
-    #Las mezclamos, y creamos en el mismo dict la propiedad para ya utilizar
-    rd.shuffle(nivel_data.get('cartas_mazo_juego_final'))
-
 #Al llamar a esta función con el rival, pasarle la lista de cartas que el juego eligió para el rival, y el dict del rival
 def copia_generar_mazo(lista_cartas_nivel: list, participante: dict):
     print('=============== GENERANDO MAZO FINAL ===============')
@@ -129,31 +137,13 @@ def copia_generar_mazo(lista_cartas_nivel: list, participante: dict):
     #Las mezclamos, y creamos en el mismo dict la propiedad para ya utilizar
     rd.shuffle(participante.get('cartas_mazo_juego_final'))
 
-def generar_mazo_rival(nivel_data: dict):
-    print('=============== GENERANDO MAZO FINAL - RIVAL ===============')
-    #Para generar el mazo, obtenemos las cartas del mazo del dic, y los recorremos
-    lista_mazo_original = nivel_data.get('cartas_mazo_juego_rival')
-    nivel_data['cartas_mazo_juego_final_rival'] = []
-    print(
-        f'Coord iniciales - Rival: {nivel_data.get('coords_rival_iniciales')}',
-        f'Coord finales - Rival: {nivel_data.get('coords_rival_finales')}', sep='\n'
-    )
-    for card in lista_mazo_original:
-        carta_final = carta.inicializar_carta(card, nivel_data.get('coords_rival_iniciales'))
-        nivel_data['cartas_mazo_juego_final_rival'].append(carta_final)
-    
-    #Se definen 10 cartas
-    nivel_data['cartas_mazo_juego_final_rival'] = nivel_data['cartas_mazo_juego_final_rival'][:10]
-    #Las mezclamos, y creamos en el mismo dict la propiedad para ya utilizar
-    print(f"Cartas del rival: {nivel_data.get('cartas_mazo_juego_final_rival')}")
-    rd.shuffle(nivel_data.get('cartas_mazo_juego_final_rival'))
-
 def eventos(nivel_data: dict, cola_eventos: list[pg.event.Event]):
     
     for evento in cola_eventos:
         #Si damos click, se ejecuta el código
         if evento.type == pg.MOUSEBUTTONDOWN:
             print(f'Coordenada: {evento.pos}')
+            #Coordenadas del botón a clickear: Coordenada: (1136, 364)
             # verificar la colision con el boton
             #Si hay cartas, y el usuario hace click se ejecuta esto:
             #cartas_mazo_juego_final = Mazo mezclado listo para jugar
