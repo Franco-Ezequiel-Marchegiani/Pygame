@@ -63,8 +63,8 @@ def click_select_bonus(form_dict: dict):
             base_form.forms_dict['form_start_level']['bonus_heal_used'] = True
     #Sonido de Bonus meanwhile
     pg.time.wait(2000) #Espera 2 segs
-    click_change_form('form_start_level') #o form_juego, la idea es volver a la partida
-
+    click_change_form('form_start_level') 
+    
 #Función para actualizar "btn_select" label o Button
 def update_button_bonus(form_dict: dict, new_text: str):
     #Meter acá un "confirm", si se clickea "click_select_bonus", sino siempre será False

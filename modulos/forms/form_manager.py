@@ -1,7 +1,6 @@
 import pygame as pg
 import modulos.variables as var
 import modulos.forms.form_main_menu as form_main_menu
-import modulos.forms.form_juego as form_juego
 import modulos.forms.form_start_level as form_start_level
 import modulos.forms.form_config as form_config
 import modulos.forms.form_ranking as form_ranking
@@ -43,18 +42,6 @@ def create_form_manager(screen: pg.Surface, datos_juego: dict):
                 "screen_dimentions": var.DIMENSION_PANTALLA
             }, jugador = form.get('jugador')
         ),
-        # form_juego.init_form_juego(
-        #     dict_form_data={
-        #         "name":'form_juego', 
-        #         "screen":form.get('main_screen'), 
-        #         "active":True, 
-        #         "coords":(0,0), 
-        #         "stage_number":1, 
-        #         "music_path":var.RUTA_MUSICA,
-        #         "background_path": './modulos/assets/background/fondo_3.png',
-        #         "screen_dimentions": var.DIMENSION_PANTALLA
-        #     }
-        # ),
         form_config.init_form_config(
             dict_form_data={
                 "name":'form_config', 
