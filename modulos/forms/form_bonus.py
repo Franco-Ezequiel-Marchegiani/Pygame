@@ -13,7 +13,7 @@ def init_form_bonus(dict_form_data: dict, jugador: dict):
     form['jugador'] = jugador
     form['bonus_info'] = ''
     form['confirm_bonus'] = False
-
+    
     form['lbl_titulo'] = Label(
         x=var.CENTRO_DIMENSION_X, y=var.CENTRO_DIMENSION_Y - 250,
         text=var.MAIN_TITLE, screen=form.get('screen'), font_path=var.FUENTE_SAIYAN, font_size=75)

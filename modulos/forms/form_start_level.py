@@ -33,15 +33,24 @@ def init_form_start_level(dict_form_data: dict, jugador: dict):
     )
 
     #form['btn_bonus_1'] = ButtonImage
-    form['btn_bonus_shield'] = Button(
-        x=1200, y=var.CENTRO_DIMENSION_Y + 200, text='shield',
-        screen=form.get('screen'), font_path=var.FUENTE_SAIYAN, font_size=40, 
-        color=var.COLOR_NEGRO, on_click=select_bonus, on_click_param={'form': form, 'bonus': 'shield'}
+    form['btn_bonus_shield'] = ButtonImage(
+        x=1200, y=var.CENTRO_DIMENSION_Y + 220, width=126, height=40,
+        text='shield', screen=form.get('screen'), image_path='./modulos/assets/img/buttons_image/shield.png', 
+        on_click=select_bonus, on_click_param={'form': form, 'bonus': 'shield'}
     )
-    form['btn_bonus_heal'] = Button(
-        x=1200, y=var.CENTRO_DIMENSION_Y + 250, text='heal',
-        screen=form.get('screen'),font_path=var.FUENTE_SAIYAN, font_size=40, 
-        color=var.COLOR_NEGRO, on_click=select_bonus, on_click_param={'form': form, 'bonus': 'heal'}
+    form['btn_bonus_heal'] = ButtonImage(
+        x=1200, y=var.CENTRO_DIMENSION_Y + 270,width=126, height=40,
+        text='heal', screen=form.get('screen'), image_path='./modulos/assets/img/buttons_image/heal.png', 
+        on_click=select_bonus, on_click_param={'form': form, 'bonus': 'heal'}
+    )
+    
+    form['btn_bonus_shield_used'] = ButtonImage(
+        x=1170, y=var.CENTRO_DIMENSION_Y - 150, width=50, height=50,
+        text='shield', screen=form.get('screen'), image_path='./modulos/assets/img/icons/icon_shield.png', 
+    )
+    form['btn_bonus_heal_used'] = ButtonImage(
+        x=1230, y=var.CENTRO_DIMENSION_Y - 150,width=50, height=50,
+        text='heal', screen=form.get('screen'), image_path='./modulos/assets/img/icons/icon_heal.png', 
     )
     
     form['widgets_list'] = [
@@ -62,16 +71,12 @@ def select_bonus(form_y_bonus_name: dict):
     #Recibimos un dict, activamos la vista de form_bonus
     #Actualizamos los botones, y también revisamos si ya utilizó
     #Algunos de los bonus, y cambia su valor de Bool
-
-    print(f'Atento acá: {form_y_bonus_name}')
-    print(f'Ahora acá: {base_form.forms_dict['form_bonus'].get('bonus_info')}')
     #Activamos la vista de form_bonus
     base_form.set_active('form_bonus')
 
     #Le pasamos por parámetro el texto del bonus que el usuario seleccionó para mostrar en pantalla
     #Y a la vez, para que se guarde el valor
     form_bonus.update_button_bonus(base_form.forms_dict['form_bonus'], form_y_bonus_name.get('bonus'))
-    print(f'Ahora acá AFTER: {base_form.forms_dict['form_bonus'].get('bonus_info')}')
     
 
 def actualizar_timer(form_data: dict):
@@ -153,13 +158,17 @@ def init_game(form_data: dict):
 def draw(form_data: dict):
     base_form.draw(form_data)
 
+    widgets_list = form_data.get('widgets_list')
     #ESTO HACERLO UNA FUNCIÓN, YA QUE SE REPITE EN EL DRAW Y EL UPDATE
     for widget_index in range(len(form_data.get('widgets_list'))):
         #Si está en true, ya se usó
         #LLAMAR ACÁ AL DICT DE FORM_BONUS Y QUE LEAN DE AHÍ PARA MOSTRARLOS O NO
-        if widget_index == 2 and form_data.get('bonus_shield_used') or\
-            widget_index == 3 and form_data.get('bonus_heal_used'):
+        if widget_index == 2 and form_data.get('bonus_shield_used'):
             #Si es true y ya se usó, no hace nada, continúa
+            widgets_list.append(form_data.get('btn_bonus_shield_used'))
+            continue
+        if widget_index == 3 and form_data.get('bonus_heal_used'):
+            widgets_list.append(form_data.get('btn_bonus_heal_used'))
             continue
         form_data.get('widgets_list')[widget_index].draw()
 
@@ -175,13 +184,20 @@ def update(form_data: dict, event_list: list[pg.event.Event]):
     form_data['lbl_clock'].update_text(f'TIME LEFT: {form_data.get('level').get('level_timer')}', (255,0,0)) #Valor actualizado, y color del mismo
     form_data['lbl_score'].update_text(f'SCORE: {form_data.get('jugador').get('puntaje_actual')}', (255,0,0)) #Valor actualizado, y color del mismo
     
-    for widget_index in range(len(form_data.get('widgets_list'))):
+    widgets_list = form_data.get('widgets_list')
+    #Recorre la lista de widgets, si ya está usado el shield o escudo, añade a la lista
+    #Otro widget con el ícono ya en uso. Queda agregar que después del próximo ataque se borre 
+    # (se puede remover, no deja de ser una lista)
+    for widget_index in range(len(widgets_list)):
         #Si está en true, ya se usó
-        if widget_index == 2 and form_data.get('bonus_shield_used') or\
-            widget_index == 3 and form_data.get('bonus_heal_used'):
+        if widget_index == 2 and form_data.get('bonus_shield_used'):
             #Si es true y ya se usó, no hace nada, continúa
+            widgets_list.append(form_data.get('btn_bonus_shield_used'))
             continue
-        form_data.get('widgets_list')[widget_index].update()
+        if widget_index == 3 and form_data.get('bonus_heal_used'):
+            widgets_list.append(form_data.get('btn_bonus_heal_used'))
+            continue
+        widgets_list[widget_index].update()
     
     nivel_cartas.update(form_data.get('level'), event_list)
     

@@ -4,8 +4,8 @@
         "ruta_mazo_rival": "./modulos/assets/img/decks/blue_deck_expansion_2",
         "coordenada_mazo_1": [400,456],
         "coordenada_mazo_2": [660,456],
-        "coordenada_mazo_rival_1": [400,206],
-        "coordenada_mazo_rival_2": [660,206]
+        "coordenada_mazo_rival_1": [400,115],
+        "coordenada_mazo_rival_2": [660,115]
     },
     "nivel_2": {},
     "nivel_3": {}
