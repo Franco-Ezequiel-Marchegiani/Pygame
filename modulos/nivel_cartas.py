@@ -59,7 +59,7 @@ def cargar_configs_nivel(nivel_data: dict):
         nivel_data.get('rival')['coords_iniciales'] = nivel_data.get('configs').get('coordenada_mazo_rival_1')
         nivel_data.get('rival')['coords_finales'] = nivel_data.get('configs').get('coordenada_mazo_rival_2')
 
-def cargar_bd_oponente(nivel_data: dict, cartas_mazo_juego: str, form_ruta_mazo: str,ruta_mazo: str,):
+def cargar_bd_oponente(nivel_data: dict, oponente_name: str, cartas_mazo_juego: str, form_ruta_mazo: str,ruta_mazo: str,):
     #Cargamos las cartas en el mazo con la función Generar BD, y devuelve un dict, y obtenemos el listado de cartas
     #Se agrega la ruta del get, ya que devuelve un objeto con la ruta, y de ahí el diccionario
     dict_mazo = aux.generar_bd(nivel_data.get(form_ruta_mazo))
@@ -67,15 +67,15 @@ def cargar_bd_oponente(nivel_data: dict, cartas_mazo_juego: str, form_ruta_mazo:
     print(f'Oponente ya poblado: {dict_mazo.get('max_stats')}')
     
     #Ya que se recorrió el bucle una vez, aprovechamos y brindamos las max estadísticas a cada oponente
-    nivel_data['jugador']['vida_total'] = dict_mazo.get('max_stats').get('hp')
-    nivel_data['jugador']['atk_total'] = dict_mazo.get('max_stats').get('atk')
-    nivel_data['jugador']['def_total'] = dict_mazo.get('max_stats').get('def')
+    nivel_data[oponente_name]['vida_total'] = dict_mazo.get('max_stats').get('hp')
+    nivel_data[oponente_name]['atk_total'] = dict_mazo.get('max_stats').get('atk')
+    nivel_data[oponente_name]['def_total'] = dict_mazo.get('max_stats').get('def')
 
 def cargar_bd_cartas(nivel_data: dict):
     if not nivel_data.get('juego_finalizado'):
         print('=============== GENERANDO BD CARTAS INICIALES ===============')
-        cargar_bd_oponente(nivel_data, 'cartas_mazo_juego', 'ruta_mazo', './modulos/assets/img/decks/blue_deck_expansion_1')
-        cargar_bd_oponente(nivel_data, 'cartas_mazo_juego_rival', 'ruta_mazo_rival', './modulos/assets/img/decks/blue_deck_expansion_2')
+        cargar_bd_oponente(nivel_data,'jugador', 'cartas_mazo_juego', 'ruta_mazo', './modulos/assets/img/decks/blue_deck_expansion_1')
+        cargar_bd_oponente(nivel_data,'rival', 'cartas_mazo_juego_rival', 'ruta_mazo_rival', './modulos/assets/img/decks/blue_deck_expansion_2')
         print(f"Data jugador: {nivel_data['jugador']}")
         
 """ def cargar_bd_cartas(nivel_data: dict):

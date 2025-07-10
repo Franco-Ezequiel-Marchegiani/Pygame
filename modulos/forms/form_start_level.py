@@ -26,9 +26,16 @@ def init_form_start_level(dict_form_data: dict, jugador: dict):
 
     contenedor_max_hp_jugador = form.get('level').get('jugador').get('vida_total')
     print(f"contenedor_max_hp_jugador: {contenedor_max_hp_jugador}")
-    form['lbl_hp'] = Label(x=200, y=500,text=f'HP: {form.get('level').get('jugador').get('vida_total')}', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=22)
-    form['lbl_clock'] = Label(x=950, y=50,text=f'TIME LEFT: {form.get('level').get('level_timer')}', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=22)
-    form['lbl_score'] = Label(x=150, y=50,text=form.get('texto'), screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=22)
+    form['lbl_hp'] = Label(x=190, y=530,text=f'HP: {form.get('level').get('jugador').get('vida_total')}', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=40, color=var.COLOR_AMARILLO)
+    form['lbl_atk'] = Label(x=130, y=560,text=f'ATK: {form.get('level').get('jugador').get('atk_total')}', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=16, color=var.COLOR_AMARILLO)
+    form['lbl_def'] = Label(x=245, y=560,text=f'DEF: {form.get('level').get('jugador').get('def_total')}', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=16, color=var.COLOR_AMARILLO)
+    #Stats rival
+    form['lbl_hp_rival'] = Label(x=190, y=200,text=f'HP: {form.get('level').get('rival').get('vida_total')}', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=40, color=var.COLOR_AMARILLO)
+    form['lbl_atk_rival'] = Label(x=130, y=230,text=f'ATK: {form.get('level').get('rival').get('atk_total')}', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=16, color=var.COLOR_AMARILLO)
+    form['lbl_def_rival'] = Label(x=245, y=230,text=f'DEF: {form.get('level').get('rival').get('def_total')}', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=16, color=var.COLOR_AMARILLO)
+    
+    form['lbl_clock'] = Label(x=450, y=40,text=f'TIME LEFT: {form.get('level').get('level_timer')}', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=22)
+    form['lbl_score'] = Label(x=150, y=50,text=form.get('texto'), screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=44)
     #Text Poster
     form['txp_info_card'] = TextPoster( #Probar volver a instalar pygame_widtget o utn_Fra, no aparece
         text='', screen=form.get('screen'), background_dimentions=(500, 100), background_coords=(390, 584),
@@ -67,6 +74,11 @@ def init_form_start_level(dict_form_data: dict, jugador: dict):
         form.get('btn_bonus_heal'),
         form.get('btn_bonus_play_hand'),
         form.get('lbl_hp'),
+        form.get('lbl_atk'),
+        form.get('lbl_def'),
+        form.get('lbl_hp_rival'),
+        form.get('lbl_atk_rival'),
+        form.get('lbl_def_rival'),
     ]
     
     base_form.forms_dict[dict_form_data.get('name')] = form
@@ -192,7 +204,14 @@ def update(form_data: dict, event_list: list[pg.event.Event]):
     # base_form.update(form_data)
     form_data['lbl_clock'].update_text(f'TIME LEFT: {form_data.get('level').get('level_timer')}', (255,0,0)) #Valor actualizado, y color del mismo
     form_data['lbl_score'].update_text(f'SCORE: {form_data.get('jugador').get('puntaje_actual')}', (255,0,0)) #Valor actualizado, y color del mismo
-    form_data['lbl_hp'].update_text(f'HP: {form_data.get('level').get('jugador').get('vida_total')}', (255,0,0)) #Valor actualizado, y color del mismo
+    #Actualiza stats jugador
+    form_data['lbl_hp'].update_text(f'HP: {form_data.get('level').get('jugador').get('vida_total')}', var.COLOR_AMARILLO) #Valor actualizado, y color del mismo
+    form_data['lbl_atk'].update_text(f'ATK: {form_data.get('level').get('jugador').get('atk_total')}', var.COLOR_AMARILLO) #Valor actualizado, y color del mismo
+    form_data['lbl_def'].update_text(f'DEF: {form_data.get('level').get('jugador').get('def_total')}', var.COLOR_AMARILLO) #Valor actualizado, y color del mismo
+    #Actualiza stats rival
+    form_data['lbl_hp_rival'].update_text(f'HP: {form_data.get('level').get('rival').get('vida_total')}', var.COLOR_AMARILLO) #Valor actualizado, y color del mismo
+    form_data['lbl_atk_rival'].update_text(f'ATK: {form_data.get('level').get('rival').get('atk_total')}', var.COLOR_AMARILLO) #Valor actualizado, y color del mismo
+    form_data['lbl_def_rival'].update_text(f'DEF: {form_data.get('level').get('rival').get('def_total')}', var.COLOR_AMARILLO) #Valor actualizado, y color del mismo
     
     widgets_list = form_data.get('widgets_list')
     #Recorre la lista de widgets, si ya está usado el shield o escudo, añade a la lista

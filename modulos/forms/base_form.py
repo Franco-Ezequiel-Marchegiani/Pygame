@@ -28,7 +28,7 @@ def play_music(form_dict: dict):
     #Pone la música que tenga según el path en cada form
     #Con el volumen seteado y en loop
     pg.mixer.music.load(form_dict.get('music_path'))
-    pg.mixer.music.set_volume(0.4)
+    pg.mixer.music.set_volume(0.2)
     pg.mixer.music.play(loops=-1, fade_ms=400)
 
 def stop_music():

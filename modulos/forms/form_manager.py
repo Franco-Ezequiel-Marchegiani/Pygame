@@ -25,7 +25,7 @@ def create_form_manager(screen: pg.Surface, datos_juego: dict):
                 "active":True, 
                 "coords":(0,0), 
                 "stage_number":1, 
-                "music_path":var.RUTA_MUSICA, #Cambiar acá la ruta de la música que se quiera que suene
+                "music_path":var.RUTA_MUSICA_MAIN_MENU, #Cambiar acá la ruta de la música que se quiera que suene
                 "background_path": './modulos/assets/background/fondo_3.png',
                 "screen_dimentions": var.DIMENSION_PANTALLA
             }
@@ -37,7 +37,7 @@ def create_form_manager(screen: pg.Surface, datos_juego: dict):
                 "active":True, 
                 "coords":(0,0), 
                 "stage_number":1, 
-                "music_path":var.RUTA_MUSICA,
+                "music_path":var.RUTA_MUSICA_BATALLA,
                 "background_path": './modulos/assets/img/background_cards.png',
                 "screen_dimentions": var.DIMENSION_PANTALLA
             }, jugador = form.get('jugador')
@@ -49,7 +49,7 @@ def create_form_manager(screen: pg.Surface, datos_juego: dict):
                 "active":True, 
                 "coords":(0,0), 
                 "stage_number":1, 
-                "music_path":var.RUTA_MUSICA,
+                "music_path":var.RUTA_MUSICA_MAIN_MENU,
                 "volumen_musica": var.VOLUMEN_MUSICA_INICIAL,
                 "musica_bucle_iniciada": False,
                 "background_path": './modulos/assets/img/forms/img_6.png',
@@ -63,7 +63,7 @@ def create_form_manager(screen: pg.Surface, datos_juego: dict):
                 "active":True, 
                 "coords":(0,0), 
                 "stage_number":1, 
-                "music_path":var.RUTA_MUSICA,
+                "music_path":var.RUTA_MUSICA_RANKING,
                 "background_path": './modulos/assets/img/forms/img_8.png',
                 "screen_dimentions": var.DIMENSION_PANTALLA
             }, jugador=form.get('jugador')
@@ -75,7 +75,7 @@ def create_form_manager(screen: pg.Surface, datos_juego: dict):
                 "active":True, 
                 "coords":(0,0), 
                 "stage_number":1, 
-                "music_path":var.RUTA_MUSICA,
+                "music_path":var.RUTA_MUSICA_BONUS,
                 "background_path": './modulos/assets/img/forms/img_9.png',
                 "screen_dimentions": var.DIMENSION_PANTALLA
             }, jugador=form.get('jugador')
@@ -87,7 +87,7 @@ def create_form_manager(screen: pg.Surface, datos_juego: dict):
                 "active":True, 
                 "coords":(0,0), 
                 "stage_number":1, 
-                "music_path":var.RUTA_MUSICA,
+                "music_path":var.RUTA_MUSICA_WIN, #Hacer un IF, de que si jugador ganó, ponga una música, u otra
                 "background_path": './modulos/assets/img/forms/img_3.jpg',
                 "screen_dimentions": var.DIMENSION_PANTALLA
             }, jugador=form.get('jugador')
