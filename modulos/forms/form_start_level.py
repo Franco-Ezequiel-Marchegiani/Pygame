@@ -32,7 +32,11 @@ def init_form_start_level(dict_form_data: dict, jugador: dict):
         font_path=var.FUENTE_SAIYAN, font_size=25, color=(0,255,0), background_color=(0,0,0)
     )
 
-    #form['btn_bonus_1'] = ButtonImage
+    form['btn_bonus_play_hand'] = ButtonImage(
+        x=1200, y=var.CENTRO_DIMENSION_Y + 25, width=126, height=40,
+        text='shield', screen=form.get('screen'), image_path='./modulos/assets/img/buttons_image/btn_play_hand.png', 
+        on_click=select_bonus, on_click_param={'form': form, 'bonus': 'shield'}
+    )
     form['btn_bonus_shield'] = ButtonImage(
         x=1200, y=var.CENTRO_DIMENSION_Y + 220, width=126, height=40,
         text='shield', screen=form.get('screen'), image_path='./modulos/assets/img/buttons_image/shield.png', 
@@ -58,6 +62,7 @@ def init_form_start_level(dict_form_data: dict, jugador: dict):
         form.get('lbl_score'),
         form.get('btn_bonus_shield'),
         form.get('btn_bonus_heal'),
+        form.get('btn_bonus_play_hand'),
     ]
     
     base_form.forms_dict[dict_form_data.get('name')] = form
