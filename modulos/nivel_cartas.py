@@ -67,8 +67,8 @@ def cargar_bd_oponente(nivel_data: dict, oponente_name: str, cartas_mazo_juego: 
     print(f'Oponente ya poblado: {dict_mazo.get('max_stats')}')
     
     #Ya que se recorrió el bucle una vez, aprovechamos y brindamos las max estadísticas a cada oponente
-    nivel_data[oponente_name]['vida_total'] = dict_mazo.get('max_stats').get('hp')
-    nivel_data[oponente_name]['vida_actual'] = dict_mazo.get('max_stats').get('hp')
+    nivel_data[oponente_name]['vida_total'] = 2000 #dict_mazo.get('max_stats').get('hp')
+    nivel_data[oponente_name]['vida_actual'] = 2000 #dict_mazo.get('max_stats').get('hp')
     nivel_data[oponente_name]['atk_total'] = dict_mazo.get('max_stats').get('atk')
     nivel_data[oponente_name]['def_total'] = dict_mazo.get('max_stats').get('def')
 
@@ -97,10 +97,41 @@ def generar_mazo(lista_cartas_nivel: list, participante: dict):
     
     print(f"Participante: {len(participante['cartas_mazo_juego_final'])}")
     #Se definen 10 cartas
-    participante['cartas_mazo_juego_final'] = participante['cartas_mazo_juego_final'][:10]
+    participante['cartas_mazo_juego_final'] = participante['cartas_mazo_juego_final']# [:10]
     print(f"Primera carta: {participante['cartas_mazo_juego_final'][0]}")
     #Las mezclamos, y creamos en el mismo dict la propiedad para ya utilizar
     rd.shuffle(participante.get('cartas_mazo_juego_final'))
+
+def calcular_ganador_ronda(nivel_data: dict) -> int:
+    #Hace el cálculo del atk y def de cada oponente
+    #Para luego hacer la respectiva suma, y retorna el puntaje ganado
+    #En la ronda, y a la vez actualiza la barra de vida de cada oponente
+    hp_total_jugador = nivel_data.get('jugador').get('vida_total')
+    nivel_data['jugador']['vida_actual']
+    atk_jugador = nivel_data.get('jugador').get('cartas_mazo_juego_final_vistas')[-1].get('atk')
+    def_jugador = nivel_data.get('jugador').get('cartas_mazo_juego_final_vistas')[-1].get('def')
+
+    nivel_data['rival']['vida_actual']
+    atk_rival = nivel_data.get('rival').get('cartas_mazo_juego_final_vistas')[-1].get('atk')
+    def_rival = nivel_data.get('rival').get('cartas_mazo_juego_final_vistas')[-1].get('def')
+
+    print(f"hp_total_jugador: {hp_total_jugador}")
+    print(f"nivel_data['jugador']['vida_actual']: {nivel_data['jugador']['vida_actual']}")
+    print(f"atk_jugador: {atk_jugador}")
+    print(f"def_jugador: {def_jugador}")
+
+    print(f"nivel_data['rival']['vida_actual']: {nivel_data['rival']['vida_actual']}")
+    print(f"atk_rival: {atk_rival}")
+    print(f"def_rival: {def_rival}")
+    puntaje_ronda = 0
+    #Si el ataque del usuario, es mayor al rival, ese será el puntaje
+    if atk_jugador > atk_rival:
+        puntaje_ronda = atk_jugador - def_rival 
+        nivel_data['rival']['vida_actual'] -= puntaje_ronda
+    else:
+        danio_rival = atk_rival - def_jugador
+        nivel_data['jugador']['vida_actual'] -= danio_rival
+    return puntaje_ronda
 
 def jugar_mano(nivel_data: dict):
     if nivel_data.get('jugador').get('cartas_mazo_juego_final') and\
@@ -121,34 +152,10 @@ def jugar_mano(nivel_data: dict):
         carta_vista_rival = nivel_data.get('rival').get('cartas_mazo_juego_final').pop()
         nivel_data.get('rival').get('cartas_mazo_juego_final_vistas').append(carta_vista_rival)
 
-
+        puntaje_ronda = calcular_ganador_ronda(nivel_data)
         print(f"nivel_data.get('jugador').get('cartas_mazo_juego_final_vistas'): {nivel_data.get('jugador').get('cartas_mazo_juego_final_vistas')}")
         #Esto funciona, guarda el puntaje del jugador en base al ataque (dsp analizar bien cómo sumar el puntaje)
-        hp_total_jugador = nivel_data.get('jugador').get('vida_total')
-        nivel_data['jugador']['vida_actual']
-        atk_jugador = nivel_data.get('jugador').get('cartas_mazo_juego_final_vistas')[-1].get('atk')
-        def_jugador = nivel_data.get('jugador').get('cartas_mazo_juego_final_vistas')[-1].get('def')
-
-        nivel_data['rival']['vida_actual']
-        atk_rival = nivel_data.get('rival').get('cartas_mazo_juego_final_vistas')[-1].get('atk')
-        def_rival = nivel_data.get('rival').get('cartas_mazo_juego_final_vistas')[-1].get('def')
-
-        print(f"hp_total_jugador: {hp_total_jugador}")
-        print(f"nivel_data['jugador']['vida_actual']: {nivel_data['jugador']['vida_actual']}")
-        print(f"atk_jugador: {atk_jugador}")
-        print(f"def_jugador: {def_jugador}")
-
-        print(f"nivel_data['rival']['vida_actual']: {nivel_data['rival']['vida_actual']}")
-        print(f"atk_rival: {atk_rival}")
-        print(f"def_rival: {def_rival}")
-        puntaje_ronda = 0
-        #Si el ataque del usuario, es mayor al rival, ese será el puntaje
-        if atk_jugador > atk_rival:
-            puntaje_ronda = atk_jugador - def_rival 
-            nivel_data['rival']['vida_actual'] -= puntaje_ronda
-        else:
-            danio_rival = atk_rival - def_jugador
-            nivel_data['jugador']['vida_actual'] -= danio_rival
+        
         #Hacer que el puntaje del jugador, sea el resultado del sobrante de la resta del dato que le hace al rival
         #Ej, si tiene 2000 de defensa, y el usuario 2500 de atque, el puntaje en esa mano es de 500, por ej
         
@@ -174,12 +181,24 @@ def mazo_esta_vacio(nivel_data: dict) -> bool:
     #Tmb válido:
     # return not nivel_data.get('cartas_mazo_juego_final')
 
+def definicion_ganador(nivel_data: dict) -> str:
+    if nivel_data['jugador']['vida_actual'] > nivel_data['rival']['vida_actual']:
+        return 'jugador'
+    else:
+        return 'rival'
+
 def check_juego_terminado(nivel_data: dict):
     # Si se termina el mazo, o el tiempo, finaliza el juego
     # Para eso, cambia el valor bool de "juego_finalizado"
+    if nivel_data['jugador']['vida_actual'] <= 0 or nivel_data['rival']['vida_actual'] <= 0:
+            nivel_data['juego_finalizado'] = True
+            #Ganador:
+            nivel_data['ganador'] = definicion_ganador(nivel_data)
+    
     if mazo_esta_vacio(nivel_data) or\
         tiempo_esta_terminado(nivel_data):
             nivel_data['juego_finalizado'] = True
+    
 
 def juego_terminado(nivel_data: dict) -> bool:
     #Nos devuelve el valor bool que tenemos en 'juego_finalizado'
@@ -223,6 +242,7 @@ def update(nivel_data: dict, cola_eventos: list[pg.event.Event]):
         #Guardamos una sola vez el puntaje guardado.
         nivel_data['puntaje_guardado'] = True 
         print(f'Puntaje final alcanzado: {jugador_humano.get_puntaje_total(nivel_data.get("jugador"))}')
+        print(f'Y EL GANADOR ES... : {nivel_data['ganador']}')
 
 #Manejar acá la lógica de definir ganador, y demás, en los forms va solo info que se muestre, acá va toda la lógica pesada
 
