@@ -4,6 +4,7 @@ import modulos.forms.base_form as base_form
 import modulos.variables as var
 import modulos.auxiliar as aux
 import modulos.nivel_cartas as nivel_cartas
+import modulos.forms.form_start_level as form_start_level_module
 from utn_fra.pygame_widgets import (
     Button, Label, ButtonImage
 )
@@ -45,11 +46,8 @@ def cambiar_formulario_on_click(parametro: str):
     if parametro == 'form_start_level':
         form_start_level = base_form.forms_dict[parametro]
         #Antes de iniciar el juego con su data, reiniciamos el puntaje y todo
-        form_start_level['level'] = nivel_cartas.reiniciar_nivel(
-            form_start_level.get('level'), form_start_level.get('jugador'), 
-            form_start_level.get('screen'), form_start_level.get('level_number')
-        )
-        nivel_cartas.inicializar_data_nivel(form_start_level.get('level'))
+        form_start_level_module.inicializar_juego(form_start_level)
+        
     base_form.set_active(parametro)
     base_form.stop_music()
     base_form.play_music(base_form.forms_dict[parametro])

@@ -5,7 +5,7 @@ import random as rd
 import modulos.frases as fra
 import modulos.carta as carta
 import modulos.jugador as jugador_humano
-
+import modulos.forms.base_form as base_form
 def inicializar_nivel_cartas(jugador: dict, pantalla: pg.Surface, nro_nivel: int):
     
     nivel_data = {}
@@ -39,8 +39,8 @@ def inicializar_data_nivel(nivel_data: dict):
     cargar_configs_nivel(nivel_data)
     cargar_bd_cartas(nivel_data)
     #asignar_frases(nivel_data)
-    copia_generar_mazo(nivel_data['cartas_mazo_juego'], nivel_data['jugador'])
-    copia_generar_mazo(nivel_data['cartas_mazo_juego_rival'], nivel_data['rival'])
+    generar_mazo(nivel_data['cartas_mazo_juego'], nivel_data['jugador'])
+    generar_mazo(nivel_data['cartas_mazo_juego_rival'], nivel_data['rival'])
 
 def cargar_configs_nivel(nivel_data: dict):
     #Si el juego no finalizó, o no se cargó la data...
@@ -78,42 +78,6 @@ def cargar_bd_cartas(nivel_data: dict):
         cargar_bd_oponente(nivel_data,'rival', 'cartas_mazo_juego_rival', 'ruta_mazo_rival', './modulos/assets/img/decks/blue_deck_expansion_2')
         print(f"Data jugador: {nivel_data['jugador']}")
         
-""" def cargar_bd_cartas(nivel_data: dict):
-    if not nivel_data.get('juego_finalizado'):
-        print('=============== GENERANDO BD CARTAS INICIALES ===============')
-        mazo_aliado = cargar_bd_oponente(nivel_data, 'cartas_mazo_juego', 'ruta_mazo', './modulos/assets/img/decks/blue_deck_expansion_1')
-        cargar_bd_oponente(nivel_data, 'cartas_mazo_juego_rival', 'ruta_mazo_rival', './modulos/assets/img/decks/blue_deck_expansion_2')
-        #Cargamos las cartas en el mazo con la función Generar BD, y devuelve un dict, y obtenemos el listado de cartas
-        #Se agrega la ruta del get, ya que devuelve un objeto con la ruta, y de ahí el diccionario
-        mazo_aliado = aux.generar_bd(nivel_data.get('ruta_mazo'))
-        nivel_data['cartas_mazo_juego'] = mazo_aliado.get('cartas').get('./modulos/assets/img/decks/blue_deck_expansion_1')
-        print(f'mazo_aliado testing: {mazo_aliado.get('max_stats')}')
-        #Ya que se recorrió el bucle una vez, aprovechamos y brindamos las max estadísticas a cada oponente
-        nivel_data['jugador']['vida_total'] = mazo_aliado.get('max_stats').get('hp')
-        nivel_data['jugador']['atk_total'] = mazo_aliado.get('max_stats').get('atk')
-        nivel_data['jugador']['def_total'] = mazo_aliado.get('max_stats').get('def')
-
-        #Asignación cartas al rival
-        mazo_rival = aux.generar_bd(nivel_data.get('ruta_mazo_rival'))
-        nivel_data['cartas_mazo_juego_rival'] = mazo_rival.get('cartas').get('./modulos/assets/img/decks/blue_deck_expansion_2')
-        print(f"Jugador ya poblado: {nivel_data.get('jugador')}")
-
-        nivel_data['rival']['vida_total'] = mazo_rival.get('max_stats').get('hp')
-        nivel_data['rival']['atk_total'] = mazo_rival.get('max_stats').get('atk')
-        nivel_data['rival']['def_total'] = mazo_rival.get('max_stats').get('def')
-        print(f"Rival ya poblado: {nivel_data.get('rival')}")
-         """
-
-#Reciclar esta función por el tema de asignar puntaje
-""" def asignar_puntaje(nivel_data: dict) -> list[dict]:
-    print('=============== ASIGNANDO PUNTAJE ===============')
-    lista_mazo = nivel_data.get('cartas_mazo_juego')
-    for index_card in range(len(lista_mazo)):
-        frase = rd.choice(fra.lista_frases)
-        
-        carta.set_frase(lista_mazo[index_card], frase.get('frase'))
-        carta.set_puntaje(lista_mazo[index_card], frase.get('puntaje'))
-    return lista_mazo """
 
 #Crear una sola función, y pasarle los parámetros según sea el deck del jugador, o el rival
 
@@ -121,7 +85,7 @@ def cargar_bd_cartas(nivel_data: dict):
 #Primer param, pasar la lista donde quiero guardarlo.
 #Y como segundo param, 
 #Al llamar a esta función con el rival, pasarle la lista de cartas que el juego eligió para el rival, y el dict del rival
-def copia_generar_mazo(lista_cartas_nivel: list, participante: dict):
+def generar_mazo(lista_cartas_nivel: list, participante: dict):
     print('=============== GENERANDO MAZO FINAL ===============')
     #Para generar el mazo, obtenemos las cartas del mazo del dic, y los recorremos
     participante['cartas_mazo_juego_final'] = []
@@ -137,53 +101,41 @@ def copia_generar_mazo(lista_cartas_nivel: list, participante: dict):
     #Las mezclamos, y creamos en el mismo dict la propiedad para ya utilizar
     rd.shuffle(participante.get('cartas_mazo_juego_final'))
 
+def jugar_mano(nivel_data: dict):
+    if nivel_data.get('jugador').get('cartas_mazo_juego_final') and\
+        not nivel_data.get('jugador').get('cartas_mazo_juego_final')[-1].get('visible'):
+        print(f"nivel_data.get('rival'): {nivel_data.get('rival')}")
+        print(f"nivel_data.get('rival').get('cartas_mazo_juego_final')[-1]: {nivel_data.get('rival').get('cartas_mazo_juego_final')[-1]}")
+        var.SOUND_CLICK.play()
+        carta.asignar_coordenadas_carta(nivel_data.get('jugador').get('cartas_mazo_juego_final')[-1], nivel_data.get('jugador').get('coords_finales'))
+        carta.cambiar_visibilidad_carta(nivel_data.get('jugador').get('cartas_mazo_juego_final')[-1])
+        #Asignar cartas tmb al rival
+        carta.asignar_coordenadas_carta(nivel_data.get('rival').get('cartas_mazo_juego_final')[-1], nivel_data.get('rival').get('coords_finales'))
+        carta.cambiar_visibilidad_carta(nivel_data.get('rival').get('cartas_mazo_juego_final')[-1])
+        
+        #Selecciona una carta random con .pop, y la sumamos a cartas vistas
+        carta_vista_jugador = nivel_data.get('jugador').get('cartas_mazo_juego_final').pop()
+        nivel_data.get('jugador').get('cartas_mazo_juego_final_vistas').append(carta_vista_jugador)
+        
+        #Carta rival    
+        carta_vista_rival = nivel_data.get('rival').get('cartas_mazo_juego_final').pop()
+        nivel_data.get('rival').get('cartas_mazo_juego_final_vistas').append(carta_vista_rival)
+        #Esto funciona, guarda el puntaje del jugador en base al ataque (dsp analizar bien cómo sumar el puntaje)
+        puntaje_carta_actual_jugador = nivel_data.get('jugador').get('cartas_mazo_juego_final_vistas')[-1].get('atk')
+        #Hacer que el puntaje del jugador, sea el resultado del sobrante de la resta del dato que le hace al rival
+        #Ej, si tiene 2000 de defensa, y el usuario 2500 de atque, el puntaje en esa mano es de 500, por ej
+        
+        #Sumamos los puntos de cada ronda con esta función
+        jugador_humano.sumar_puntaje_actual(nivel_data.get('jugador'), puntaje_carta_actual_jugador)
+        
+        #print(f'Frase actual: {nivel_data.get('cartas_mazo_juego_final_vistas')[-1].get('frase')}')
 def eventos(nivel_data: dict, cola_eventos: list[pg.event.Event]):
     
     for evento in cola_eventos:
         #Si damos click, se ejecuta el código
         if evento.type == pg.MOUSEBUTTONDOWN:
             print(f'Coordenada: {evento.pos}')
-            #Coordenadas del botón a clickear: Coordenada: (1136, 364)
-            # verificar la colision con el boton
-            #Si hay cartas, y el usuario hace click se ejecuta esto:
-            #cartas_mazo_juego_final = Mazo mezclado listo para jugar
-            #cartas_mazo_juego_final_vistas = Cartas ya mostradas
-            if nivel_data.get('jugador').get('cartas_mazo_juego_final') and\
-                nivel_data.get('jugador').get('cartas_mazo_juego_final')[-1].get('rect').collidepoint(evento.pos) and\
-                not nivel_data.get('jugador').get('cartas_mazo_juego_final')[-1].get('visible'):
-                var.SOUND_CLICK.play()
-                carta.asignar_coordenadas_carta(nivel_data.get('jugador').get('cartas_mazo_juego_final')[-1], nivel_data.get('jugador').get('coords_finales'))
-                carta.cambiar_visibilidad_carta(nivel_data.get('jugador').get('cartas_mazo_juego_final')[-1])
-
-                #Asignar cartas tmb al rival
-                carta.asignar_coordenadas_carta(nivel_data.get('rival').get('cartas_mazo_juego_final')[-1], nivel_data.get('rival').get('coords_finales'))
-                carta.cambiar_visibilidad_carta(nivel_data.get('rival').get('cartas_mazo_juego_final')[-1])
-                
-                #Selecciona una carta random con .pop, y la sumamos a cartas vistas
-                carta_vista_jugador = nivel_data.get('jugador').get('cartas_mazo_juego_final').pop()
-                nivel_data.get('jugador').get('cartas_mazo_juego_final_vistas').append(carta_vista_jugador)
-                
-                #Carta rival    
-                carta_vista_rival = nivel_data.get('rival').get('cartas_mazo_juego_final').pop()
-                nivel_data.get('rival').get('cartas_mazo_juego_final_vistas').append(carta_vista_rival)
-
-                #Esto funciona, guarda el puntaje del jugador en base al ataque (dsp analizar bien cómo sumar el puntaje)
-                puntaje_carta_actual_jugador = nivel_data.get('jugador').get('cartas_mazo_juego_final_vistas')[-1].get('atk')
-                #Hacer que el puntaje del jugador, sea el resultado del sobrante de la resta del dato que le hace al rival
-                #Ej, si tiene 2000 de defensa, y el usuario 2500 de atque, el puntaje en esa mano es de 500, por ej
-                
-                print(f"puntaje_carta_actual_jugador: {puntaje_carta_actual_jugador}")
-
-                print(f"nivel_data.get('jugador'): {nivel_data.get('jugador')}")
-                print(f"Puntaje Actual BEFORE: {nivel_data.get('jugador').get('puntaje_actual')}")
-                #Sumamos los puntos de cada ronda con esta función
-                jugador_humano.sumar_puntaje_actual(nivel_data.get('jugador'), puntaje_carta_actual_jugador)
-                #Y a este punto, actualiza los elementos del dic "jugador"
-                #Ahí se va sumando el puntaje en cada ronda
-                print(f"Puntaje Actual AFTER: {nivel_data.get('jugador').get('puntaje_actual')}")
-                print(f'Puntaje Acumulado en Partida: {jugador_humano.get_puntaje_actual(nivel_data["jugador"])}')
-                
-                #print(f'Frase actual: {nivel_data.get('cartas_mazo_juego_final_vistas')[-1].get('frase')}')
+            
 
 def tiempo_esta_terminado(nivel_data: dict) -> bool:
     #Devuelve true o false, si el tiempo llegó a 0
@@ -209,10 +161,17 @@ def juego_terminado(nivel_data: dict) -> bool:
 #Asegurarse de reiniciar tmb el deck rival, así no se duplica
 def reiniciar_nivel(nivel_cartas: dict, jugador: dict, pantalla: pg.Surface, nro_nivel: int):
     print('=============== REINICIANDO NIVEL ===============')
+    #Obtenemos los valores de si ya se usó el bono, y los refrescamos
+    base_form.forms_dict['form_start_level']['bonus_shield_used'] = False
+    base_form.forms_dict['form_start_level']['bonus_heal_used'] = False
+    
     #Llama a la función para setear el puntaje y reiniciarlo pasandole el valor de 0
     jugador_humano.set_puntaje_actual(jugador, 0)
     #Reiniciamos los valores de "inicializar_nivel_Cartas" para que pueda jugar nuevamente
+
+    
     nivel_cartas = inicializar_nivel_cartas(jugador, pantalla, nro_nivel)
+
     #Al pasarle los valores y ejecutar la función, lo que hacemos es pisar los valores del dict e inicia de nuevo
     return nivel_cartas
 

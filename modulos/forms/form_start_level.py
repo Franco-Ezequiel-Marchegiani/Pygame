@@ -5,9 +5,10 @@ from utn_fra.pygame_widgets import (Button, Label)
 import modulos.auxiliar as aux
 import modulos.nivel_cartas as nivel_cartas
 import modulos.forms.form_bonus as form_bonus
+
 import random as rd
 from utn_fra.pygame_widgets import(
-    Button, Label, TextPoster, ButtonImage
+    Button, Label, TextPoster, ButtonImage, ImageLabel
 )
 def init_form_start_level(dict_form_data: dict, jugador: dict):
     form = base_form.create_base_form(dict_form_data)
@@ -41,11 +42,11 @@ def init_form_start_level(dict_form_data: dict, jugador: dict):
         text='', screen=form.get('screen'), background_dimentions=(500, 100), background_coords=(390, 584),
         font_path=var.FUENTE_SAIYAN, font_size=25, color=(0,255,0), background_color=(0,0,0)
     )
-
+    # ImageLabel
     form['btn_bonus_play_hand'] = ButtonImage(
         x=1200, y=var.CENTRO_DIMENSION_Y + 25, width=126, height=40,
         text='shield', screen=form.get('screen'), image_path='./modulos/assets/img/buttons_image/btn_play_hand.png', 
-        on_click=select_bonus, on_click_param={'form': form, 'bonus': 'shield'}
+        on_click=nivel_cartas.jugar_mano, on_click_param= form.get('level')
     )
     form['btn_bonus_shield'] = ButtonImage(
         x=1200, y=var.CENTRO_DIMENSION_Y + 220, width=126, height=40,
@@ -70,8 +71,6 @@ def init_form_start_level(dict_form_data: dict, jugador: dict):
     form['widgets_list'] = [
         form.get('lbl_clock'), 
         form.get('lbl_score'),
-        form.get('btn_bonus_shield'),
-        form.get('btn_bonus_heal'),
         form.get('btn_bonus_play_hand'),
         form.get('lbl_hp'),
         form.get('lbl_atk'),
@@ -127,78 +126,45 @@ def click_volver(parametro: str):
     print(parametro)
     base_form.set_active(parametro)
 
-def init_game(form_data: dict):
-
-    cartas = aux.generar_bd(var.RUTA_MAZO_MAIN)
-    #Dentro de todas las cartas, se obtiene por "decks"
-    deck_purple_deck_expansion_1 = cartas.get('cartas').get('purple_deck_expansion_1')
-    deck_purple_deck_expansion_2 = cartas.get('cartas').get('purple_deck_expansion_2')
-    #Acá se agregaban las frases a los decks
-        # deck_purple_deck_expansion_1 = aux.asignar_frases(deck_purple_deck_expansion_1, fra.lista_frases)
-        # deck_purple_deck_expansion_2 = aux.asignar_frases(deck_purple_deck_expansion_2, fra.lista_frases)
-
-    #Acá genera el mazo y tmb llama al dic "carta"
-    lista_cartas_dictionary = aux.generar_mazo(deck_purple_deck_expansion_1)
-
-    #lista_cartas_dictionary.extend(aux.generar_mazo(deck_purple_deck_expansion_2))
-    rd.shuffle(lista_cartas_dictionary)
-
-    lista_cartas_dictionary = lista_cartas_dictionary[0:10]
-    lista_cartas_vistas = []
-
-    form_data['ranking_screen'] = []
-    matrix = form_data.get('cards_list')
-    for indice_fila in range(len(matrix)):
-        
-        fila = matrix[indice_fila]
-        
-        """
-        
-        1                   fulano              20
-        2                   mengano             15
-        
-        """
-        
-        # numero
-        form_data['ranking_screen'].append(
-            Label(x=var.DIMENSION_PANTALLA[0]//2 - 220, y=var.DIMENSION_PANTALLA[1]//2.9+indice_fila*31,text=f'{indice_fila + 1}', screen=form_data.get('screen'), font_path=var.FUENTE_SAIYAN, color=var.COLOR_NARANJA, font_size=40)
-        )
-        
-        # nombre
-        form_data['ranking_screen'].append(
-            Label(x=var.DIMENSION_PANTALLA[0]//2, y=var.DIMENSION_PANTALLA[1]//2.9+indice_fila*31,text=f'{fila[0]}', screen=form_data.get('screen'), font_path=var.FUENTE_SAIYAN, color=var.COLOR_NARANJA, font_size=40)
-        )
-        
-        # score
-        form_data['ranking_screen'].append(
-            Label(x=var.DIMENSION_PANTALLA[0]//2 + 220, y=var.DIMENSION_PANTALLA[1]//2.9+indice_fila*31,text=f'{fila[1]}', screen=form_data.get('screen'), font_path=var.FUENTE_SAIYAN, color=var.COLOR_NARANJA, font_size=40)
-        )
-    
-    
     
 def draw(form_data: dict):
     base_form.draw(form_data)
-
+    
     widgets_list = form_data.get('widgets_list')
     #ESTO HACERLO UNA FUNCIÓN, YA QUE SE REPITE EN EL DRAW Y EL UPDATE
-    for widget_index in range(len(form_data.get('widgets_list'))):
-        #Si está en true, ya se usó
-        #LLAMAR ACÁ AL DICT DE FORM_BONUS Y QUE LEAN DE AHÍ PARA MOSTRARLOS O NO
-        if widget_index == 2 and form_data.get('bonus_shield_used'):
-            #Si es true y ya se usó, no hace nada, continúa
-            widgets_list.append(form_data.get('btn_bonus_shield_used'))
-            continue
-        if widget_index == 3 and form_data.get('bonus_heal_used'):
-            widgets_list.append(form_data.get('btn_bonus_heal_used'))
-            continue
+    for widget_index in range(len(widgets_list)):
+
         form_data.get('widgets_list')[widget_index].draw()
+    
+    #Hacer acá mismo una condicional con la bandera, y hacer un draw acá, no añadirlo en la lista
+    if form_data.get('bonus_shield_used'):
+        form_data.get('btn_bonus_shield_used').draw()
+    else:
+        form_data.get('btn_bonus_shield').draw()
+
+    if form_data.get('bonus_heal_used'):
+        form_data.get('btn_bonus_heal_used').draw()
+        pass
+    else:
+        form_data.get('btn_bonus_heal').draw()
+        
 
     nivel_cartas.draw(form_data.get('level'))
 
 
 def inicializar_juego(form_data: dict):
-    form_data['cards_list'] = aux.cargar_ranking()[:10]
-    init_game(form_data)
+    form_data['level'] = nivel_cartas.reiniciar_nivel(
+            form_data.get('level'), form_data.get('jugador'), 
+            form_data.get('screen'), form_data.get('level_number')
+    )
+    nivel_cartas.inicializar_data_nivel(form_data.get('level'))
+
+
+    form_data.get('widgets_list')[2] = ButtonImage(
+        x=1200, y=var.CENTRO_DIMENSION_Y + 25, width=126, height=40,
+        text='shield', screen=form_data.get('screen'), image_path='./modulos/assets/img/buttons_image/btn_play_hand.png', 
+        on_click=nivel_cartas.jugar_mano, on_click_param= form_data.get('level')
+    )
 
 def update(form_data: dict, event_list: list[pg.event.Event]):
     # base_form.update(form_data)
@@ -214,23 +180,30 @@ def update(form_data: dict, event_list: list[pg.event.Event]):
     form_data['lbl_def_rival'].update_text(f'DEF: {form_data.get('level').get('rival').get('def_total')}', var.COLOR_AMARILLO) #Valor actualizado, y color del mismo
     
     widgets_list = form_data.get('widgets_list')
+    
+
     #Recorre la lista de widgets, si ya está usado el shield o escudo, añade a la lista
     #Otro widget con el ícono ya en uso. Queda agregar que después del próximo ataque se borre 
     # (se puede remover, no deja de ser una lista)
     for widget_index in range(len(widgets_list)):
-        #Si está en true, ya se usó
-        if widget_index == 2 and form_data.get('bonus_shield_used'):
-            #Si es true y ya se usó, no hace nada, continúa
-            widgets_list.append(form_data.get('btn_bonus_shield_used'))
-            continue
-        if widget_index == 3 and form_data.get('bonus_heal_used'):
-            widgets_list.append(form_data.get('btn_bonus_heal_used'))
-            continue
+
         widgets_list[widget_index].update()
     
+    #Hacer acá mismo una condicional con la bandera, y hacer un draw acá, no añadirlo en la lista
+    if form_data.get('bonus_shield_used'):
+        form_data.get('btn_bonus_shield_used').draw()
+    else:
+        form_data.get('btn_bonus_shield').draw()
+
+    if form_data.get('bonus_heal_used'):
+        form_data.get('btn_bonus_heal_used').draw()
+        pass
+    else:
+        form_data.get('btn_bonus_heal').draw()
+
+
     nivel_cartas.update(form_data.get('level'), event_list)
     
-
     mazo_vistas = form_data.get('level').get('cartas_mazo_juego_final_vistas')
     #
     if mazo_vistas:
