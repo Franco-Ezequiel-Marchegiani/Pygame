@@ -35,10 +35,11 @@ def init_form_bonus(dict_form_data: dict, jugador: dict):
     ]
 
     base_form.forms_dict[form.get('name')] = form
-
+    
     return form
 
 def click_change_form(param: str):
+    var.SOUND_CLICK.play()
     base_form.stop_music()
     base_form.play_music(base_form.forms_dict[param])
     base_form.set_active(param)
@@ -62,7 +63,9 @@ def click_select_bonus(form_dict: dict):
             #Indica que ya fue usado, y cambia el valor
             base_form.forms_dict['form_start_level']['bonus_heal_used'] = True
     #Sonido de Bonus meanwhile
-    pg.time.wait(2000) #Espera 2 segs
+    
+    var.SOUND_BONUS_FIN.play()
+    pg.time.wait(6000) #Espera 2 segs
     click_change_form('form_start_level') 
     
 #Función para actualizar "btn_select" label o Button

@@ -34,14 +34,11 @@ def init_form_main_menu(dict_form_data: dict):
     
     return form
 
-def click_start(parametro: str):
-    print(parametro)
-
 def cambiar_formulario_on_click(parametro: str):
     #Recibe por parámetro un string, con el nombre del form 
     #Para poder activar y mostrar el mismo en pantalla
     print(parametro)
-    
+    var.SOUND_CLICK.play()
 
     #Si vamos al form de start_level, recién ahí iniciamos y cargamos la data
     #Esto con la finalidad de administrar recursos

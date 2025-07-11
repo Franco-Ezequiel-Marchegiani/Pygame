@@ -123,7 +123,9 @@ FUENTE_50 = pg.font.Font(FUENTE_ALAGARD, 50) """
 
 RUTA_MAZO_MAIN = './modulos/assets/img/decks'
 RUTA_FONDO = './modulos/assets/background/fondo_tablero.png'
-RUTA_SONIDO_CLICK = './modulos/assets/sound/click.mp3'
+RUTA_SONIDO_CLICK = './modulos/assets/audio/sounds/click_scouter.ogg' 
+RUTA_SONIDO_BONUS_INICIO = './modulos/assets/audio/sounds/wish_sound_intro.ogg'
+RUTA_SONIDO_BONUS_FIN = './modulos/assets/audio/sounds/wish_sound_outro.ogg'
 RUTA_MUSICA_MAIN_MENU = './modulos/assets/audio/music/form_main_menu.ogg'
 RUTA_MUSICA_RANKING = './modulos/assets/audio/music/form_ranking.ogg' 
 RUTA_MUSICA_WIN = './modulos/assets/audio/music/music_dragon_ball_1.mp3'
@@ -136,6 +138,8 @@ RUTA_MUSICA = './modulos/assets/audio/music/music_dragon_ball_1.mp3'
 RUTA_ICONO = './modulos/assets/icon_4_star.png'
 
 SOUND_CLICK = pg.mixer.Sound(RUTA_SONIDO_CLICK)
+SOUND_BONUS_INICIO = pg.mixer.Sound(RUTA_SONIDO_BONUS_INICIO)
+SOUND_BONUS_FIN = pg.mixer.Sound(RUTA_SONIDO_BONUS_FIN)
 
 # ======= CONFIGS ===========
 

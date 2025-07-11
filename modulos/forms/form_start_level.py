@@ -25,13 +25,11 @@ def init_form_start_level(dict_form_data: dict, jugador: dict):
     print(f"form Clock: {form.get('clock')}")
     form['texto'] = f'SCORE: {form.get('jugador').get('puntaje_actual')}'
 
-    contenedor_max_hp_jugador = form.get('level').get('jugador').get('vida_total')
-    print(f"contenedor_max_hp_jugador: {contenedor_max_hp_jugador}")
-    form['lbl_hp'] = Label(x=190, y=530,text=f'HP: {form.get('level').get('jugador').get('vida_total')}', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=40, color=var.COLOR_AMARILLO)
+    form['lbl_hp'] = Label(x=190, y=530,text=f'HP: {form.get('level').get('jugador').get('vida_actual')}', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=40, color=var.COLOR_AMARILLO)
     form['lbl_atk'] = Label(x=130, y=560,text=f'ATK: {form.get('level').get('jugador').get('atk_total')}', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=16, color=var.COLOR_AMARILLO)
     form['lbl_def'] = Label(x=245, y=560,text=f'DEF: {form.get('level').get('jugador').get('def_total')}', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=16, color=var.COLOR_AMARILLO)
     #Stats rival
-    form['lbl_hp_rival'] = Label(x=190, y=200,text=f'HP: {form.get('level').get('rival').get('vida_total')}', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=40, color=var.COLOR_AMARILLO)
+    form['lbl_hp_rival'] = Label(x=190, y=200,text=f'HP: {form.get('level').get('rival').get('vida_actual')}', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=40, color=var.COLOR_AMARILLO)
     form['lbl_atk_rival'] = Label(x=130, y=230,text=f'ATK: {form.get('level').get('rival').get('atk_total')}', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=16, color=var.COLOR_AMARILLO)
     form['lbl_def_rival'] = Label(x=245, y=230,text=f'DEF: {form.get('level').get('rival').get('def_total')}', screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, font_size=16, color=var.COLOR_AMARILLO)
     
@@ -51,12 +49,12 @@ def init_form_start_level(dict_form_data: dict, jugador: dict):
     form['btn_bonus_shield'] = ButtonImage(
         x=1200, y=var.CENTRO_DIMENSION_Y + 220, width=126, height=40,
         text='shield', screen=form.get('screen'), image_path='./modulos/assets/img/buttons_image/shield.png', 
-        on_click=select_bonus, on_click_param={'form': form, 'bonus': 'shield'}
+        on_click=select_bonus, on_click_param='shield'
     )
     form['btn_bonus_heal'] = ButtonImage(
         x=1200, y=var.CENTRO_DIMENSION_Y + 270,width=126, height=40,
         text='heal', screen=form.get('screen'), image_path='./modulos/assets/img/buttons_image/heal.png', 
-        on_click=select_bonus, on_click_param={'form': form, 'bonus': 'heal'}
+        on_click=select_bonus, on_click_param='heal'
     )
     
     form['btn_bonus_shield_used'] = ButtonImage(
@@ -85,18 +83,20 @@ def init_form_start_level(dict_form_data: dict, jugador: dict):
     return form
 
 
-def select_bonus(form_y_bonus_name: dict):
+def select_bonus(bonus_name: str):
+    print(f"Print")
     base_form.stop_music()
     base_form.play_music(base_form.forms_dict['form_bonus'])
     #Recibimos un dict, activamos la vista de form_bonus
     #Actualizamos los botones, y también revisamos si ya utilizó
     #Algunos de los bonus, y cambia su valor de Bool
     #Activamos la vista de form_bonus
-    base_form.set_active('form_bonus')
+    form_bonus.update_button_bonus(base_form.forms_dict['form_bonus'], bonus_name)
 
     #Le pasamos por parámetro el texto del bonus que el usuario seleccionó para mostrar en pantalla
     #Y a la vez, para que se guarde el valor
-    form_bonus.update_button_bonus(base_form.forms_dict['form_bonus'], form_y_bonus_name.get('bonus'))
+    base_form.set_active('form_bonus')
+    var.SOUND_BONUS_INICIO.play()
     
 
 def actualizar_timer(form_data: dict):
@@ -171,11 +171,11 @@ def update(form_data: dict, event_list: list[pg.event.Event]):
     form_data['lbl_clock'].update_text(f'TIME LEFT: {form_data.get('level').get('level_timer')}', (255,0,0)) #Valor actualizado, y color del mismo
     form_data['lbl_score'].update_text(f'SCORE: {form_data.get('jugador').get('puntaje_actual')}', (255,0,0)) #Valor actualizado, y color del mismo
     #Actualiza stats jugador
-    form_data['lbl_hp'].update_text(f'HP: {form_data.get('level').get('jugador').get('vida_total')}', var.COLOR_AMARILLO) #Valor actualizado, y color del mismo
+    form_data['lbl_hp'].update_text(f'HP: {form_data.get('level').get('jugador').get('vida_actual')}', var.COLOR_AMARILLO) #Valor actualizado, y color del mismo
     form_data['lbl_atk'].update_text(f'ATK: {form_data.get('level').get('jugador').get('atk_total')}', var.COLOR_AMARILLO) #Valor actualizado, y color del mismo
     form_data['lbl_def'].update_text(f'DEF: {form_data.get('level').get('jugador').get('def_total')}', var.COLOR_AMARILLO) #Valor actualizado, y color del mismo
     #Actualiza stats rival
-    form_data['lbl_hp_rival'].update_text(f'HP: {form_data.get('level').get('rival').get('vida_total')}', var.COLOR_AMARILLO) #Valor actualizado, y color del mismo
+    form_data['lbl_hp_rival'].update_text(f'HP: {form_data.get('level').get('rival').get('vida_actual')}', var.COLOR_AMARILLO) #Valor actualizado, y color del mismo
     form_data['lbl_atk_rival'].update_text(f'ATK: {form_data.get('level').get('rival').get('atk_total')}', var.COLOR_AMARILLO) #Valor actualizado, y color del mismo
     form_data['lbl_def_rival'].update_text(f'DEF: {form_data.get('level').get('rival').get('def_total')}', var.COLOR_AMARILLO) #Valor actualizado, y color del mismo
     
@@ -189,17 +189,20 @@ def update(form_data: dict, event_list: list[pg.event.Event]):
 
         widgets_list[widget_index].update()
     
+    #Hacer una bandera nueva, y corroborar si está activado, y consumido.
+
+    #En el bonus del shield, rebotar el daño del enemigo, y si pinta tmb el daño del jugador
+    #Tmb aplica con críticos.
     #Hacer acá mismo una condicional con la bandera, y hacer un draw acá, no añadirlo en la lista
     if form_data.get('bonus_shield_used'):
-        form_data.get('btn_bonus_shield_used').draw()
+        form_data.get('btn_bonus_shield_used').update()
     else:
-        form_data.get('btn_bonus_shield').draw()
+        form_data.get('btn_bonus_shield').update()
 
     if form_data.get('bonus_heal_used'):
-        form_data.get('btn_bonus_heal_used').draw()
-        pass
+        form_data.get('btn_bonus_heal_used').update()
     else:
-        form_data.get('btn_bonus_heal').draw()
+        form_data.get('btn_bonus_heal').update()
 
 
     nivel_cartas.update(form_data.get('level'), event_list)

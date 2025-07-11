@@ -12,6 +12,7 @@ def create_base_form(dict_form_data: dict) -> dict:
     form['y_coord'] = dict_form_data.get('coords')[1]
     form['level_number'] = dict_form_data.get('stage_number')
     form['music_path'] = dict_form_data.get('music_path')
+    form['music_on'] = True
     form['surface'] = pg.image.load(dict_form_data.get('background_path')).convert_alpha()
     form['surface'] = pg.transform.scale(form.get('surface'), dict_form_data.get('screen_dimentions'))
     

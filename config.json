@@ -7,6 +7,10 @@
         "coordenada_mazo_rival_1": [400,115],
         "coordenada_mazo_rival_2": [660,115]
     },
-    "nivel_2": {},
+    "nivel_2": {
+        "cantidades":{
+            
+        }
+    },
     "nivel_3": {}
 }

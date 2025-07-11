@@ -5,6 +5,7 @@ import modulos.carta as carta
 def inicializar_oponente(inicializar_screen):
     jugador_actual = {}
     jugador_actual['vida_total'] = 0
+    jugador_actual['vida_actual'] = 0
     jugador_actual['atk_total'] = 0
     jugador_actual['def_total'] = 0
     jugador_actual['puntaje_actual'] = 0

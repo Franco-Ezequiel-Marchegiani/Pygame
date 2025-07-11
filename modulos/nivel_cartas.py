@@ -68,6 +68,7 @@ def cargar_bd_oponente(nivel_data: dict, oponente_name: str, cartas_mazo_juego: 
     
     #Ya que se recorrió el bucle una vez, aprovechamos y brindamos las max estadísticas a cada oponente
     nivel_data[oponente_name]['vida_total'] = dict_mazo.get('max_stats').get('hp')
+    nivel_data[oponente_name]['vida_actual'] = dict_mazo.get('max_stats').get('hp')
     nivel_data[oponente_name]['atk_total'] = dict_mazo.get('max_stats').get('atk')
     nivel_data[oponente_name]['def_total'] = dict_mazo.get('max_stats').get('def')
 
@@ -104,8 +105,7 @@ def generar_mazo(lista_cartas_nivel: list, participante: dict):
 def jugar_mano(nivel_data: dict):
     if nivel_data.get('jugador').get('cartas_mazo_juego_final') and\
         not nivel_data.get('jugador').get('cartas_mazo_juego_final')[-1].get('visible'):
-        print(f"nivel_data.get('rival'): {nivel_data.get('rival')}")
-        print(f"nivel_data.get('rival').get('cartas_mazo_juego_final')[-1]: {nivel_data.get('rival').get('cartas_mazo_juego_final')[-1]}")
+        
         var.SOUND_CLICK.play()
         carta.asignar_coordenadas_carta(nivel_data.get('jugador').get('cartas_mazo_juego_final')[-1], nivel_data.get('jugador').get('coords_finales'))
         carta.cambiar_visibilidad_carta(nivel_data.get('jugador').get('cartas_mazo_juego_final')[-1])
@@ -120,13 +120,40 @@ def jugar_mano(nivel_data: dict):
         #Carta rival    
         carta_vista_rival = nivel_data.get('rival').get('cartas_mazo_juego_final').pop()
         nivel_data.get('rival').get('cartas_mazo_juego_final_vistas').append(carta_vista_rival)
+
+
+        print(f"nivel_data.get('jugador').get('cartas_mazo_juego_final_vistas'): {nivel_data.get('jugador').get('cartas_mazo_juego_final_vistas')}")
         #Esto funciona, guarda el puntaje del jugador en base al ataque (dsp analizar bien cómo sumar el puntaje)
-        puntaje_carta_actual_jugador = nivel_data.get('jugador').get('cartas_mazo_juego_final_vistas')[-1].get('atk')
+        hp_total_jugador = nivel_data.get('jugador').get('vida_total')
+        nivel_data['jugador']['vida_actual']
+        atk_jugador = nivel_data.get('jugador').get('cartas_mazo_juego_final_vistas')[-1].get('atk')
+        def_jugador = nivel_data.get('jugador').get('cartas_mazo_juego_final_vistas')[-1].get('def')
+
+        nivel_data['rival']['vida_actual']
+        atk_rival = nivel_data.get('rival').get('cartas_mazo_juego_final_vistas')[-1].get('atk')
+        def_rival = nivel_data.get('rival').get('cartas_mazo_juego_final_vistas')[-1].get('def')
+
+        print(f"hp_total_jugador: {hp_total_jugador}")
+        print(f"nivel_data['jugador']['vida_actual']: {nivel_data['jugador']['vida_actual']}")
+        print(f"atk_jugador: {atk_jugador}")
+        print(f"def_jugador: {def_jugador}")
+
+        print(f"nivel_data['rival']['vida_actual']: {nivel_data['rival']['vida_actual']}")
+        print(f"atk_rival: {atk_rival}")
+        print(f"def_rival: {def_rival}")
+        puntaje_ronda = 0
+        #Si el ataque del usuario, es mayor al rival, ese será el puntaje
+        if atk_jugador > atk_rival:
+            puntaje_ronda = atk_jugador - def_rival 
+            nivel_data['rival']['vida_actual'] -= puntaje_ronda
+        else:
+            danio_rival = atk_rival - def_jugador
+            nivel_data['jugador']['vida_actual'] -= danio_rival
         #Hacer que el puntaje del jugador, sea el resultado del sobrante de la resta del dato que le hace al rival
         #Ej, si tiene 2000 de defensa, y el usuario 2500 de atque, el puntaje en esa mano es de 500, por ej
         
         #Sumamos los puntos de cada ronda con esta función
-        jugador_humano.sumar_puntaje_actual(nivel_data.get('jugador'), puntaje_carta_actual_jugador)
+        jugador_humano.sumar_puntaje_actual(nivel_data.get('jugador'), puntaje_ronda)
         
         #print(f'Frase actual: {nivel_data.get('cartas_mazo_juego_final_vistas')[-1].get('frase')}')
 def eventos(nivel_data: dict, cola_eventos: list[pg.event.Event]):

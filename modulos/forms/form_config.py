@@ -31,7 +31,7 @@ def init_form_config(dict_form_data: dict):
     return form
 
 def click_volver(parametro: str):
-    print(parametro)
+    var.SOUND_CLICK.play()
     base_form.set_active(parametro)
 
 def click_music_on(dict_form_data: dict):
