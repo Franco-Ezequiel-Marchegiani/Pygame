@@ -14,14 +14,16 @@ def init_form_main_menu(dict_form_data: dict):
     form = base_form.create_base_form(dict_form_data)
     
     form['lbl_titulo'] = Label(x=var.DIMENSION_PANTALLA[0]//2, y=100,text=var.MAIN_TITLE, screen=form.get('screen'), font_path=var.FUENTE_SAIYAN, font_size=50)
+    form['lbl_sub_titulo'] = Label(x=var.DIMENSION_PANTALLA[0]//2, y=175,text='MAIN MENU', screen=form.get('screen'), font_path=var.FUENTE_SAIYAN, font_size=50)
     
-    form['btn_jugar'] = Button(x=var.DIMENSION_PANTALLA[0]//2, y=225, text='JUGAR', screen=form.get('screen'), font_path=var.FUENTE_SAIYAN, font_size=30, on_click=cambiar_formulario_on_click, on_click_param='form_start_level')
-    form['btn_ranking'] = Button(x=var.DIMENSION_PANTALLA[0]//2, y=290, text='RANKING', screen=form.get('screen'), font_path=var.FUENTE_SAIYAN, font_size=30, on_click=cambiar_formulario_on_click, on_click_param='form_ranking')
-    form['btn_config'] = Button(x=var.DIMENSION_PANTALLA[0]//2, y=370, text='CONFIG', screen=form.get('screen'), font_path=var.FUENTE_SAIYAN, font_size=30, on_click=cambiar_formulario_on_click, on_click_param='form_config')
-    form['btn_salir'] = Button(x=var.DIMENSION_PANTALLA[0]//2, y=450, text='SALIR', screen=form.get('screen'), font_path=var.FUENTE_SAIYAN, font_size=30, on_click=click_salir, on_click_param='Boton Salir')
+    form['btn_jugar'] = Button(x=var.DIMENSION_PANTALLA[0]//2, y=375, text='JUGAR', screen=form.get('screen'), font_path=var.FUENTE_SAIYAN, font_size=30, on_click=cambiar_formulario_on_click, on_click_param='form_start_level')
+    form['btn_ranking'] = Button(x=var.DIMENSION_PANTALLA[0]//2, y=445, text='RANKING', screen=form.get('screen'), font_path=var.FUENTE_SAIYAN, font_size=30, on_click=cambiar_formulario_on_click, on_click_param='form_ranking')
+    form['btn_config'] = Button(x=var.DIMENSION_PANTALLA[0]//2, y=515, text='CONFIG', screen=form.get('screen'), font_path=var.FUENTE_SAIYAN, font_size=30, on_click=cambiar_formulario_on_click, on_click_param='form_config')
+    form['btn_salir'] = Button(x=var.DIMENSION_PANTALLA[0]//2, y=580, text='SALIR', screen=form.get('screen'), font_path=var.FUENTE_SAIYAN, font_size=30, on_click=click_salir, on_click_param='Boton Salir')
     
     form['widgets_list'] = [
         form.get('lbl_titulo'), 
+        form.get('lbl_sub_titulo'), 
         form.get('btn_jugar'), 
         form.get('btn_ranking'), 
         form.get('btn_config'), 

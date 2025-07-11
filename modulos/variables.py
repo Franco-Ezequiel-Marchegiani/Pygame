@@ -131,7 +131,8 @@ RUTA_MUSICA_LOSE = './modulos/assets/audio/music/lose_music.ogg'
 RUTA_MUSICA_BONUS = './modulos/assets/audio/music/form_wish_select.ogg'
 RUTA_MUSICA_BATALLA = './modulos/assets/audio/music/level_01.ogg'
 RUTA_MUSICA_BUCLE = './modulos/assets/sound/music_dragon_ball_bucle.mp3'
-RUTA_MUSICA = './modulos/assets/sound/music_dragon_ball_1.mp3'
+RUTA_MUSICA_PAUSA = './modulos/assets/audio/music/form_pausa.ogg'
+RUTA_MUSICA = './modulos/assets/audio/music/music_dragon_ball_1.mp3'
 RUTA_ICONO = './modulos/assets/icon_4_star.png'
 
 SOUND_CLICK = pg.mixer.Sound(RUTA_SONIDO_CLICK)

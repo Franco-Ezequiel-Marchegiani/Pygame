@@ -26,7 +26,7 @@ def create_form_manager(screen: pg.Surface, datos_juego: dict):
                 "coords":(0,0), 
                 "stage_number":1, 
                 "music_path":var.RUTA_MUSICA_MAIN_MENU, #Cambiar acá la ruta de la música que se quiera que suene
-                "background_path": './modulos/assets/background/fondo_3.png',
+                "background_path": './modulos/assets/img/forms/img_5.png',
                 "screen_dimentions": var.DIMENSION_PANTALLA
             }
         ),
@@ -99,7 +99,7 @@ def create_form_manager(screen: pg.Surface, datos_juego: dict):
                 "active":True, 
                 "coords":(0,0), 
                 "stage_number":1, 
-                "music_path":var.RUTA_MUSICA,
+                "music_path":var.RUTA_MUSICA_PAUSA,
                 "background_path": './modulos/assets/img/forms/img_20.jpg',
                 "screen_dimentions": var.DIMENSION_PANTALLA
             }

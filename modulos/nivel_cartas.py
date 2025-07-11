@@ -164,7 +164,8 @@ def reiniciar_nivel(nivel_cartas: dict, jugador: dict, pantalla: pg.Surface, nro
     #Obtenemos los valores de si ya se usó el bono, y los refrescamos
     base_form.forms_dict['form_start_level']['bonus_shield_used'] = False
     base_form.forms_dict['form_start_level']['bonus_heal_used'] = False
-    
+    #Reiniciamos para evitar que se muestren cartas
+    jugador['cartas_mazo_juego_final_vistas'] = []
     #Llama a la función para setear el puntaje y reiniciarlo pasandole el valor de 0
     jugador_humano.set_puntaje_actual(jugador, 0)
     #Reiniciamos los valores de "inicializar_nivel_Cartas" para que pueda jugar nuevamente
