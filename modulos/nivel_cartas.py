@@ -151,12 +151,11 @@ def calcular_ganador_ronda(nivel_data: dict) -> dict:
     ganador_ronda = ''
     #Si el ataque del usuario, es mayor al rival, ese será el puntaje
     if atk_jugador > atk_rival:
-        puntaje_ronda = atk_jugador - def_rival 
+        puntaje_ronda = atk_jugador 
         nivel_data['rival']['vida_actual'] -= puntaje_ronda
         ganador_ronda = 'jugador'
     else:
-        danio_rival = atk_rival - def_jugador
-        nivel_data['jugador']['vida_actual'] -= danio_rival
+        nivel_data['jugador']['vida_actual'] -= atk_rival
         ganador_ronda = 'rival'
     return {'ganador_ronda': ganador_ronda, 'puntaje_ronda': puntaje_ronda}
 
@@ -257,8 +256,19 @@ def check_juego_terminado(nivel_data: dict):
             #Ganador:
             nivel_data['jugador']['ganador'] = definicion_ganador(nivel_data)
     
-    if mazo_esta_vacio(nivel_data) or\
-        tiempo_esta_terminado(nivel_data):
+    #Si no hay más cartas, se renuevan:
+    if mazo_esta_vacio(nivel_data):
+            #Poner acá un video o una animación o algo indicando que se está mezclando el mazo nuevamente.
+            #La vida permanece, así que todo ok
+            #Generando un nuevo mazo
+            nivel_data.get('jugador')['cartas_mazo_juego_final_vistas'] = []
+            nivel_data.get('rival')['cartas_mazo_juego_final_vistas'] = []
+            generar_mazo(nivel_data['cartas_mazo_juego'], nivel_data['jugador'])
+            generar_mazo(nivel_data['cartas_mazo_juego_rival'], nivel_data['rival'])
+            
+            nivel_data['juego_finalizado'] = False
+
+    if tiempo_esta_terminado(nivel_data):
             nivel_data['juego_finalizado'] = True
     
 
