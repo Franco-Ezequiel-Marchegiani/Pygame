@@ -133,6 +133,31 @@ def calcular_ganador_ronda(nivel_data: dict) -> int:
         nivel_data['jugador']['vida_actual'] -= danio_rival
     return puntaje_ronda
 
+def validacion_uso_bonus() -> str:
+    #Revisa y remueve la vista de los íconos del form start_level, y devuelve en formato str
+    #El bonus activo en esta ronda para que jugar_mano haga la lógica
+
+    bonus_shield_active = base_form.forms_dict['form_start_level']['bonus_shield_active'] 
+    bonus_heal_active = base_form.forms_dict['form_start_level']['bonus_heal_active'] 
+    #bonus_shield_used
+    #bonus_heal_used
+    #Si están activos alguno de los bufos, en el siguiente evento los actualiza el valur de que ya se usó
+    if bonus_shield_active:
+        base_form.forms_dict['form_start_level']['bonus_shield_used'] = True
+        return 'shield'
+    
+    if bonus_heal_active:
+        base_form.forms_dict['form_start_level']['bonus_heal_used'] = True
+        return 'heal'
+    print(f"bonus_shield_used Status: {base_form.forms_dict['form_start_level']['bonus_shield_used']}")
+    print(f"bonus_heal_used Status: {base_form.forms_dict['form_start_level']['bonus_heal_used']}")
+    return ''
+
+def bonus_heal(nivel_data: dict):
+    nivel_data['jugador']['vida_actual'] = nivel_data['jugador']['vida_total']
+def bonus_shield(nivel_data: dict):
+    pass
+
 def jugar_mano(nivel_data: dict):
     if nivel_data.get('jugador').get('cartas_mazo_juego_final') and\
         not nivel_data.get('jugador').get('cartas_mazo_juego_final')[-1].get('visible'):
@@ -152,36 +177,21 @@ def jugar_mano(nivel_data: dict):
         carta_vista_rival = nivel_data.get('rival').get('cartas_mazo_juego_final').pop()
         nivel_data.get('rival').get('cartas_mazo_juego_final_vistas').append(carta_vista_rival)
 
+
+        bonus_value = validacion_uso_bonus()
+        #Según el valor que retorne, activa un bonus o el otro
+        if bonus_value == 'shield':
+            bonus_shield(nivel_data)
+        elif bonus_value == 'heal':
+            bonus_heal(nivel_data)
+
         puntaje_ronda = calcular_ganador_ronda(nivel_data)
         print(f"nivel_data.get('jugador').get('cartas_mazo_juego_final_vistas'): {nivel_data.get('jugador').get('cartas_mazo_juego_final_vistas')}")
-        
-        
-        #ESTO HACERLO EN UNA FUNCIÓN APARTE
-        
-        #Acá revisa si alguno de los bonus está activo.
-        #Si alguno de los dos es true, entonces activar el bonus que aplica, y dsp cambiar el valor de active a false
-        
-        bonus_shield_active = base_form.forms_dict['form_start_level']['bonus_shield_active'] 
-        bonus_heal_active = base_form.forms_dict['form_start_level']['bonus_heal_active'] 
-        #bonus_shield_used
-        #bonus_heal_used
-        #Si están activos alguno de los bufos, en el siguiente evento los actualiza el valur de que ya se usó
-        if bonus_shield_active:
-            base_form.forms_dict['form_start_level']['bonus_shield_used'] = True
-        
-        if bonus_heal_active:
-            base_form.forms_dict['form_start_level']['bonus_heal_used'] = True
-        print(f"bonus_shield_used Status: {base_form.forms_dict['form_start_level']['bonus_shield_used']}")
-        print(f"bonus_heal_used Status: {base_form.forms_dict['form_start_level']['bonus_heal_used']}")
-        #Esto funciona, guarda el puntaje del jugador en base al ataque (dsp analizar bien cómo sumar el puntaje)
-        
-        #Hacer que el puntaje del jugador, sea el resultado del sobrante de la resta del dato que le hace al rival
-        #Ej, si tiene 2000 de defensa, y el usuario 2500 de atque, el puntaje en esa mano es de 500, por ej
         
         #Sumamos los puntos de cada ronda con esta función
         jugador_humano.sumar_puntaje_actual(nivel_data.get('jugador'), puntaje_ronda)
         
-        #print(f'Frase actual: {nivel_data.get('cartas_mazo_juego_final_vistas')[-1].get('frase')}')
+
 def eventos(nivel_data: dict, cola_eventos: list[pg.event.Event]):
     
     for evento in cola_eventos:
