@@ -102,7 +102,7 @@ def generar_mazo(lista_cartas_nivel: list, participante: dict):
     #Las mezclamos, y creamos en el mismo dict la propiedad para ya utilizar
     rd.shuffle(participante.get('cartas_mazo_juego_final'))
 
-def calcular_ganador_ronda(nivel_data: dict) -> int:
+def calcular_ganador_ronda(nivel_data: dict) -> dict:
     #Hace el cálculo del atk y def de cada oponente
     #Para luego hacer la respectiva suma, y retorna el puntaje ganado
     #En la ronda, y a la vez actualiza la barra de vida de cada oponente
@@ -124,14 +124,17 @@ def calcular_ganador_ronda(nivel_data: dict) -> int:
     print(f"atk_rival: {atk_rival}")
     print(f"def_rival: {def_rival}")
     puntaje_ronda = 0
+    ganador_ronda = ''
     #Si el ataque del usuario, es mayor al rival, ese será el puntaje
     if atk_jugador > atk_rival:
         puntaje_ronda = atk_jugador - def_rival 
         nivel_data['rival']['vida_actual'] -= puntaje_ronda
+        ganador_ronda = 'jugador'
     else:
         danio_rival = atk_rival - def_jugador
         nivel_data['jugador']['vida_actual'] -= danio_rival
-    return puntaje_ronda
+        ganador_ronda = 'rival'
+    return {'ganador_ronda': ganador_ronda, 'puntaje_ronda': puntaje_ronda}
 
 def validacion_uso_bonus() -> str:
     #Revisa y remueve la vista de los íconos del form start_level, y devuelve en formato str
@@ -139,11 +142,10 @@ def validacion_uso_bonus() -> str:
 
     bonus_shield_active = base_form.forms_dict['form_start_level']['bonus_shield_active'] 
     bonus_heal_active = base_form.forms_dict['form_start_level']['bonus_heal_active'] 
-    #bonus_shield_used
-    #bonus_heal_used
+
     #Si están activos alguno de los bufos, en el siguiente evento los actualiza el valur de que ya se usó
     if bonus_shield_active:
-        base_form.forms_dict['form_start_level']['bonus_shield_used'] = True
+        #El escudo se activa recién cuando el rival gane la ronda, no es instantaneo
         return 'shield'
     
     if bonus_heal_active:
@@ -155,8 +157,16 @@ def validacion_uso_bonus() -> str:
 
 def bonus_heal(nivel_data: dict):
     nivel_data['jugador']['vida_actual'] = nivel_data['jugador']['vida_total']
-def bonus_shield(nivel_data: dict):
-    pass
+
+def bonus_shield(nivel_data: dict, resultado_ronda: dict):
+    if resultado_ronda.get('ganador_ronda') == 'rival':
+        #Si la mano la gana el rival, entonces recién ahí se consume el buff y rebota el daño del enemigo
+        atk_rival = nivel_data.get('rival').get('cartas_mazo_juego_final_vistas')[-1].get('atk')
+        nivel_data['rival']['vida_actual'] -= atk_rival
+        #Y recién ahora utiliza el bonus, y se elimina de la vista
+        base_form.forms_dict['form_start_level']['bonus_shield_used'] = True
+        #Le sumamos el puntaje el daño hecho por el enemigo a sí mismo:
+        resultado_ronda['puntaje_ronda'] = atk_rival
 
 def jugar_mano(nivel_data: dict):
     if nivel_data.get('jugador').get('cartas_mazo_juego_final') and\
@@ -179,20 +189,19 @@ def jugar_mano(nivel_data: dict):
 
 
         bonus_value = validacion_uso_bonus()
+
+        resultado_ronda = calcular_ganador_ronda(nivel_data)
+        
         #Según el valor que retorne, activa un bonus o el otro
         if bonus_value == 'shield':
-            bonus_shield(nivel_data)
+            bonus_shield(nivel_data, resultado_ronda)
         elif bonus_value == 'heal':
             bonus_heal(nivel_data)
-
-        puntaje_ronda = calcular_ganador_ronda(nivel_data)
-        print(f"nivel_data.get('jugador').get('cartas_mazo_juego_final_vistas'): {nivel_data.get('jugador').get('cartas_mazo_juego_final_vistas')}")
-        
         #Sumamos los puntos de cada ronda con esta función
-        jugador_humano.sumar_puntaje_actual(nivel_data.get('jugador'), puntaje_ronda)
+        jugador_humano.sumar_puntaje_actual(nivel_data.get('jugador'), resultado_ronda.get('puntaje_ronda'))
         
 
-def eventos(nivel_data: dict, cola_eventos: list[pg.event.Event]):
+def eventos(cola_eventos: list[pg.event.Event]):
     
     for evento in cola_eventos:
         #Si damos click, se ejecuta el código
@@ -262,7 +271,7 @@ def draw(nivel_data: dict):
 
 def update(nivel_data: dict, cola_eventos: list[pg.event.Event]):
     #Manejar acá todo lo que se tenga que actualizar, ya sea la vida, barrera, etc.
-    eventos(nivel_data, cola_eventos)
+    eventos(cola_eventos)
     #Revisa si la partida/juego ya terminó
     check_juego_terminado(nivel_data)
     #Si el juego terminó, y NO se guardó el puntaje...
