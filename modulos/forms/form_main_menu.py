@@ -29,9 +29,11 @@ def init_form_main_menu(dict_form_data: dict):
         form.get('btn_config'), 
         form.get('btn_salir')
     ]
-    
-    base_form.forms_dict[dict_form_data.get('name')] = form
-    
+    dict_name = dict_form_data.get('name')
+    base_form.forms_dict[dict_name] = form
+    base_form.play_music(base_form.forms_dict[dict_name])
+    print(f'LOG COMPLETO DE MAIN MENU: {form}')
+
     return form
 
 def cambiar_formulario_on_click(parametro: str):

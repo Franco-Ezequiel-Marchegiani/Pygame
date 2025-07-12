@@ -75,7 +75,7 @@ def mostrar_boton(boton_dict: dict):
     pg.draw.rect(boton_dict.get("pantalla"), boton_dict.get("color_fondo"), boton_dict.get("rectangulo"), 2)
 
     
-def generar_bd(root_path_cards: str):
+def generar_bd(root_path_cards: str): # , cantidad_cartas: int
 
     contenedor_hp = 0
     contenedor_atk = 0
@@ -139,11 +139,13 @@ def generar_bd(root_path_cards: str):
         
         for index_Card in range(len(deck_cards)):
             deck_cards[index_Card]['path_imagen_reverso'] = reverse_path
+            
+            carta_dict['cartas'][deck_name] = deck_cards[index_Card]
+
         #Actualizo los valores habiendo acumulado
         carta_dict["max_stats"]["hp"] = contenedor_hp
         carta_dict["max_stats"]["atk"] = contenedor_atk
         carta_dict["max_stats"]["def"] = contenedor_def
-        carta_dict['cartas'][deck_name] = deck_cards
     return carta_dict
 
 def asignar_frases(lista_mazo: list[dict], lista_frases: list[dict]) -> list[dict]:

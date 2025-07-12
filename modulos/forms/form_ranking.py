@@ -5,8 +5,6 @@ import modulos.auxiliar as aux
 from utn_fra.pygame_widgets import (
     Button, Label
 )
-
-
 def init_form_ranking(dict_form_data: dict, jugador: dict):
     form = base_form.create_base_form(dict_form_data)
     
@@ -27,7 +25,7 @@ def init_form_ranking(dict_form_data: dict, jugador: dict):
     ]
     
     base_form.forms_dict[dict_form_data.get('name')] = form
-    
+    print(f'LOG COMPLETO DE FORM RANKIN: {form}')
     return form
 
 

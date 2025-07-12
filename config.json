@@ -1,13 +1,12 @@
 {
     "nivel_1": {
+        "ruta_base": "./modulos/assets/img/decks/",
         "ruta_mazo": "./modulos/assets/img/decks/blue_deck_expansion_1",
         "ruta_mazo_rival": "./modulos/assets/img/decks/blue_deck_expansion_2",
         "coordenada_mazo_1": [400,456],
         "coordenada_mazo_2": [660,456],
         "coordenada_mazo_rival_1": [400,115],
-        "coordenada_mazo_rival_2": [660,115]
-    },
-    "nivel_2": {
+        "coordenada_mazo_rival_2": [660,115],
         "cantidades":{
             "blue_deck_expansion_1": 10,
             "blue_deck_expansion_2": 5,
@@ -20,14 +19,14 @@
             "red_deck_expansion_3": 5,
             "purple_deck_expansion_1": 5,
             "purple_deck_expansion_2": 5,
-            "purple_deck_expansion_3": 5,
             "silver_deck_expansion_1": 5,
             "silver_deck_expansion_2": 5,
             "silver_deck_expansion_3": 5,
-            "_deck_expansion_1": 5,
-            "_deck_expansion_2": 5,
-            "_deck_expansion_3": 5
+            "black_deck_expansion_1": 3,
+            "golden_deck_expansion_1": 2
         }
+    },
+    "nivel_2": {
     },
     "nivel_3": {}
 }
