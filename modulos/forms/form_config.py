@@ -34,9 +34,8 @@ def click_volver(parametro: str):
     base_form.set_active(parametro)
 
 def click_music_on(dict_form_data: dict):
-    print(f"PONÉ LA MÚSICA!! {dict_form_data}")
-    aux.inicializar_musica(dict_form_data)
-    #base_form.set_active(parametro)
+    #aux.inicializar_musica(dict_form_data)
+    base_form.play_music(base_form.forms_dict[dict_form_data.get('name')])
 
 def click_music_off(parametro: str):
     print(f"*Ruido de cd deteniendose {parametro}")

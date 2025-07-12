@@ -191,8 +191,7 @@ def grabar_puntaje(dict_juego: dict):
         data = datos_player_to_csv(dict_juego)
         file.write(data)
 
-def inicializar_musica(dict_juego: dict):
-    porcentaje_coma = dict_juego.get('volumen_musica') / 50
+def inicializar_musica():
     #Calculamos cuanto dura la primera canción, para que se ejecute una vez
     sound = pg.mixer.Sound(var.RUTA_MUSICA)
     dur_ms = int(sound.get_length() * 1000)
@@ -201,7 +200,6 @@ def inicializar_musica(dict_juego: dict):
 
     #Musica inicial
     pg.mixer.music.load(var.RUTA_MUSICA)
-    pg.mixer.music.set_volume(porcentaje_coma)
     pg.mixer.music.play() #Suena una sola vez
 
 

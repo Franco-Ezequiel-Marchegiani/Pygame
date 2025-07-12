@@ -55,6 +55,7 @@ def click_select_bonus(form_dict: dict):
             ),
             #Indica que ya fue usado, y cambia el valor
             base_form.forms_dict['form_start_level']['bonus_shield_used'] = True
+            
         case 'heal': #(Originialmente es un +50 en los puntos)
             jugador_mod.set_puntaje_actual(
                 form_dict.get('jugador'),

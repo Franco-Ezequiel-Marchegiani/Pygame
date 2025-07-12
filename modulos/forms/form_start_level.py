@@ -18,6 +18,8 @@ def init_form_start_level(dict_form_data: dict, jugador: dict):
     form['clock'] = pg.time.Clock()
     form['bonus_shield_used'] = False
     form['bonus_heal_used'] = False
+    form['bonus_shield_active'] = False
+    form['bonus_heal_active'] = False
     #Acá desarrollamos una función que vaya restando el tiempo
     # form['level_timer'] = var.TIMER #2000 segundos de base, a modificar
     form['first_last_timer'] = pg.time.get_ticks()
@@ -137,17 +139,30 @@ def draw(form_data: dict):
         form_data.get('widgets_list')[widget_index].draw()
     
     #Hacer acá mismo una condicional con la bandera, y hacer un draw acá, no añadirlo en la lista
-    if form_data.get('bonus_shield_used'):
-        form_data.get('btn_bonus_shield_used').draw()
-    else:
-        form_data.get('btn_bonus_shield').draw()
-
-    if form_data.get('bonus_heal_used'):
-        form_data.get('btn_bonus_heal_used').draw()
+    if form_data.get('bonus_shield_active'):
         pass
     else:
-        form_data.get('btn_bonus_heal').draw()
-        
+        if form_data.get('bonus_shield_used'):
+            form_data.get('btn_bonus_shield_used').draw()
+        else:
+            form_data.get('btn_bonus_shield').draw()
+
+    #Adaptar acá los ifs, creo que si ambas banderas están en false, que se dibuje:
+    #form_data.get('btn_bonus_heal').draw()
+    #Si está activo el bonus_heal_used, dibujar: form_data.get('btn_bonus_heal_used').draw()
+    #Si están activos ambas banderas, no dibujar nada, hacer un continue
+
+    #"bonus_heal_active" sería si ya lo usó, en ese caso no se hace nada.
+    if form_data.get('bonus_heal_active'):
+        pass
+    else:
+        if form_data.get('bonus_heal_used'):
+            form_data.get('btn_bonus_heal_used').draw()
+        else:
+            form_data.get('btn_bonus_heal').draw()
+
+    # bonus_shield_actived
+    # bonus_heal_active
 
     nivel_cartas.draw(form_data.get('level'))
 
@@ -194,15 +209,21 @@ def update(form_data: dict, event_list: list[pg.event.Event]):
     #En el bonus del shield, rebotar el daño del enemigo, y si pinta tmb el daño del jugador
     #Tmb aplica con críticos.
     #Hacer acá mismo una condicional con la bandera, y hacer un draw acá, no añadirlo en la lista
-    if form_data.get('bonus_shield_used'):
-        form_data.get('btn_bonus_shield_used').update()
+    if form_data.get('bonus_shield_active'):
+        pass
     else:
-        form_data.get('btn_bonus_shield').update()
+        if form_data.get('bonus_shield_used'):
+            form_data.get('btn_bonus_shield_used').update()
+        else:
+            form_data.get('btn_bonus_shield').update()
 
-    if form_data.get('bonus_heal_used'):
-        form_data.get('btn_bonus_heal_used').update()
+    if form_data.get('bonus_heal_active'):
+        pass
     else:
-        form_data.get('btn_bonus_heal').update()
+        if form_data.get('bonus_heal_used'):
+            form_data.get('btn_bonus_heal_used').update()
+        else:
+            form_data.get('btn_bonus_heal').update()
 
 
     nivel_cartas.update(form_data.get('level'), event_list)

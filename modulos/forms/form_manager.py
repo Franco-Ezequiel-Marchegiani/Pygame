@@ -7,6 +7,7 @@ import modulos.forms.form_ranking as form_ranking
 import modulos.forms.form_bonus as form_bonus
 import modulos.forms.form_enter_name as form_enter_name
 import modulos.forms.form_pause as form_pause
+import modulos.nivel_cartas as nivel_cartas
 
 def create_form_manager(screen: pg.Surface, datos_juego: dict):
     form = {}
@@ -15,8 +16,13 @@ def create_form_manager(screen: pg.Surface, datos_juego: dict):
     form['game_started'] = False
     form['jugador'] = None
     form['enemy'] = None
-    
     form['jugador'] = datos_juego.get('jugador')
+    print(f"DATOS JUGADOR FORM MANAGER: {form['jugador']}")
+    fondo_enter_name = './modulos/assets/img/forms/img_3.jpg'
+    music_enter_name = var.RUTA_MUSICA_WIN
+    if form['jugador'].get('ganador') == 'rival':
+        fondo_enter_name = './modulos/assets/img/forms/img_2.jpg'
+        music_enter_name = var.RUTA_MUSICA_LOSE
     form['form_list'] = [
         form_main_menu.init_form_main_menu(
             dict_form_data={
@@ -87,8 +93,8 @@ def create_form_manager(screen: pg.Surface, datos_juego: dict):
                 "active":True, 
                 "coords":(0,0), 
                 "stage_number":1, 
-                "music_path":var.RUTA_MUSICA_WIN, #Hacer un IF, de que si jugador ganó, ponga una música, u otra
-                "background_path": './modulos/assets/img/forms/img_3.jpg',
+                "music_path": music_enter_name, #Hacer un IF, de que si jugador ganó, ponga una música, u otra
+                "background_path": fondo_enter_name,
                 "screen_dimentions": var.DIMENSION_PANTALLA
             }, jugador=form.get('jugador')
         ),

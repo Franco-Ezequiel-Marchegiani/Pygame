@@ -1,3 +1,4 @@
+import pygame as pg 
 import modulos.forms.base_form as base_form
 import modulos.jugador as jugador_mod
 import modulos.variables as var
@@ -15,6 +16,7 @@ def init_form_enter_name(dict_form_data: dict, jugador: dict):
     form['jugador'] = jugador
 
     form['score'] = jugador_mod.get_puntaje_total(form.get('jugador'))
+    
     form['confirm_name'] = False
     form['title'] = Label(
         x=var.CENTRO_DIMENSION_X, y=var.CENTRO_DIMENSION_Y - 200, text=var.MAIN_TITLE, 
@@ -42,7 +44,7 @@ def init_form_enter_name(dict_form_data: dict, jugador: dict):
         x=var.CENTRO_DIMENSION_X, y= var.CENTRO_DIMENSION_Y + 100, text='CONFIRMAR NOMBRE', 
         screen=form.get('screen'), font_path=var.FUENTE_ALAGARD, on_click= click_confirm_name, on_click_param=form
     )
-
+    
     form['widgets_list'] = [
         form.get('title'),
         form.get('title_2'),
@@ -66,7 +68,8 @@ def click_confirm_name(form_dict: dict):
     aux.guardar_ranking(form_dict.get('jugador'))
     #Luego de guardarlo, enviamos al usuario a la vista de ranking
     base_form.stop_music()
-    base_form.play_music(base_form.forms_dict['form_enter_name'])
+    # base_form.play_music(base_form.forms_dict['form_enter_name'])
+    aux.inicializar_musica()
     base_form.set_active('form_ranking')
 
 def draw(form_dict: dict):

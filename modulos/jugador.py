@@ -10,6 +10,7 @@ def inicializar_oponente(inicializar_screen):
     jugador_actual['def_total'] = 0
     jugador_actual['puntaje_actual'] = 0
     jugador_actual['puntaje_total'] = 0
+    jugador_actual['ganador'] = ''
     jugador_actual['nombre'] = ''
     jugador_actual['screen'] = inicializar_screen
     jugador_actual['coords_iniciales'] = []

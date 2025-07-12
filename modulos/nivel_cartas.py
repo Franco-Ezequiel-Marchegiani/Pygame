@@ -67,8 +67,8 @@ def cargar_bd_oponente(nivel_data: dict, oponente_name: str, cartas_mazo_juego: 
     print(f'Oponente ya poblado: {dict_mazo.get('max_stats')}')
     
     #Ya que se recorrió el bucle una vez, aprovechamos y brindamos las max estadísticas a cada oponente
-    nivel_data[oponente_name]['vida_total'] = 2000 #dict_mazo.get('max_stats').get('hp')
-    nivel_data[oponente_name]['vida_actual'] = 2000 #dict_mazo.get('max_stats').get('hp')
+    nivel_data[oponente_name]['vida_total'] = dict_mazo.get('max_stats').get('hp')
+    nivel_data[oponente_name]['vida_actual'] = dict_mazo.get('max_stats').get('hp')
     nivel_data[oponente_name]['atk_total'] = dict_mazo.get('max_stats').get('atk')
     nivel_data[oponente_name]['def_total'] = dict_mazo.get('max_stats').get('def')
 
@@ -154,6 +154,25 @@ def jugar_mano(nivel_data: dict):
 
         puntaje_ronda = calcular_ganador_ronda(nivel_data)
         print(f"nivel_data.get('jugador').get('cartas_mazo_juego_final_vistas'): {nivel_data.get('jugador').get('cartas_mazo_juego_final_vistas')}")
+        
+        
+        #ESTO HACERLO EN UNA FUNCIÓN APARTE
+        
+        #Acá revisa si alguno de los bonus está activo.
+        #Si alguno de los dos es true, entonces activar el bonus que aplica, y dsp cambiar el valor de active a false
+        
+        bonus_shield_used = base_form.forms_dict['form_start_level']['bonus_shield_used'] 
+        bonus_heal_used = base_form.forms_dict['form_start_level']['bonus_heal_used'] 
+        #bonus_shield_used
+        #bonus_heal_used
+        #Si están activos alguno de los bufos, en el siguiente evento los actualiza el valur de que ya se usó
+        if bonus_shield_used:
+            base_form.forms_dict['form_start_level']['bonus_shield_active'] = True
+        
+        if bonus_heal_used:
+            base_form.forms_dict['form_start_level']['bonus_heal_active'] = True
+        print(f"bonus_shield_active Status: {base_form.forms_dict['form_start_level']['bonus_shield_active']}")
+        print(f"bonus_heal_active Status: {base_form.forms_dict['form_start_level']['bonus_heal_active']}")
         #Esto funciona, guarda el puntaje del jugador en base al ataque (dsp analizar bien cómo sumar el puntaje)
         
         #Hacer que el puntaje del jugador, sea el resultado del sobrante de la resta del dato que le hace al rival
@@ -193,7 +212,7 @@ def check_juego_terminado(nivel_data: dict):
     if nivel_data['jugador']['vida_actual'] <= 0 or nivel_data['rival']['vida_actual'] <= 0:
             nivel_data['juego_finalizado'] = True
             #Ganador:
-            nivel_data['ganador'] = definicion_ganador(nivel_data)
+            nivel_data['jugador']['ganador'] = definicion_ganador(nivel_data)
     
     if mazo_esta_vacio(nivel_data) or\
         tiempo_esta_terminado(nivel_data):
@@ -209,7 +228,9 @@ def reiniciar_nivel(nivel_cartas: dict, jugador: dict, pantalla: pg.Surface, nro
     print('=============== REINICIANDO NIVEL ===============')
     #Obtenemos los valores de si ya se usó el bono, y los refrescamos
     base_form.forms_dict['form_start_level']['bonus_shield_used'] = False
-    base_form.forms_dict['form_start_level']['bonus_heal_used'] = False
+    base_form.forms_dict['form_start_level']['bonus_shield_used'] = False
+    base_form.forms_dict['form_start_level']['bonus_heal_active'] = False
+    base_form.forms_dict['form_start_level']['bonus_heal_active'] = False
     #Reiniciamos para evitar que se muestren cartas
     jugador['cartas_mazo_juego_final_vistas'] = []
     #Llama a la función para setear el puntaje y reiniciarlo pasandole el valor de 0
@@ -242,7 +263,8 @@ def update(nivel_data: dict, cola_eventos: list[pg.event.Event]):
         #Guardamos una sola vez el puntaje guardado.
         nivel_data['puntaje_guardado'] = True 
         print(f'Puntaje final alcanzado: {jugador_humano.get_puntaje_total(nivel_data.get("jugador"))}')
-        print(f'Y EL GANADOR ES... : {nivel_data['ganador']}')
+        print(f'GANADOR VIEJO : {nivel_data['ganador']}')
+        print(f'Y EL GANADOR ES... : {nivel_data['jugador']['ganador']}')
 
 #Manejar acá la lógica de definir ganador, y demás, en los forms va solo info que se muestre, acá va toda la lógica pesada
 
