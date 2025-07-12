@@ -242,8 +242,4 @@ def update(form_data: dict, event_list: list[pg.event.Event]):
         base_form.stop_music()
         base_form.play_music(base_form.forms_dict['form_enter_name'])
         base_form.set_active('form_enter_name')
-    #Pequeño for para obtener coordenadas
-    for evento in event_list:
-        if evento.type == pg.MOUSEBUTTONDOWN:
-            print(f"Coordenada: {evento.pos}")   
     events_handler(event_list)

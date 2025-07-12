@@ -72,12 +72,7 @@ def draw(form_data: dict):
     for lbl in form_data.get('ranking_screen'):
         lbl.draw()
 
-def update(form_data: dict, lista_eventos: list[pg.event.Event]):
+def update(form_data: dict):
     if form_data.get('active'):
         inicializar_ranking(form_data)
-    base_form.update(form_data)
-
-    #Pequeño for para obtener coordenadas
-    for evento in lista_eventos:
-        if evento.type == pg.MOUSEBUTTONDOWN:
-            print(f"Coordenada: {evento.pos}")   
+    base_form.update(form_data)   

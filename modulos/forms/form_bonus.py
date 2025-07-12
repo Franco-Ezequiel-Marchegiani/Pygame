@@ -63,8 +63,7 @@ def click_select_bonus(form_dict: dict):
             ),
             #Indica que ya fue usado, y cambia el valor
             base_form.forms_dict['form_start_level']['bonus_heal_active'] = True
-    #Sonido de Bonus meanwhile
-    
+
     var.SOUND_BONUS_FIN.play()
     pg.time.wait(6000) #Espera 2 segs
     click_change_form('form_start_level') 
@@ -80,9 +79,5 @@ def draw(form_dict: dict):
     base_form.draw(form_dict)
     base_form.draw_widgets(form_dict)
 
-def update(form_data: dict, event_list: list[pg.event.Event]):
+def update(form_data: dict):
     base_form.update(form_data)
-    #Pequeño for para obtener coordenadas
-    for evento in event_list:
-        if evento.type == pg.MOUSEBUTTONDOWN:
-            print(f"Coordenada: {evento.pos}")   

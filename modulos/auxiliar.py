@@ -7,6 +7,16 @@ import modulos.variables as var
 import json
 
 def crear_lista_botones(cantidad: int, dimension: tuple, color: str = 'purple'):
+    """ 
+    Parametros:Recibe por un lado la cantidad de botones a crear, las dimensiones en formato Tuple, 
+    y el color de los mismos en str, por defecto está en purpura
+
+    ¿Qué hace?:Crea una lista a modo de contenedor, recorre en un for la cantidad de veces según
+    se indica en el parámetro "cantidad", y dentro de él crea el dict del botón con superficie, rectángulo y superficie
+    Al finalizar se agrega al listado de botones.
+
+    ¿Qué Devuelve?: Retorna la lista de botones, con los dicts de cada botón dentro de él.
+    """
     lista_botones = []
     for i in range(cantidad):
         boton = {}
@@ -16,7 +26,30 @@ def crear_lista_botones(cantidad: int, dimension: tuple, color: str = 'purple'):
         lista_botones.append(boton)
     return lista_botones
 
+
+def line_text(line: str, font, space, ancho_max:int, surface: pg.Surface, pos: tuple, color = pg.Color('black')):
+    for word in line:
+        word_surface = font.render(word, False, color)
+        ancho_palabra, alto_palabra = word_surface.get_size()
+        #Si ya no tiene espacio para escribir, sigue abajo en nuevo renglón
+        if x + ancho_palabra >= ancho_max:
+            x = pos[0]
+            y += alto_palabra
+        surface.blit(word_surface, (x, y))
+        x +=ancho_palabra + space
+    return alto_palabra
+
 def mostrar_texto(surface: pg.Surface, texto: str, pos: tuple, font, color = pg.Color('black')):
+    """ 
+    Parametros: Recibe Superficie, texto en formato str a mostrar, coordenadas "pos" en formato tuple, 
+    font y el color (por defecto negro)
+
+    ¿Qué hace?: Crea un listado con palabras, y según el largo de texto, cada palabra (separandose por un espacio),
+    se guarda en este listado. Define el ancho de cada palabra con un espacio vacío. Define el ancho y máximo
+    de la superficie. Luego recorre el listado de words
+
+    ¿Qué Devuelve?: Retorna la lista de botones, con los dicts de cada botón dentro de él.
+    """
     words = []
 
     for word in texto.splitlines():
@@ -27,15 +60,7 @@ def mostrar_texto(surface: pg.Surface, texto: str, pos: tuple, font, color = pg.
     x, y = pos
 
     for line in words:
-        for word in line:
-            word_surface = font.render(word, False, color)
-            ancho_palabra, alto_palabra = word_surface.get_size()
-            #Si ya no tiene espacio para escribir, sigue abajo en nuevo renglón
-            if x + ancho_palabra >= ancho_max:
-                x = pos[0]
-                y += alto_palabra
-            surface.blit(word_surface, (x, y))
-            x +=ancho_palabra + space
+        alto_palabra = line_text(line, font, space, ancho_max, surface, pos, color)
         x = pos[0]
         y += alto_palabra
 
@@ -118,13 +143,15 @@ def generar_bd(root_path_cards: str, cantidad_cartas: int):
                 final_defense = defense + (defense * bonus / 100)
 
                 #Redondear para arriba
-                round(final_defense, 0) #Retorna tipo float, se puede parsear a entero. Redondea para arriba
+                final_hp = round(final_hp) #Retorna tipo float, se puede parsear a entero. Redondea para arriba
+                final_atk = round(final_atk) #Retorna tipo float, se puede parsear a entero. Redondea para arriba
+                final_defense = round(final_defense) #Retorna tipo float, se puede parsear a entero. Redondea para arriba
                 
                 card = {
                     'id': f'{deck_name}-{list_data[0]}',
-                    "hp": hp, #Cambiar luego al final, ya con el bonus potenciado
-                    "atk": atk, #Cambiar luego al final, ya con el bonus potenciado
-                    "def": defense, #Cambiar luego al final, ya con el bonus potenciado
+                    "hp": final_hp, #Cambiar luego al final, ya con el bonus potenciado
+                    "atk": final_atk, #Cambiar luego al final, ya con el bonus potenciado
+                    "def": final_defense, #Cambiar luego al final, ya con el bonus potenciado
                     "bonus": int(list_data[7]),
                     "path_imagen_frente": path_card,
                     "path_imagen_reverso": reverse_path, #Este valor puede estar, como no, se agrega más adelante
@@ -133,13 +160,7 @@ def generar_bd(root_path_cards: str, cantidad_cartas: int):
                 deck_cards.append(card)
                 #Sumamos cada estadística de cada carta para obtener el total:
                 
-        """ 
-        for index_Card in range(len(deck_cards)):
-            deck_cards[index_Card]['path_imagen_reverso'] = reverse_path
-             """
-        #For de las cartas filtradas por cantidad, y sacado su promedio
-    
-    deck_cards_actual = deck_cards
+
     deck_cards_filtrado = rd.sample(deck_cards, cantidad_cartas)
 
     for index in range(len(deck_cards_filtrado)):

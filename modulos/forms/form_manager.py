@@ -105,7 +105,6 @@ def create_form_manager(screen: pg.Surface, datos_juego: dict):
             }
         )
     ]
-    
     return form
 
 
@@ -115,42 +114,40 @@ def forms_update(form_manager: dict, event_list: pg.event.Event):
     
     # FORM MENU
     if form_manager.get('form_list')[0].get('active'):
-        form_main_menu.update(form_manager.get('form_list')[0], event_list)
-        form_main_menu.draw(form_manager.get('form_list')[0],)
+        form_main_menu.update(form_manager.get('form_list')[0])
+        form_main_menu.draw(form_manager.get('form_list')[0])
     
     # FORM JUEGO / START LEVEL
     elif form_manager.get('form_list')[1].get('active'):
         form_start_level.update(form_manager.get('form_list')[1], event_list)
-        form_start_level.draw(form_manager.get('form_list')[1],)
+        form_start_level.draw(form_manager.get('form_list')[1])
 
     # FORM CONFIG
     elif form_manager.get('form_list')[2].get('active'):
-        form_config.update(form_manager.get('form_list')[2], event_list)
+        form_config.update(form_manager.get('form_list')[2])
         form_config.draw(form_manager.get('form_list')[2])
     
     # FORM RANKING
     elif form_manager.get('form_list')[3].get('active'):
-        form_ranking.update(form_manager.get('form_list')[3], event_list)
-        form_ranking.draw(form_manager.get('form_list')[3],)
+        form_ranking.update(form_manager.get('form_list')[3])
+        form_ranking.draw(form_manager.get('form_list')[3])
 
     # FORM BONUS
     elif form_manager.get('form_list')[4].get('active'):
-        form_bonus.update(form_manager.get('form_list')[4], event_list)
-        form_bonus.draw(form_manager.get('form_list')[4],)
+        form_bonus.update(form_manager.get('form_list')[4])
+        form_bonus.draw(form_manager.get('form_list')[4])
 
     # FORM ENTER NAME
     elif form_manager.get('form_list')[5].get('active'):
         #Actualiza el fondo
-        form_enter_name.update_paths(form_manager.get('form_list')[5],)
         form_enter_name.update(form_manager.get('form_list')[5], event_list)
-        form_enter_name.draw(form_manager.get('form_list')[5],)
+        form_enter_name.draw(form_manager.get('form_list')[5])
 
     # FORM PAUSE
     elif form_manager.get('form_list')[6].get('active'):
-        form_pause.update(form_manager.get('form_list')[6], event_list)
-        form_pause.draw(form_manager.get('form_list')[6],)
+        form_pause.update(form_manager.get('form_list')[6])
+        form_pause.draw(form_manager.get('form_list')[6])
 
 
 def update(form_manager: dict, event_list: pg.event.Event):
     forms_update(form_manager, event_list)
-    

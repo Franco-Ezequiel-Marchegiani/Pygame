@@ -84,16 +84,18 @@ def draw(form_dict: dict):
 
     form_dict.get('writing_text').draw()
 
-def update_paths(form_dict: dict):
+""" def update_paths(form_dict: dict):
     #Actualiza la imagen de fondo con la música, según el ganador
     jugador = form_dict.get('jugador')
     print(f"FONDO ACTUALIZADO")
+    print(f"form_dict['background_path']: {form_dict['background_path']}")
+    print(f"form_dict['music_path']: {form_dict['music_path']}")
     if jugador.get('ganador') == 'rival':
         form_dict['background_path'] = './modulos/assets/img/forms/img_2.jpg'
         form_dict['music_path'] = var.RUTA_MUSICA_LOSE
-    else:
-        form_dict['background_path'] = './modulos/assets/img/forms/img_3.jpg'
-        form_dict['music_path'] = var.RUTA_MUSICA_WIN
+        form_dict['surface'] = pg.image.load(form_dict.get('background_path')).convert_alpha()
+        form_dict['surface'] = pg.transform.scale(form_dict.get('surface'), form_dict.get('screen_dimentions'))
+         """
         
 
 def update(form_dict: dict, event_list: list):
