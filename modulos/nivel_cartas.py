@@ -2,7 +2,6 @@ import pygame as pg
 import modulos.variables as var
 import modulos.auxiliar as aux
 import random as rd
-import modulos.frases as fra
 import modulos.carta as carta
 import modulos.jugador as jugador_humano
 import modulos.forms.base_form as base_form
@@ -11,25 +10,19 @@ def inicializar_nivel_cartas(jugador: dict, pantalla: pg.Surface, nro_nivel: int
     nivel_data = {}
     nivel_data['nro_nivel'] = nro_nivel
     nivel_data['configs'] = {}
-
-    #Estas listas, tendría que pasarla al módulo de "jugador", y pasarlo acá.
-    #Guarda por acá los decks generados de la DB del usuario y el rival
     nivel_data['cartas_mazo_juego'] = []
     nivel_data['cartas_mazo_juego_rival'] = []
-    #Define ambas rutas
     nivel_data['cantidades'] = []
     nivel_data['ruta_base'] = ''
     nivel_data['ruta_mazo'] = ''
     nivel_data['ruta_mazo_rival'] = ''
     nivel_data['screen'] = pantalla
-    nivel_data['jugador'] = jugador #Pasar param para generar mazo, junto al listado ya cargado, cartas_mazo_juego
-    nivel_data['rival'] = jugador_humano.inicializar_oponente(nivel_data['screen']) #jugador #Pasar param para generar mazo, junto al listado ya cargado, cartas_mazo_juego
-
+    nivel_data['jugador'] = jugador 
+    nivel_data['rival'] = jugador_humano.inicializar_oponente(nivel_data['screen']) 
     nivel_data['juego_finalizado'] = False
     nivel_data['puntaje_guardado'] = False
     nivel_data['level_timer'] = var.TIMER
-    nivel_data['ganador'] = None #Guardar acá quién gane, si el jugador o el enemigo, entre esas 2 opciones
-    
+    nivel_data['ganador'] = None
     nivel_data['puntaje_nivel'] = 0
     nivel_data['data_cargada'] = False
     
@@ -324,11 +317,3 @@ def update(nivel_data: dict, cola_eventos: list[pg.event.Event]):
         print(f'Puntaje final alcanzado: {jugador_humano.get_puntaje_total(nivel_data.get("jugador"))}')
         print(f'GANADOR VIEJO : {nivel_data['ganador']}')
         print(f'Y EL GANADOR ES... : {nivel_data['jugador']['ganador']}')
-
-#Manejar acá la lógica de definir ganador, y demás, en los forms va solo info que se muestre, acá va toda la lógica pesada
-
-#Crear la clave de "mazo" para el usuario y el enemigo, crear un dic para el enemigo tmb
-
-#Que recorra todo el dict de cartas, y que a medida que levante una carta, se arme un dict.
-
-#Probar tmb usando rd.sample para mezclar y distribuir las cartas seleccionadas

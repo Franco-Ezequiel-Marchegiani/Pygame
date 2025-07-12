@@ -6,100 +6,6 @@ import modulos.carta as carta
 import modulos.variables as var
 import json
 
-def crear_lista_botones(cantidad: int, dimension: tuple, color: str = 'purple'):
-    """ 
-    Parametros:Recibe por un lado la cantidad de botones a crear, las dimensiones en formato Tuple, 
-    y el color de los mismos en str, por defecto está en purpura
-
-    ¿Qué hace?:Crea una lista a modo de contenedor, recorre en un for la cantidad de veces según
-    se indica en el parámetro "cantidad", y dentro de él crea el dict del botón con superficie, rectángulo y superficie
-    Al finalizar se agrega al listado de botones.
-
-    ¿Qué Devuelve?: Retorna la lista de botones, con los dicts de cada botón dentro de él.
-    """
-    lista_botones = []
-    for i in range(cantidad):
-        boton = {}
-        boton['superficie'] = pg.Surface(dimension)
-        boton['rectangulo'] = boton.get('superficie').get_rect()
-        boton['superficie'].fill(pg.Color(color))
-        lista_botones.append(boton)
-    return lista_botones
-
-
-def line_text(line: str, font, space, ancho_max:int, surface: pg.Surface, pos: tuple, color = pg.Color('black')):
-    for word in line:
-        word_surface = font.render(word, False, color)
-        ancho_palabra, alto_palabra = word_surface.get_size()
-        #Si ya no tiene espacio para escribir, sigue abajo en nuevo renglón
-        if x + ancho_palabra >= ancho_max:
-            x = pos[0]
-            y += alto_palabra
-        surface.blit(word_surface, (x, y))
-        x +=ancho_palabra + space
-    return alto_palabra
-
-def mostrar_texto(surface: pg.Surface, texto: str, pos: tuple, font, color = pg.Color('black')):
-    """ 
-    Parametros: Recibe Superficie, texto en formato str a mostrar, coordenadas "pos" en formato tuple, 
-    font y el color (por defecto negro)
-
-    ¿Qué hace?: Crea un listado con palabras, y según el largo de texto, cada palabra (separandose por un espacio),
-    se guarda en este listado. Define el ancho de cada palabra con un espacio vacío. Define el ancho y máximo
-    de la superficie. Luego recorre el listado de words
-
-    ¿Qué Devuelve?: Retorna la lista de botones, con los dicts de cada botón dentro de él.
-    """
-    words = []
-
-    for word in texto.splitlines():
-        words.append(word.split(' '))
-    
-    space = font.size(' ')[0]
-    ancho_max, alto_max = surface.get_size()
-    x, y = pos
-
-    for line in words:
-        alto_palabra = line_text(line, font, space, ancho_max, surface, pos, color)
-        x = pos[0]
-        y += alto_palabra
-
-def crear_cuadro(dimensiones: tuple, coordenadas: tuple, color: tuple) -> dict:
-    cuadro = {}
-    cuadro['superficie'] = pg.Surface(dimensiones)
-    cuadro['rectangulo'] = cuadro.get('superficie').get_rect()
-    cuadro['rectangulo'].topleft = coordenadas
-    cuadro['superficie'].fill(pg.Color(color))
-
-    return cuadro
-
-
-def crear_boton(pantalla: pg.Surface, texto: str, ruta_fuente: str, dimensiones: tuple, coordenadas: tuple, color_fondo: tuple, color_texto: tuple):
-    cuadro = crear_cuadro(dimensiones, coordenadas, color_fondo)
-
-    cuadro['texto'] = texto
-    cuadro['pantalla'] = pantalla
-    cuadro['color_texto'] = color_texto
-    cuadro['color_fondo'] = color_fondo
-    cuadro['font_path'] = ruta_fuente
-    cuadro['padding'] = (10,10)
-
-    return cuadro
-
-def mostrar_boton(boton_dict: dict):
-    mostrar_texto(
-        boton_dict.get('superficie'),
-        boton_dict.get('texto'),
-        boton_dict.get('padding'),
-        boton_dict.get('font_path'),
-        boton_dict.get('color_texto'),
-    )
-    boton_dict['rectangulo'] = boton_dict.get('pantalla').blit(
-        boton_dict.get('superficie'), boton_dict.get("rectangulo").topleft
-    )
-    pg.draw.rect(boton_dict.get("pantalla"), boton_dict.get("color_fondo"), boton_dict.get("rectangulo"), 2)
-
-    
 def generar_bd(root_path_cards: str, cantidad_cartas: int):
 
     contenedor_hp = 0
@@ -202,23 +108,6 @@ def generar_mazo(mazo_dict_original: list[dict]):
     return lista_mazo_resultado
 
 
-def actualizar_puntaje(dict_juego: dict, puntaje: int):
-    dict_juego['puntaje'] += puntaje
-
-def verificar_tiempo_cumplido(tiempo_finalizado: int, retorno: tuple[str, str]):
-    tiempo_actual = pg.time.get_ticks()
-    if tiempo_actual - tiempo_finalizado >= 2000:
-        return retorno[0]
-    return retorno[1]
-
-def datos_player_to_csv(dict_juego: dict):
-    data = f'{datetime.now()},{dict_juego.get('nombre')},{dict_juego.get("puntaje")}\n'
-    return data
-
-def grabar_puntaje(dict_juego: dict):
-    with open(var.RUTA_RANKING, '+a', encoding='utf-8') as file:
-        data = datos_player_to_csv(dict_juego)
-        file.write(data)
 
 def inicializar_musica():
     #Calculamos cuanto dura la primera canción, para que se ejecute una vez
@@ -245,15 +134,6 @@ def terminar_musica(dict_juego: dict):
     pg.mixer.music.stop()
 
 
-
-
-def crear_cuadro(dimensiones: tuple, coordenadas: tuple, color: tuple) -> dict:
-    cuadro = {}
-    cuadro['superficie'] = pg.Surface(dimensiones)
-    cuadro['rectangulo'] = cuadro.get('superficie').get_rect()
-    cuadro['rectangulo'].topleft = coordenadas
-    cuadro['superficie'].fill(pg.Color(color))
-    return cuadro
 
 def parsear_entero(valor: str):
     if valor.isdigit():
