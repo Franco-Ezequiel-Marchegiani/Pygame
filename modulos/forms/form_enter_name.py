@@ -84,7 +84,20 @@ def draw(form_dict: dict):
 
     form_dict.get('writing_text').draw()
 
+def update_paths(form_dict: dict):
+    #Actualiza la imagen de fondo con la música, según el ganador
+    jugador = form_dict.get('jugador')
+    print(f"FONDO ACTUALIZADO")
+    if jugador.get('ganador') == 'rival':
+        form_dict['background_path'] = './modulos/assets/img/forms/img_2.jpg'
+        form_dict['music_path'] = var.RUTA_MUSICA_LOSE
+    else:
+        form_dict['background_path'] = './modulos/assets/img/forms/img_3.jpg'
+        form_dict['music_path'] = var.RUTA_MUSICA_WIN
+        
+
 def update(form_dict: dict, event_list: list):
+    # update_paths(form_dict)
     #Actualizamos el valor del score
     form_dict['score'] = jugador_mod.get_puntaje_total(form_dict.get('jugador'))
     #Actualizamos el widget para que se actualice también en la vista

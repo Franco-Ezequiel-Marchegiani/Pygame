@@ -39,7 +39,7 @@ def inicializar_nivel_cartas(jugador: dict, pantalla: pg.Surface, nro_nivel: int
 def inicializar_data_nivel(nivel_data: dict):
     print('ESTOY GASTANDO RECURSOS Y CARGANDO TODA LA DATA DEL LEVEL')
     cargar_configs_nivel(nivel_data)
-    cargar_bd_cartas(nivel_data)
+    cargar_bd_cartas(nivel_data, True)
     generar_mazo(nivel_data['cartas_mazo_juego'], nivel_data['jugador'])
     generar_mazo(nivel_data['cartas_mazo_juego_rival'], nivel_data['rival'])
 
@@ -78,9 +78,11 @@ def recorrer_deck_individual(deck_completo: list, contenedor_deck: list) -> None
             contenedor_deck.append(deck_completo[index])
 
 
-def cargar_bd_oponente(nivel_data: dict, oponente_name: str, cartas_mazo_juego: str, form_ruta_mazo: str,ruta_mazo: str,):
+def cargar_bd_oponente(nivel_data: dict, oponente_name: str, cartas_mazo_juego: str, nueva_partida: bool):
     #Cargamos las cartas en el mazo con la función Generar BD, y devuelve un dict, y obtenemos el listado de cartas
     #Se agrega la ruta del get, ya que devuelve un objeto con la ruta, y de ahí el diccionario
+    #Si contador es igual o más que 3, no actualiza la vida, ya que sigue la misma partida solo que se quedaron sin cartas
+
     list_of_decks = get_list_deck_name(nivel_data)
     contenedor_deck = []
     contenedor_max_hp = 0
@@ -106,17 +108,20 @@ def cargar_bd_oponente(nivel_data: dict, oponente_name: str, cartas_mazo_juego: 
     
     #Asignamos los nuevos valores a nuestros diccionarios
     nivel_data[cartas_mazo_juego] = contenedor_deck    
-    nivel_data[oponente_name]['vida_total'] = contenedor_max_hp
-    nivel_data[oponente_name]['vida_actual'] = contenedor_max_hp
+    if nueva_partida == True:
+        nivel_data[oponente_name]['vida_total'] = contenedor_max_hp
+        nivel_data[oponente_name]['vida_actual'] = contenedor_max_hp
+
     nivel_data[oponente_name]['atk_total'] = contenedor_max_atk
     nivel_data[oponente_name]['def_total'] = contenedor_max_def
 
-def cargar_bd_cartas(nivel_data: dict):
+
+def cargar_bd_cartas(nivel_data: dict, nueva_partida: bool):
     if not nivel_data.get('juego_finalizado'):
         print('=============== GENERANDO BD CARTAS INICIALES ===============')
-        cargar_bd_oponente(nivel_data,'jugador', 'cartas_mazo_juego', 'ruta_mazo', nivel_data['ruta_mazo'])
-        cargar_bd_oponente(nivel_data,'rival', 'cartas_mazo_juego_rival', 'ruta_mazo_rival', nivel_data['ruta_mazo_rival'])
-        
+        cargar_bd_oponente(nivel_data,'jugador', 'cartas_mazo_juego', nueva_partida)
+        cargar_bd_oponente(nivel_data,'rival', 'cartas_mazo_juego_rival', nueva_partida)
+
 
 #Al llamar a esta función con el rival, pasarle la lista de cartas que el juego eligió para el rival, y el dict del rival
 def generar_mazo(lista_cartas_nivel: list, participante: dict):
@@ -174,8 +179,6 @@ def validacion_uso_bonus() -> str:
     if bonus_heal_active:
         base_form.forms_dict['form_start_level']['bonus_heal_used'] = True
         return 'heal'
-    print(f"bonus_shield_used Status: {base_form.forms_dict['form_start_level']['bonus_shield_used']}")
-    print(f"bonus_heal_used Status: {base_form.forms_dict['form_start_level']['bonus_heal_used']}")
     return ''
 
 def bonus_heal(nivel_data: dict):
@@ -190,11 +193,13 @@ def bonus_shield(nivel_data: dict, resultado_ronda: dict):
         base_form.forms_dict['form_start_level']['bonus_shield_used'] = True
         #Le sumamos el puntaje el daño hecho por el enemigo a sí mismo:
         resultado_ronda['puntaje_ronda'] = atk_rival
+contador_clicks = 0
 
 def jugar_mano(nivel_data: dict):
     if nivel_data.get('jugador').get('cartas_mazo_juego_final') and\
         not nivel_data.get('jugador').get('cartas_mazo_juego_final')[-1].get('visible'):
         
+        print(f"contador_clicks: {contador_clicks}")
         var.SOUND_CLICK.play()
         carta.asignar_coordenadas_carta(nivel_data.get('jugador').get('cartas_mazo_juego_final')[-1], nivel_data.get('jugador').get('coords_finales'))
         carta.cambiar_visibilidad_carta(nivel_data.get('jugador').get('cartas_mazo_juego_final')[-1])
@@ -229,7 +234,8 @@ def eventos(cola_eventos: list[pg.event.Event]):
     for evento in cola_eventos:
         #Si damos click, se ejecuta el código
         if evento.type == pg.MOUSEBUTTONDOWN:
-            print(f'Coordenada: {evento.pos}')
+            pass
+            # print(f'Coordenada: {evento.pos}')
             
 
 def tiempo_esta_terminado(nivel_data: dict) -> bool:
@@ -263,11 +269,11 @@ def check_juego_terminado(nivel_data: dict):
             #Generando un nuevo mazo
             nivel_data.get('jugador')['cartas_mazo_juego_final_vistas'] = []
             nivel_data.get('rival')['cartas_mazo_juego_final_vistas'] = []
+            #Generamos un nuevo mazo, sin perder el dato de la vida que se venía jugando
+            cargar_bd_cartas(nivel_data, False)
             generar_mazo(nivel_data['cartas_mazo_juego'], nivel_data['jugador'])
             generar_mazo(nivel_data['cartas_mazo_juego_rival'], nivel_data['rival'])
             
-            nivel_data['juego_finalizado'] = False
-
     if tiempo_esta_terminado(nivel_data):
             nivel_data['juego_finalizado'] = True
     

@@ -17,12 +17,6 @@ def create_form_manager(screen: pg.Surface, datos_juego: dict):
     form['jugador'] = None
     form['enemy'] = None
     form['jugador'] = datos_juego.get('jugador')
-    print(f"DATOS JUGADOR FORM MANAGER: {form['jugador']}")
-    fondo_enter_name = './modulos/assets/img/forms/img_3.jpg'
-    music_enter_name = var.RUTA_MUSICA_WIN
-    if form['jugador'].get('ganador') == 'rival':
-        fondo_enter_name = './modulos/assets/img/forms/img_2.jpg'
-        music_enter_name = var.RUTA_MUSICA_LOSE
     form['form_list'] = [
         form_main_menu.init_form_main_menu(
             dict_form_data={
@@ -93,8 +87,8 @@ def create_form_manager(screen: pg.Surface, datos_juego: dict):
                 "active":True, 
                 "coords":(0,0), 
                 "stage_number":1, 
-                "music_path": music_enter_name, #Hacer un IF, de que si jugador ganó, ponga una música, u otra
-                "background_path": fondo_enter_name,
+                "music_path": var.RUTA_MUSICA_WIN, #Hacer un IF, de que si jugador ganó, ponga una música, u otra
+                "background_path": './modulos/assets/img/forms/img_3.jpg',
                 "screen_dimentions": var.DIMENSION_PANTALLA
             }, jugador=form.get('jugador')
         ),
@@ -146,6 +140,8 @@ def forms_update(form_manager: dict, event_list: pg.event.Event):
 
     # FORM ENTER NAME
     elif form_manager.get('form_list')[5].get('active'):
+        #Actualiza el fondo
+        form_enter_name.update_paths(form_manager.get('form_list')[5],)
         form_enter_name.update(form_manager.get('form_list')[5], event_list)
         form_enter_name.draw(form_manager.get('form_list')[5],)
 
