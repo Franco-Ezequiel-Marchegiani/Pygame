@@ -75,7 +75,7 @@ def mostrar_boton(boton_dict: dict):
     pg.draw.rect(boton_dict.get("pantalla"), boton_dict.get("color_fondo"), boton_dict.get("rectangulo"), 2)
 
     
-def generar_bd(root_path_cards: str): # , cantidad_cartas: int
+def generar_bd(root_path_cards: str, cantidad_cartas: int):
 
     contenedor_hp = 0
     contenedor_atk = 0
@@ -87,22 +87,24 @@ def generar_bd(root_path_cards: str): # , cantidad_cartas: int
             "hp": 0,
             "atk": 0,
             "def": 0,
-        }
+        },
     }
     for root, dir, files in os.walk(root_path_cards, topdown=True):
         reverse_path = ''
         deck_cards = []
         deck_name = root.split('\\')[-1]
+
         for file in files:
             path_card = os.path.join(root, file)
             
             if "reverse" in path_card:
                 reverse_path = path_card
             else:
+                #HACER EL FOR, O EL RANDOM ACÁ
+
                 file = file.replace('\\', '/')
                 filename = file.split('/')[-1]
                 datos = filename.split('.')[-2]
-                print(f"deck_name: {deck_name}")
                 #Tmb se puede optar por esto para el bonus
                 #data_bonus = datos[-1] 
                 list_data = datos.split('_')
@@ -117,9 +119,6 @@ def generar_bd(root_path_cards: str): # , cantidad_cartas: int
 
                 #Redondear para arriba
                 round(final_defense, 0) #Retorna tipo float, se puede parsear a entero. Redondea para arriba
-                #Tema para definir cuantos puntos gana el usuario por ronda, hacer que la diferencia de puntos
-                #Que el usuario le saque al enemigo, sea el puntaje que ganó en la ronda. Por ej:
-                #Si tiene 1000 de ataque, el usuario 700 de defensa, entonces gana 300 puntos esa ronda.
                 
                 card = {
                     'id': f'{deck_name}-{list_data[0]}',
@@ -133,28 +132,35 @@ def generar_bd(root_path_cards: str): # , cantidad_cartas: int
                 #Agregamos la carta al listado
                 deck_cards.append(card)
                 #Sumamos cada estadística de cada carta para obtener el total:
-                contenedor_hp += hp
-                contenedor_atk += atk
-                contenedor_def += defense
-        
+                
+        """ 
         for index_Card in range(len(deck_cards)):
             deck_cards[index_Card]['path_imagen_reverso'] = reverse_path
-            
-            carta_dict['cartas'][deck_name] = deck_cards[index_Card]
+             """
+        #For de las cartas filtradas por cantidad, y sacado su promedio
+    
+    deck_cards_actual = deck_cards
+    deck_cards_filtrado = rd.sample(deck_cards, cantidad_cartas)
 
+    for index in range(len(deck_cards_filtrado)):
+        deck_cards_filtrado[index]['path_imagen_reverso'] = reverse_path
+        
+        filter_hp = deck_cards_filtrado[index].get('hp')
+        filter_atk = deck_cards_filtrado[index].get('atk')
+        filter_defense = deck_cards_filtrado[index].get('def')
+
+        contenedor_hp += filter_hp
+        contenedor_atk += filter_atk
+        contenedor_def += filter_defense
         #Actualizo los valores habiendo acumulado
         carta_dict["max_stats"]["hp"] = contenedor_hp
         carta_dict["max_stats"]["atk"] = contenedor_atk
         carta_dict["max_stats"]["def"] = contenedor_def
+    
+    carta_dict['cartas'][deck_name] = deck_cards_filtrado
+    
     return carta_dict
 
-def asignar_frases(lista_mazo: list[dict], lista_frases: list[dict]) -> list[dict]:
-
-    for index_card in range(len(lista_mazo)):
-        frase = rd.choice(lista_frases)
-        lista_mazo[index_card]['frase'] = frase.get('frase') #.get("frase") para acceder al objeto del diccionario
-        lista_mazo[index_card]['puntaje'] = frase.get('puntaje')
-    return lista_mazo
 
 def achicar_imagen_card(path_imagen: str, porcentaje: int):
     imagen_raw = pg.image.load(path_imagen)

@@ -40,7 +40,6 @@ def inicializar_data_nivel(nivel_data: dict):
     print('ESTOY GASTANDO RECURSOS Y CARGANDO TODA LA DATA DEL LEVEL')
     cargar_configs_nivel(nivel_data)
     cargar_bd_cartas(nivel_data)
-    #asignar_frases(nivel_data)
     generar_mazo(nivel_data['cartas_mazo_juego'], nivel_data['jugador'])
     generar_mazo(nivel_data['cartas_mazo_juego_rival'], nivel_data['rival'])
 
@@ -52,7 +51,6 @@ def cargar_configs_nivel(nivel_data: dict):
         configs_globales = aux.cargar_configs(var.RUTA_CONFIGS_JSON)
         #Asigamos estos valores al dict del nivel_data
         nivel_data['configs'] = configs_globales.get(f'nivel_{nivel_data.get("nro_nivel")}')
-        print(f"nivel_data['configs']: {nivel_data['configs']}")
 
         nivel_data['ruta_base'] = nivel_data.get('configs').get('ruta_base')
         nivel_data['ruta_mazo'] = nivel_data.get('configs').get('ruta_mazo')
@@ -89,23 +87,29 @@ def cargar_bd_oponente(nivel_data: dict, oponente_name: str, cartas_mazo_juego: 
         ruta_completa_mazo = nivel_data['ruta_base'] + list_of_decks[0][index]
         cant_carta_mazo = list_of_decks[1][index]
         
-        dict_mazo = aux.generar_bd(ruta_completa_mazo) #Cargar todas las cartas primero, dsp anadirle tope: cant_carta_mazo
-        contenedor_deck.append(dict_mazo.get('cartas').get(ruta_completa_mazo))
+        print(f"cant_carta_mazo: {cant_carta_mazo}")
+        dict_mazo = aux.generar_bd(ruta_completa_mazo, cant_carta_mazo) #Cargar todas las cartas primero, dsp anadirle tope: cant_carta_mazo
+        print(f"DICT MAZO: {dict_mazo}")
+        print(f"DICT MAZO - CARTAS: {dict_mazo.get('cartas')}")
+        print(f"DICT MAZO - CARTAS - RUTA: {dict_mazo.get('cartas').get(ruta_completa_mazo)}")
+        print(f"LARGO DICT MAZO: {len(dict_mazo.get('cartas'))}")
+        print(f"LARGO DICT MAZO - Ruta: {len(dict_mazo.get('cartas').get(ruta_completa_mazo))}")
+        
+        #For para recorrer cada deck con el largo completo
+        deck_completo = dict_mazo.get('cartas').get(ruta_completa_mazo)
+        for index in range(len(deck_completo)):
+            contenedor_deck.append(deck_completo[index])
+            
         contenedor_max_hp += dict_mazo.get('max_stats').get('hp')
         contenedor_max_atk += dict_mazo.get('max_stats').get('atk')
         contenedor_max_def += dict_mazo.get('max_stats').get('def')
     #Creo que conviene hacer un bucle que tenga el largo de elementos del dict "cantidades".
     # Que reocrra, y que en cada parámetro, le pase el diccionario.key() que tiene el nombre de la ruta completa.
     # Y en vez de sumar los valores ahí, tener la función acá y definirlo 
-
+    print(f"CANTIDAD DE CARTAS FINAL: {contenedor_deck}")
+    print(f"CANTIDAD DE CARTAS FINAL: {len(contenedor_deck)}")
     # dict_mazo = aux.generar_bd(nivel_data.get(form_ruta_mazo))
     nivel_data[cartas_mazo_juego] = contenedor_deck
-    print(f'dict_mazo.get("cartas"): {nivel_data[cartas_mazo_juego]}') #ACÁ AÑADIR "ruta_completa_mazo", y se obtiene la lista con objetos
-    print(f"Largo contenedor_deck: {len(contenedor_deck)}")
-
-    print(f"contenedor_max_hp: {contenedor_max_hp}")
-    print(f"contenedor_max_atk: {contenedor_max_atk}")
-    print(f"contenedor_max_def: {contenedor_max_def}")
     
     #Ya que se recorrió el bucle una vez, aprovechamos y brindamos las max estadísticas a cada oponente
     nivel_data[oponente_name]['vida_total'] = contenedor_max_hp
@@ -118,7 +122,6 @@ def cargar_bd_cartas(nivel_data: dict):
         print('=============== GENERANDO BD CARTAS INICIALES ===============')
         cargar_bd_oponente(nivel_data,'jugador', 'cartas_mazo_juego', 'ruta_mazo', nivel_data['ruta_mazo'])
         cargar_bd_oponente(nivel_data,'rival', 'cartas_mazo_juego_rival', 'ruta_mazo_rival', nivel_data['ruta_mazo_rival'])
-        print(f"Data jugador: {nivel_data['jugador']}")
         
 
 #Crear una sola función, y pasarle los parámetros según sea el deck del jugador, o el rival
@@ -133,14 +136,12 @@ def generar_mazo(lista_cartas_nivel: list, participante: dict):
     participante['cartas_mazo_juego_final'] = []
     
     for card in lista_cartas_nivel:
-        print(f"VALOR CARD: {card}")
         carta_final = carta.inicializar_carta(card, participante.get('coords_iniciales'))
         participante['cartas_mazo_juego_final'].append(carta_final)
     
     print(f"Participante: {len(participante['cartas_mazo_juego_final'])}")
     #Se definen 10 cartas
     participante['cartas_mazo_juego_final'] = participante['cartas_mazo_juego_final']# [:10]
-    print(f"Primera carta: {participante['cartas_mazo_juego_final'][0]}")
     #Las mezclamos, y creamos en el mismo dict la propiedad para ya utilizar
     rd.shuffle(participante.get('cartas_mazo_juego_final'))
 
@@ -157,14 +158,6 @@ def calcular_ganador_ronda(nivel_data: dict) -> dict:
     atk_rival = nivel_data.get('rival').get('cartas_mazo_juego_final_vistas')[-1].get('atk')
     def_rival = nivel_data.get('rival').get('cartas_mazo_juego_final_vistas')[-1].get('def')
 
-    print(f"hp_total_jugador: {hp_total_jugador}")
-    print(f"nivel_data['jugador']['vida_actual']: {nivel_data['jugador']['vida_actual']}")
-    print(f"atk_jugador: {atk_jugador}")
-    print(f"def_jugador: {def_jugador}")
-
-    print(f"nivel_data['rival']['vida_actual']: {nivel_data['rival']['vida_actual']}")
-    print(f"atk_rival: {atk_rival}")
-    print(f"def_rival: {def_rival}")
     puntaje_ronda = 0
     ganador_ronda = ''
     #Si el ataque del usuario, es mayor al rival, ese será el puntaje
