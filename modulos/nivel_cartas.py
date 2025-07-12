@@ -228,8 +228,8 @@ def reiniciar_nivel(nivel_cartas: dict, jugador: dict, pantalla: pg.Surface, nro
     print('=============== REINICIANDO NIVEL ===============')
     #Obtenemos los valores de si ya se usó el bono, y los refrescamos
     base_form.forms_dict['form_start_level']['bonus_shield_used'] = False
-    base_form.forms_dict['form_start_level']['bonus_shield_used'] = False
-    base_form.forms_dict['form_start_level']['bonus_heal_active'] = False
+    base_form.forms_dict['form_start_level']['bonus_heal_used'] = False
+    base_form.forms_dict['form_start_level']['bonus_shield_active'] = False
     base_form.forms_dict['form_start_level']['bonus_heal_active'] = False
     #Reiniciamos para evitar que se muestren cartas
     jugador['cartas_mazo_juego_final_vistas'] = []

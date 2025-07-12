@@ -129,6 +129,14 @@ def click_volver(parametro: str):
     base_form.set_active(parametro)
 
     
+def condition_btn_draw(form_data: dict, bonus_used: str, btn_active: str, btn_form_active: str, btn_bonus: str):
+    if form_data.get(bonus_used):
+        pass
+    else:
+        if form_data.get(btn_active):
+            form_data.get(btn_form_active).draw()
+        else:
+            form_data.get(btn_bonus).draw()
 def draw(form_data: dict):
     base_form.draw(form_data)
     
@@ -139,26 +147,18 @@ def draw(form_data: dict):
         form_data.get('widgets_list')[widget_index].draw()
     
     #Hacer acá mismo una condicional con la bandera, y hacer un draw acá, no añadirlo en la lista
-    if form_data.get('bonus_shield_used'):
-        pass
-    else:
-        if form_data.get('bonus_shield_active'):
-            form_data.get('btn_bonus_shield_active').draw()
-        else:
-            form_data.get('btn_bonus_shield').draw()
-
-    #Adaptar acá los ifs, creo que si ambas banderas están en false, que se dibuje:
-    #form_data.get('btn_bonus_heal').draw()
-    #Si está activo el bonus_heal_used, dibujar: form_data.get('btn_bonus_heal_used').draw()
-    #Si están activos ambas banderas, no dibujar nada, hacer un continue
-
-    if form_data.get('bonus_heal_used'):
-        pass
-    else:
-        if form_data.get('bonus_heal_active'):
-            form_data.get('btn_bonus_heal_active').draw()
-        else:
-            form_data.get('btn_bonus_heal').draw()
+    condition_btn_draw(form_data, 
+    'bonus_shield_used',
+    'bonus_shield_active',
+    'btn_bonus_shield_active',
+    'btn_bonus_shield'
+    )
+    condition_btn_draw(form_data, 
+    'bonus_heal_used',
+    'bonus_heal_active',
+    'btn_bonus_heal_active',
+    'btn_bonus_heal'
+    )
 
 
     nivel_cartas.draw(form_data.get('level'))
@@ -177,6 +177,15 @@ def inicializar_juego(form_data: dict):
         text='shield', screen=form_data.get('screen'), image_path='./modulos/assets/img/buttons_image/btn_play_hand.png', 
         on_click=nivel_cartas.jugar_mano, on_click_param= form_data.get('level')
     )
+
+def condition_btn_update(form_data: dict, bonus_used: str, btn_active: str, btn_form_active: str, btn_bonus: str):
+    if form_data.get(bonus_used):
+        pass
+    else:
+        if form_data.get(btn_active):
+            form_data.get(btn_form_active).update()
+        else:
+            form_data.get(btn_bonus).update()
 
 def update(form_data: dict, event_list: list[pg.event.Event]):
     # base_form.update(form_data)
@@ -206,23 +215,18 @@ def update(form_data: dict, event_list: list[pg.event.Event]):
     #En el bonus del shield, rebotar el daño del enemigo, y si pinta tmb el daño del jugador
     #Tmb aplica con críticos.
     #Hacer acá mismo una condicional con la bandera, y hacer un draw acá, no añadirlo en la lista
-    if form_data.get('bonus_shield_active'):
-        pass
-    else:
-        if form_data.get('bonus_shield_active'):
-            form_data.get('btn_bonus_shield_active').update()
-        else:
-            form_data.get('btn_bonus_shield').update()
-
-    if form_data.get('bonus_heal_used'):
-        pass
-    else:
-        if form_data.get('bonus_heal_active'):
-            form_data.get('btn_bonus_heal_active').update()
-        else:
-            form_data.get('btn_bonus_heal').update()
-
-
+    condition_btn_update(form_data, 
+    'bonus_shield_used',
+    'bonus_shield_active',
+    'btn_bonus_shield_active',
+    'btn_bonus_shield'
+    )
+    condition_btn_update(form_data, 
+    'bonus_heal_used',
+    'bonus_heal_active',
+    'btn_bonus_heal_active',
+    'btn_bonus_heal'
+    )
     nivel_cartas.update(form_data.get('level'), event_list)
     
     mazo_vistas = form_data.get('level').get('cartas_mazo_juego_final_vistas')
