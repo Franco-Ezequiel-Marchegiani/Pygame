@@ -98,7 +98,9 @@ def select_bonus(bonus_name: str):
     #Le pasamos por parámetro el texto del bonus que el usuario seleccionó para mostrar en pantalla
     #Y a la vez, para que se guarde el valor
     base_form.set_active('form_bonus')
-    var.SOUND_BONUS_INICIO.play()
+    
+    base_form.play_bonus_music(var.RUTA_SONIDO_BONUS_INICIO)
+    pg.mixer.music.set_volume(0.2)
     
 
 def actualizar_timer(form_data: dict):

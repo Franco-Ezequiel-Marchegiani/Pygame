@@ -34,6 +34,12 @@ def form_music(form_dict: dict, form_name: str):
     stop_music()
     play_music(form_dict[form_name])
 
+
+def play_bonus_music(route: str):
+    pg.mixer.music.load(route)
+    pg.mixer.music.set_volume(0.2)
+    pg.mixer.music.play(loops=1, fade_ms=200)
+
 def play_music(form_dict: dict):
     if form_dict['music_on']:
         #Pone la música que tenga según el path en cada form

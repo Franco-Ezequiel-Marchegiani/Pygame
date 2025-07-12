@@ -64,7 +64,7 @@ def click_select_bonus(form_dict: dict):
             #Indica que ya fue usado, y cambia el valor
             base_form.forms_dict['form_start_level']['bonus_heal_active'] = True
 
-    var.SOUND_BONUS_FIN.play()
+    base_form.play_bonus_music(var.RUTA_SONIDO_BONUS_FIN)
     pg.time.wait(6000) #Espera 2 segs
     click_change_form('form_start_level') 
     
