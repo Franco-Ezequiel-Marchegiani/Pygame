@@ -59,11 +59,11 @@ def init_form_start_level(dict_form_data: dict, jugador: dict):
         on_click=select_bonus, on_click_param='heal'
     )
     
-    form['btn_bonus_shield_used'] = ButtonImage(
+    form['btn_bonus_shield_active'] = ButtonImage(
         x=1170, y=var.CENTRO_DIMENSION_Y - 150, width=50, height=50,
         text='shield', screen=form.get('screen'), image_path='./modulos/assets/img/icons/icon_shield.png', 
     )
-    form['btn_bonus_heal_used'] = ButtonImage(
+    form['btn_bonus_heal_active'] = ButtonImage(
         x=1230, y=var.CENTRO_DIMENSION_Y - 150,width=50, height=50,
         text='heal', screen=form.get('screen'), image_path='./modulos/assets/img/icons/icon_heal.png', 
     )
@@ -139,11 +139,11 @@ def draw(form_data: dict):
         form_data.get('widgets_list')[widget_index].draw()
     
     #Hacer acá mismo una condicional con la bandera, y hacer un draw acá, no añadirlo en la lista
-    if form_data.get('bonus_shield_active'):
+    if form_data.get('bonus_shield_used'):
         pass
     else:
-        if form_data.get('bonus_shield_used'):
-            form_data.get('btn_bonus_shield_used').draw()
+        if form_data.get('bonus_shield_active'):
+            form_data.get('btn_bonus_shield_active').draw()
         else:
             form_data.get('btn_bonus_shield').draw()
 
@@ -152,17 +152,14 @@ def draw(form_data: dict):
     #Si está activo el bonus_heal_used, dibujar: form_data.get('btn_bonus_heal_used').draw()
     #Si están activos ambas banderas, no dibujar nada, hacer un continue
 
-    #"bonus_heal_active" sería si ya lo usó, en ese caso no se hace nada.
-    if form_data.get('bonus_heal_active'):
+    if form_data.get('bonus_heal_used'):
         pass
     else:
-        if form_data.get('bonus_heal_used'):
-            form_data.get('btn_bonus_heal_used').draw()
+        if form_data.get('bonus_heal_active'):
+            form_data.get('btn_bonus_heal_active').draw()
         else:
             form_data.get('btn_bonus_heal').draw()
 
-    # bonus_shield_actived
-    # bonus_heal_active
 
     nivel_cartas.draw(form_data.get('level'))
 
@@ -212,16 +209,16 @@ def update(form_data: dict, event_list: list[pg.event.Event]):
     if form_data.get('bonus_shield_active'):
         pass
     else:
-        if form_data.get('bonus_shield_used'):
-            form_data.get('btn_bonus_shield_used').update()
+        if form_data.get('bonus_shield_active'):
+            form_data.get('btn_bonus_shield_active').update()
         else:
             form_data.get('btn_bonus_shield').update()
 
-    if form_data.get('bonus_heal_active'):
+    if form_data.get('bonus_heal_used'):
         pass
     else:
-        if form_data.get('bonus_heal_used'):
-            form_data.get('btn_bonus_heal_used').update()
+        if form_data.get('bonus_heal_active'):
+            form_data.get('btn_bonus_heal_active').update()
         else:
             form_data.get('btn_bonus_heal').update()
 

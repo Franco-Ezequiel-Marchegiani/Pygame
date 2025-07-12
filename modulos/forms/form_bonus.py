@@ -54,7 +54,7 @@ def click_select_bonus(form_dict: dict):
                 jugador_mod.get_puntaje_actual(form_dict.get('jugador')) * 2
             ),
             #Indica que ya fue usado, y cambia el valor
-            base_form.forms_dict['form_start_level']['bonus_shield_used'] = True
+            base_form.forms_dict['form_start_level']['bonus_shield_active'] = True
             
         case 'heal': #(Originialmente es un +50 en los puntos)
             jugador_mod.set_puntaje_actual(
@@ -62,7 +62,7 @@ def click_select_bonus(form_dict: dict):
                 jugador_mod.get_puntaje_actual(form_dict.get('jugador')) + 50
             ),
             #Indica que ya fue usado, y cambia el valor
-            base_form.forms_dict['form_start_level']['bonus_heal_used'] = True
+            base_form.forms_dict['form_start_level']['bonus_heal_active'] = True
     #Sonido de Bonus meanwhile
     
     var.SOUND_BONUS_FIN.play()

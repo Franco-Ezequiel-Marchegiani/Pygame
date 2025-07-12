@@ -161,18 +161,18 @@ def jugar_mano(nivel_data: dict):
         #Acá revisa si alguno de los bonus está activo.
         #Si alguno de los dos es true, entonces activar el bonus que aplica, y dsp cambiar el valor de active a false
         
-        bonus_shield_used = base_form.forms_dict['form_start_level']['bonus_shield_used'] 
-        bonus_heal_used = base_form.forms_dict['form_start_level']['bonus_heal_used'] 
+        bonus_shield_active = base_form.forms_dict['form_start_level']['bonus_shield_active'] 
+        bonus_heal_active = base_form.forms_dict['form_start_level']['bonus_heal_active'] 
         #bonus_shield_used
         #bonus_heal_used
         #Si están activos alguno de los bufos, en el siguiente evento los actualiza el valur de que ya se usó
-        if bonus_shield_used:
-            base_form.forms_dict['form_start_level']['bonus_shield_active'] = True
+        if bonus_shield_active:
+            base_form.forms_dict['form_start_level']['bonus_shield_used'] = True
         
-        if bonus_heal_used:
-            base_form.forms_dict['form_start_level']['bonus_heal_active'] = True
-        print(f"bonus_shield_active Status: {base_form.forms_dict['form_start_level']['bonus_shield_active']}")
-        print(f"bonus_heal_active Status: {base_form.forms_dict['form_start_level']['bonus_heal_active']}")
+        if bonus_heal_active:
+            base_form.forms_dict['form_start_level']['bonus_heal_used'] = True
+        print(f"bonus_shield_used Status: {base_form.forms_dict['form_start_level']['bonus_shield_used']}")
+        print(f"bonus_heal_used Status: {base_form.forms_dict['form_start_level']['bonus_heal_used']}")
         #Esto funciona, guarda el puntaje del jugador en base al ataque (dsp analizar bien cómo sumar el puntaje)
         
         #Hacer que el puntaje del jugador, sea el resultado del sobrante de la resta del dato que le hace al rival
