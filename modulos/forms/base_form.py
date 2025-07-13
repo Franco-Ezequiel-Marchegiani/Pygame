@@ -31,6 +31,26 @@ def create_base_form(dict_form_data: dict) -> dict:
     form['rect'].y = dict_form_data.get('coords')[1]
     return form
 
+global_music_on = True
+def set_global_music(state: bool):
+    """
+    Activa o desactiva la música globalmente en TODOS los formularios.
+    """
+    global global_music_on
+    global_music_on = state
+    # además actualizamos el flag de cada form por si lo usan individualmente:
+    for form in forms_dict.values():
+        form['music_on'] = state
+
+def play_music_if_allowed(form_dict: dict):
+    """
+    Reemplaza a play_music; sólo reproduce si la música global está activa.
+    """
+    if global_music_on and form_dict.get('music_on', True):
+        pg.mixer.music.load(form_dict.get('music_path'))
+        pg.mixer.music.set_volume(0.2)
+        pg.mixer.music.play(loops=-1, fade_ms=400)
+
 def stop_music() -> None:
     """ 
     ``Parametros:`` 

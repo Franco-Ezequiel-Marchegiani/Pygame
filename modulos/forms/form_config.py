@@ -64,8 +64,13 @@ def click_music_on(dict_form_data: dict) -> None:
     ``¿Qué Devuelve?:`` 
         None.
     """
-    base_form.active_music(base_form.forms_dict[dict_form_data.get('name')])
-    base_form.play_music(base_form.forms_dict[dict_form_data.get('name')])
+    var.SOUND_CLICK.play()
+    base_form.set_global_music(True)
+    # reproducir inmediatamente el form ACTUAL
+    active = base_form.forms_dict[dict_form_data.get('name')]
+    print(f"active: {active}")
+    print(f"active: {active.get('name')}")
+    base_form.play_music_if_allowed(active)
 
 def click_music_off(dict_form_data: dict) -> None:
     """ 
@@ -78,7 +83,9 @@ def click_music_off(dict_form_data: dict) -> None:
     ``¿Qué Devuelve?:`` 
         None.
     """
-    base_form.cancel_music(dict_form_data)
+    var.SOUND_CLICK.play()
+    base_form.set_global_music(False)
+    base_form.stop_music()
 
 def draw(form_data: dict) -> None:
     """ 

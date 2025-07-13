@@ -515,4 +515,5 @@ def update(nivel_data: dict, cola_eventos: list[pg.event.Event]) -> None:
     check_juego_terminado(nivel_data)
     if juego_terminado(nivel_data) and not nivel_data.get('puntaje_guardado'):
         jugador_humano.actualizar_puntaje_total(nivel_data.get("jugador"))
+
         nivel_data['puntaje_guardado'] = True 
