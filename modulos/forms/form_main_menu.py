@@ -8,13 +8,16 @@ from utn_fra.pygame_widgets import (
 
 def init_form_main_menu(dict_form_data: dict) -> dict:
     """ 
-    Parametros: Recibe la data del formulario en formato diccionario.
+    ``Parametros:`` 
+        Recibe la data del formulario en formato diccionario.
 
-    ¿Qué hace?:Crea un formulario, y se le agregan elementos como titulos y botones para
-    renderizar la vista del formulario "Start Level"
-    Aquí el usuario puede navegar entre cada formulario.
+    ``¿Qué hace?:``
+        Crea un formulario, y se le agregan elementos como titulos y botones para
+        renderizar la vista del formulario "Start Level"
+        Aquí el usuario puede navegar entre cada formulario.
 
-    ¿Qué Devuelve?: El diccionario que creó.
+    ``¿Qué Devuelve?:`` 
+        El diccionario que creó.
     """
     form = base_form.create_base_form(dict_form_data)
     
@@ -42,12 +45,15 @@ def init_form_main_menu(dict_form_data: dict) -> dict:
 
 def cambiar_formulario_on_click(parametro: str) -> None:
     """ 
-    Parametros: Recibe el string del formulario.
+    ``Parametros:`` 
+        Recibe el string del formulario.
 
-    ¿Qué hace?: Direcciona al usuario según el valor que reciba por param \n
-    Si comienza la partida, inicializa la función para arrancar el juego.
+    ``¿Qué hace?:`` 
+        Direcciona al usuario según el valor que reciba por param \n
+        Si comienza la partida, inicializa la función para arrancar el juego.
 
-    ¿Qué Devuelve?: None.
+    ``¿Qué Devuelve?:`` 
+        None.
     """
     #Recibe por parámetro un string, con el nombre del form 
     #Para poder activar y mostrar el mismo en pantalla
@@ -65,36 +71,44 @@ def cambiar_formulario_on_click(parametro: str) -> None:
     base_form.stop_music()
     base_form.play_music(base_form.forms_dict[parametro])
 
-
 def click_salir() -> None:
     """ 
-    Parametros: None.
+    ``Parametros:`` 
+        None.
 
-    ¿Qué hace?: Saca al usuario de la app, cierra y finaliza el proceso.
+    ``¿Qué hace?:`` 
+        Saca al usuario de la app, cierra y finaliza el proceso.
 
-    ¿Qué Devuelve?: None.
+    ``¿Qué Devuelve?:`` 
+        None.
     """
     sys.exit()
 
 def draw(form_data: dict):
     """ 
-    Parametros: Recibe la data del formulario en formato diccionario.
+    ``Parametros:`` 
+        Recibe la data del formulario en formato diccionario.
 
-    ¿Qué hace?: Simplemente dibuja la info que recibe por parámetro, \n
-    Incluida la lista de widgets.
+    ``¿Qué hace?:`` 
+        Simplemente dibuja la info que recibe por parámetro, \n
+        Incluida la lista de widgets.
 
-    ¿Qué Devuelve?: None.
+    ``¿Qué Devuelve?:`` 
+        None.
     """
     base_form.draw(form_data)
     base_form.draw_widgets(form_data)
 
 def update(form_data: dict):
     """ 
-    Parametros: Recibe la data del formulario en formato diccionario.
+    ``Parametros:`` 
+        Recibe la data del formulario en formato diccionario.
 
-    ¿Qué hace?: Simplemente actualiza la info que recibe por parámetro, \n
-    Incluida la lista de widgets.
+    ``¿Qué hace?:`` 
+        Simplemente actualiza la info que recibe por parámetro, \n
+        Incluida la lista de widgets.
 
-    ¿Qué Devuelve?: None.
+    ``¿Qué Devuelve?:`` 
+        None.
     """
     base_form.update(form_data)

@@ -7,14 +7,17 @@ from utn_fra.pygame_widgets import (
 )
 def init_form_enter_name(dict_form_data: dict, jugador: dict) -> dict:
     """ 
-    Parametros: Recibe la data del formulario en formato diccionario.
+    ``Parametros:`` 
+        Recibe la data del formulario en formato diccionario.
 
-    ¿Qué hace?:Crea un formulario, y se le agregan elementos como titulos y botones para
-    renderizar la vista del formulario "Start Level"
-    Aquí el usuario, luego de finalizar su partida, colocará su nombre para que se guarde
-    En el ranking, junto a su puntaje.
+    ``¿Qué hace?:``
+        Crea un formulario, y se le agregan elementos como titulos y botones para
+        renderizar la vista del formulario "Start Level"
+        Aquí el usuario, luego de finalizar su partida, colocará su nombre para que se guarde
+        En el ranking, junto a su puntaje.
 
-    ¿Qué Devuelve?: El diccionario que creó.
+    ``¿Qué Devuelve?:`` 
+        El diccionario que creó.
     """
     form = base_form.create_base_form(dict_form_data)
     
@@ -63,17 +66,19 @@ def init_form_enter_name(dict_form_data: dict, jugador: dict) -> dict:
     base_form.forms_dict[dict_form_data.get('name')] = form
     return form
 
-
 def click_confirm_name(form_dict: dict) -> None:
     """ 
-    Parametros: Recibe la data del formulario en formato diccionario.
+    ``Parametros:`` 
+        Recibe la data del formulario en formato diccionario.
 
-    ¿Qué hace?: Cambia el valor a True de confirm_name, setea el nombre \n
-    Que colocó el usuario y lo escribe en el csv.\n
-    Guarda nuevamente el ranking con el nuevo nombre y puntaje.\n
-    Para la música que estaba sonando, comienza la nueva, y lo envía al form de "Ranking"
+    ``¿Qué hace?:``
+        Cambia el valor a True de confirm_name, setea el nombre \n
+        Que colocó el usuario y lo escribe en el csv.\n
+        Guarda nuevamente el ranking con el nuevo nombre y puntaje.\n
+        Para la música que estaba sonando, comienza la nueva, y lo envía al form de "Ranking"
 
-    ¿Qué Devuelve?: None.
+    ``¿Qué Devuelve?:`` 
+        None.
     """
     form_dict['confirm_name'] = True
     #Definimos el nombre del usuario
@@ -89,13 +94,16 @@ def click_confirm_name(form_dict: dict) -> None:
 
 def draw(form_dict: dict) -> None:
     """ 
-    Parametros: Recibe la data del formulario en formato diccionario.
+    ``Parametros:`` 
+        Recibe la data del formulario en formato diccionario.
 
-    ¿Qué hace?: Dibuja la info que recibe por parámetro, \n
-    Incluida la lista de widgets, el "text_box" y dibuja y muestra el "writing_Text". \n
-    (Que incluye el nombre que escribe el jugador)
+    ``¿Qué hace?:``
+        Dibuja la info que recibe por parámetro, \n
+        Incluida la lista de widgets, el "text_box" y dibuja y muestra el "writing_Text". \n
+        (Que incluye el nombre que escribe el jugador)
 
-    ¿Qué Devuelve?: None.
+    ``¿Qué Devuelve?:`` 
+        None.
     """
     base_form.draw(form_dict)
     base_form.draw_widgets(form_dict)
@@ -108,15 +116,17 @@ def draw(form_dict: dict) -> None:
 
     form_dict.get('writing_text').draw()
 
-
 def update(form_dict: dict, event_list: list) -> None:
     """ 
-    Parametros: Recibe la data del formulario en formato diccionario, y el listado de eventos.
+    ``Parametros:`` 
+        Recibe la data del formulario en formato diccionario, y el listado de eventos.
 
-    ¿Qué hace?: Actualiza el valor del score, obteniendo el puntaje total. \n
-    Luego actualiza el texto y muestra el score actual, y tmb actualiza el textbox.
+    ``¿Qué hace?:``
+        Actualiza el valor del score, obteniendo el puntaje total. \n
+        Luego actualiza el texto y muestra el score actual, y tmb actualiza el textbox.
 
-    ¿Qué Devuelve?: None.
+    ``¿Qué Devuelve?:`` 
+        None.
     """
     # update_paths(form_dict)
     #Actualizamos el valor del score

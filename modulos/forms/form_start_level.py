@@ -9,12 +9,16 @@ from utn_fra.pygame_widgets import(
 )
 def init_form_start_level(dict_form_data: dict, jugador: dict) -> dict:
     """ 
-    Parametros: Recibe la data del formulario en formato diccionario.
+    ``Parametros:`` 
+        Recibe la data del formulario en formato diccionario.
 
-    ¿Qué hace?:Crea un formulario, y se le agregan elementos como titulos y botones para
-    renderizar la vista del formulario "Start Level"
-    Aquí el usuario estará jugando la partida.
-    ¿Qué Devuelve?: El diccionario que creó.
+    ``¿Qué hace?:``
+        Crea un formulario, y se le agregan elementos como titulos y botones para
+        renderizar la vista del formulario "Start Level"
+        Aquí el usuario estará jugando la partida.
+
+    ``¿Qué Devuelve?:`` 
+        El diccionario que creó.
     """
     form = base_form.create_base_form(dict_form_data)
     form['jugador'] = jugador
@@ -79,17 +83,19 @@ def init_form_start_level(dict_form_data: dict, jugador: dict) -> dict:
     
     return form
 
-
 def select_bonus(bonus_name: str) -> None:
     """ 
-    Parametros: Recibe el nombre del bonus en formato str
+    ``Parametros:`` 
+        Recibe el nombre del bonus en formato str
 
-    ¿Qué hace?: Detiene la música que estaba sonando, y comienza la del formulario "Bonus".
-    Luego actualiza el texto para mostrar el nombre del bonus en pantalla.
-    Luego activa la vista del form Bonus para continuar ahí.
-    Por último inicia el sonido del inicio del bonus y baja su volumen al 20%
+    ``¿Qué hace?:`` 
+        Detiene la música que estaba sonando, y comienza la del formulario "Bonus".
+        Luego actualiza el texto para mostrar el nombre del bonus en pantalla.
+        Luego activa la vista del form Bonus para continuar ahí.
+        Por último inicia el sonido del inicio del bonus y baja su volumen al 20%
 
-    ¿Qué Devuelve?: None.
+    ``¿Qué Devuelve?:`` 
+        None.
     """
     base_form.stop_music()
     base_form.play_music(base_form.forms_dict['form_bonus'])
@@ -99,15 +105,18 @@ def select_bonus(bonus_name: str) -> None:
     
     base_form.play_bonus_music(var.RUTA_SONIDO_BONUS_INICIO)
     pg.mixer.music.set_volume(0.2)
-    
 
 def actualizar_timer(form_data: dict) -> None:
     """ 
-    Parametros: Recibe la data del formulario en formato diccionario.
+    ``Parametros:`` 
+        Recibe la data del formulario en formato diccionario.
 
-    ¿Qué hace?: Se asegura que el valor level_timer del dict sea mayor a 0, para acto seguido
-    restarle 1seg (1000) siempre y cuando al restar este valor, en el tiempo actual sea mayor a 1seg
-    ¿Qué Devuelve?: None.
+    ``¿Qué hace?:`` 
+        Se asegura que el valor level_timer del dict sea mayor a 0, para acto seguido
+        restarle 1seg (1000) siempre y cuando al restar este valor, en el tiempo actual sea mayor a 1seg
+
+    ``¿Qué Devuelve?:`` 
+        None.
     """
     if form_data.get('level').get('level_timer') > 0:
         tiempo_actual = pg.time.get_ticks()
@@ -117,14 +126,17 @@ def actualizar_timer(form_data: dict) -> None:
 
 def events_handler(events_list: list[pg.event.Event]) -> None:
     """ 
-    Parametros: Recibe la lista de eventos.
+    ``Parametros:`` 
+        Recibe la lista de eventos.
 
-    ¿Qué hace?: Itera dentro de la lista de eventos, y si el usuario presiona una tecla
-    Y además, esta de escape, vuelve al formulario de "Menú principal".
-    Ahora, si el usuario presiona la barra espaciadora, se inicia el formulario de "Pausa".
-    También detiene la música que está sonando, y comienza la música del formulario "Pausa".
+    ``¿Qué hace?:`` 
+        Itera dentro de la lista de eventos, y si el usuario presiona una tecla
+        Y además, esta de escape, vuelve al formulario de "Menú principal".
+        Ahora, si el usuario presiona la barra espaciadora, se inicia el formulario de "Pausa".
+        También detiene la música que está sonando, y comienza la música del formulario "Pausa".
 
-    ¿Qué Devuelve?: None.
+    ``¿Qué Devuelve?:`` 
+        None.
     """
     for evento in events_list:
             #Si el usuario presiona una tecla
@@ -137,22 +149,23 @@ def events_handler(events_list: list[pg.event.Event]) -> None:
                     base_form.stop_music()
                     base_form.play_music(base_form.forms_dict['form_pause'])
 
-
 def condition_btn(form_data: dict, bonus_used: str, btn_active: str, btn_form_active: str, btn_bonus: str, accionar: str) -> None:
     """ 
-    Parametros: Recibe: \n
-    -La data del formulario \n
-    -El nombre del bonus usado \n
-    -Texto del botón activo\n
-    -Widget del botón\n
-    -Widget botón bonus\n
+    ``Parametros:`` 
+        - La data del formulario 
+        - El nombre del bonus usado 
+        - Texto del botón activo
+        - Widget del botón
+        - Widget botón bonus
     
-    ¿Qué hace?: Si el "bonus_used" es true, no muestra ningún botón, ya que de ser true, ya se usó el bufo y no se debe mostrar
-    En caso contrario, revisa si el btn_Active es true, para mostrar el ícono de que el bonus está activo.
-    Y en caso de que no sea así, simplemente muestra el botón para que el usuario pueda activar o usar el bonus
+    ``¿Qué hace?:`` 
+        Si el "bonus_used" es true, no muestra ningún botón, ya que de ser true, ya se usó el bufo y no se debe mostrar
+        En caso contrario, revisa si el btn_Active es true, para mostrar el ícono de que el bonus está activo.
+        Y en caso de que no sea así, simplemente muestra el botón para que el usuario pueda activar o usar el bonus.
+        A su vez, en caso de que valor tenga el accionar, se encarga de dibujar o actualizar.
 
-    A su vez, en caso de que valor tenga el accionar, se encarga de dibujar o actualizar
-    ¿Qué Devuelve?: None.
+    ``¿Qué Devuelve?:`` 
+        None.
     """
     if form_data.get(bonus_used):
         pass
@@ -167,17 +180,19 @@ def condition_btn(form_data: dict, bonus_used: str, btn_active: str, btn_form_ac
                 form_data.get(btn_bonus).update()
             elif accionar == 'draw':
                 form_data.get(btn_bonus).draw()
-            
 
 def draw(form_data: dict) -> None:
     """ 
-    Parametros: Recibe la data del formulario en formato diccionario.
+    ``Parametros:`` 
+        Recibe la data del formulario en formato diccionario.
 
-    ¿Qué hace?: Se encarga de dibujar/mostrar todo el listado de widgets para que
-    se vea en pantalla.\n
-    A su vez revisa la condición de los bonus de heal y shild.
+    ``¿Qué hace?:`` 
+        Se encarga de dibujar/mostrar todo el listado de widgets para que
+        se vea en pantalla.\n
+        A su vez revisa la condición de los bonus de heal y shild.
 
-    ¿Qué Devuelve?: None.
+    ``¿Qué Devuelve?:`` 
+        None.
     """
     base_form.draw(form_data)
     
@@ -205,17 +220,18 @@ def draw(form_data: dict) -> None:
 
     nivel_cartas.draw(form_data.get('level'))
 
-
-
 def inicializar_juego(form_data: dict) -> None:
     """ 
-    Parametros: Recibe la data del formulario en formato diccionario.
+    ``Parametros:`` 
+        Recibe la data del formulario en formato diccionario.
 
-    ¿Qué hace?: Inicializa el juego, o en su defecto lo "reinicia de 0".
-    Carga en el elemento 'level' del form data, toda la información necesaria
-    Para que el usuario pueda iniciar una partida sin problema. \n
+    ``¿Qué hace?:`` 
+        Inicializa el juego, o en su defecto lo "reinicia de 0".
+        Carga en el elemento 'level' del form data, toda la información necesaria
+        Para que el usuario pueda iniciar una partida sin problema. \n
 
-    ¿Qué Devuelve?: None.
+    ``¿Qué Devuelve?:`` 
+        None.
     """
     form_data['level'] = nivel_cartas.reiniciar_nivel(
             form_data.get('level'), form_data.get('jugador'), 
@@ -229,15 +245,17 @@ def inicializar_juego(form_data: dict) -> None:
         on_click=nivel_cartas.jugar_mano, on_click_param= form_data.get('level')
     )
 
-
 def check_juego_terminado(form_data: dict) -> None:
     """ 
-    Parametros: Recibe la data del formulario en formato diccionario.
+    ``Parametros:`` 
+        Recibe la data del formulario en formato diccionario.
 
-    ¿Qué hace?: Revisa si el juego está terminado, de ser así detiene la música
-    Inicia la música del form "Enter name", y tmb activa dicho form.
+    ``¿Qué hace?:`` 
+        Revisa si el juego está terminado, de ser así detiene la música
+        Inicia la música del form "Enter name", y tmb activa dicho form.
 
-    ¿Qué Devuelve?: None.
+    ``¿Qué Devuelve?:`` 
+        None.
     """
     if nivel_cartas.juego_terminado(form_data.get('level')):
         base_form.stop_music()
@@ -246,12 +264,15 @@ def check_juego_terminado(form_data: dict) -> None:
 
 def update(form_data: dict, event_list: list[pg.event.Event]) -> None:
     """ 
-    Parametros: Recibe la data del formulario en formato diccionario, y la lista de eventos
+    ``Parametros:`` 
+        Recibe la data del formulario en formato diccionario, y la lista de eventos
 
-    ¿Qué hace?: Se encarga de actualizar todo el listado de widgets, incluyendo labels.\n
-    A su vez revisa la condición de los bonus de heal y shild.
+    ``¿Qué hace?:`` 
+        Se encarga de actualizar todo el listado de widgets, incluyendo labels.\n
+        A su vez revisa la condición de los bonus de heal y shild.
 
-    ¿Qué Devuelve?: None.
+    ``¿Qué Devuelve?:`` 
+        None.
     """
     # base_form.update(form_data)
     form_data['lbl_clock'].update_text(f'TIME LEFT: {form_data.get('level').get('level_timer')}', (255,0,0)) #Valor actualizado, y color del mismo

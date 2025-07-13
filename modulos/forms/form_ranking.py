@@ -6,13 +6,13 @@ from utn_fra.pygame_widgets import (
 )
 def init_form_ranking(dict_form_data: dict, jugador: dict) -> dict:
     """ 
-    Parametros: Recibe la data del formulario en formato diccionario.
+    ``Parametros:`` Recibe la data del formulario en formato diccionario.
 
-    ¿Qué hace?:Crea un formulario, y se le agregan elementos como titulos y botones para
+    ``¿Qué hace?:``Crea un formulario, y se le agregan elementos como titulos y botones para
     renderizar la vista del formulario "Ranking"
     Aquí el usuario puede visualizar el Ranking con puntuaciones
 
-    ¿Qué Devuelve?: El diccionario que creó.
+    ``¿Qué Devuelve?:`` El diccionario que creó.
     """
     form = base_form.create_base_form(dict_form_data)
     form['jugador'] = jugador
@@ -35,12 +35,12 @@ def init_form_ranking(dict_form_data: dict, jugador: dict) -> dict:
 
 def click_return_menu(parametro: str) -> None:
     """ 
-    Parametros: Recibe el string del formulario.
+    ``Parametros:`` Recibe el string del formulario.
 
-    ¿Qué hace?: Devuelve al usuario al form "Main Menu", de ser así detiene la música
+    ``¿Qué hace?:`` Devuelve al usuario al form "Main Menu", de ser así detiene la música
     Inicia la música del form "Enter name", y tmb activa dicho form.
 
-    ¿Qué Devuelve?: None.
+    ``¿Qué Devuelve?:`` None.
     """
     base_form.stop_music()
     base_form.play_music(base_form.forms_dict[parametro])
@@ -52,12 +52,12 @@ def click_return_menu(parametro: str) -> None:
 
 def init_ranking(form_data: dict) -> None:
     """ 
-    Parametros: Recibe la data del formulario en formato diccionario.
+    ``Parametros:`` Recibe la data del formulario en formato diccionario.
 
-    ¿Qué hace?: Inicializa una lista vacía, guarda la info de ranking_list (inicialmente lista vacía).\n
+    ``¿Qué hace?:`` Inicializa una lista vacía, guarda la info de ranking_list (inicialmente lista vacía).\n
     Luego recorre y va cargando en pantalla las columnas de número, nombre y score
 
-    ¿Qué Devuelve?: None.
+    ``¿Qué Devuelve?:`` None.
     """
     form_data['ranking_screen'] = []
     matrix = form_data.get('ranking_list')
@@ -79,14 +79,14 @@ def init_ranking(form_data: dict) -> None:
 
 def inicializar_ranking(form_data: dict) -> None:
     """ 
-    Parametros: Recibe la data del formulario en formato diccionario.
+    ``Parametros:`` Recibe la data del formulario en formato diccionario.
 
-    ¿Qué hace?: Si no está cargando la información, llama a "cargar_rankin", \n
+    ``¿Qué hace?:`` Si no está cargando la información, llama a "cargar_rankin", \n
     Y trae la información de los primeros 10.\n
     Luego inicializa la información, e indica que ya se cargó la información \n
     cambiando el valor de "data_loaded"
 
-    ¿Qué Devuelve?: None.
+    ``¿Qué Devuelve?:`` None.
     """
     #Si NO se cargó la data, inicializamos el ranking
     if not form_data.get('data_loaded'):
@@ -96,12 +96,12 @@ def inicializar_ranking(form_data: dict) -> None:
 
 def draw(form_data: dict) -> None:
     """ 
-    Parametros: Recibe la data del formulario en formato diccionario.
+    ``Parametros:`` Recibe la data del formulario en formato diccionario.
 
-    ¿Qué hace?: Simplemente dibuja la info que recibe por parámetro, \n
+    ``¿Qué hace?:`` Simplemente dibuja la info que recibe por parámetro, \n
     Incluida la lista de widgets, como también el label del ranking_screen
 
-    ¿Qué Devuelve?: None.
+    ``¿Qué Devuelve?:`` None.
     """
     base_form.draw(form_data)
     base_form.draw_widgets(form_data)
@@ -110,12 +110,12 @@ def draw(form_data: dict) -> None:
 
 def update(form_data: dict) -> None:
     """ 
-    Parametros: Recibe la data del formulario en formato diccionario.
+    ``Parametros:`` Recibe la data del formulario en formato diccionario.
 
-    ¿Qué hace?: Simplemente actualiza la info que recibe por parámetro, \n
+    ``¿Qué hace?:`` Simplemente actualiza la info que recibe por parámetro, \n
     Incluida la lista de widgets, como también el label del ranking_screen
 
-    ¿Qué Devuelve?: None.
+    ``¿Qué Devuelve?:`` None.
     """
     if form_data.get('active'):
         inicializar_ranking(form_data)

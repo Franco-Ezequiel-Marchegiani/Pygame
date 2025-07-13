@@ -7,17 +7,19 @@ import json
 
 def recorrer_archivo(files: list[str], root: str, deck_name: str, deck_cards: list) -> str:
     """ 
-    Parametros: Recibe:\n
-    -"Files" que sería una lista de strings, representando el listado de rutas \n
-    -"Root" indicando la ruta base a buscar.\n
-    -"deck_name" para poder identificar el dict con el ID.\n
-    -"deck_cards" una lista, inicialmente vacía, que se le irán poblando los objetos.\n
+    ``Parametros:``
+        - "Files" que sería una lista de strings, representando el listado de rutas \n
+        - "Root" indicando la ruta base a buscar.\n
+        - "deck_name" para poder identificar el dict con el ID.\n
+        - "deck_cards" una lista, inicialmente vacía, que se le irán poblando los objetos.\n
 
-    ¿Qué hace?: Itera sobre el listado de rutas, obtiene la información de la ruta y...\n
-    Si es "reverse", guarda el valor en la variable "reverse_path". \n
-    En caso contrario, puebla un objeto con la información de cada ruta con la imagen.
+    ``¿Qué hace?:`` 
+        Itera sobre el listado de rutas, obtiene la información de la ruta y...\n
+        Si es "reverse", guarda el valor en la variable "reverse_path". \n
+        En caso contrario, puebla un objeto con la información de cada ruta con la imagen.
 
-    ¿Qué Devuelve?: El reverse_path en formato string.
+    ``¿Qué Devuelve?:`` 
+        El reverse_path en formato string.
     """
     reverse_path = ''
     for file in files:
@@ -62,18 +64,20 @@ def recorrer_archivo(files: list[str], root: str, deck_name: str, deck_cards: li
 
 def generar_bd(root_path_cards: str, cantidad_cartas: int) -> dict:
     """ 
-    Parametros: Recibe:\n
-    -"root_path_cards" que es la ruta completa del deck a trabajar \n
-    -"cantidad_cartas" indicando el límite de cartas por mazo. \n
+    ``Parametros:``
+        - "root_path_cards" que es la ruta completa del deck a trabajar \n
+        - "cantidad_cartas" indicando el límite de cartas por mazo. \n
 
-    ¿Qué hace?: Inicializa con contenedores y un dict vacío, para acto seguido\n
-    Recorrer según la ruta recibida, crear una lista vacía para contener la info del deck \n
-    Recorrerlo y crea los dict de cada carta con ayuda de "recorrer_archivo". \n
-    Luego mezcla todas las cartas del deck, las filtra según la cantidad indicada en param \n
-    Y le asigna la imagen del reverse_path, junto al promedio de estadísticas a las variables \n
-    Que se crearon al inicio.
+    ``¿Qué hace?:`` 
+        Inicializa con contenedores y un dict vacío, para acto seguido\n
+        Recorrer según la ruta recibida, crear una lista vacía para contener la info del deck \n
+        Recorrerlo y crea los dict de cada carta con ayuda de "recorrer_archivo". \n
+        Luego mezcla todas las cartas del deck, las filtra según la cantidad indicada en param \n
+        Y le asigna la imagen del reverse_path, junto al promedio de estadísticas a las variables \n
+        Que se crearon al inicio.
 
-    ¿Qué Devuelve?: El diccionario con la información poblada.
+    ``¿Qué Devuelve?:`` 
+        El diccionario con la información poblada.
     """
     contenedor_hp = 0
     contenedor_atk = 0
@@ -114,15 +118,16 @@ def generar_bd(root_path_cards: str, cantidad_cartas: int) -> dict:
 
 def achicar_imagen_card(path_imagen: str, porcentaje: int) -> pg.Surface:
     """ 
-    Parametros: Recibe:\n
-    -"path_imagen" Ruta de la imagen a trabajar \n
-    -"porcentaje" Porcentaje a modificar.
+    ``Parametros:``
+        - "path_imagen" Ruta de la imagen a trabajar.
+        - "porcentaje" Porcentaje a modificar.
 
-    ¿Qué hace?: Recibe la imagen y lo primero que hace es cargarla.\n
-    Acto seguido procede a definir el alto y el ancho con los valores del parámetro. \n
-    Lo transforma en escala, y devuelve la imagen con las nuevas medidas.
+    ``¿Qué hace?:`` Recibe la imagen y lo primero que hace es cargarla.\n
+        Acto seguido procede a definir el alto y el ancho con los valores del parámetro. \n
+        Lo transforma en escala, y devuelve la imagen con las nuevas medidas.
 
-    ¿Qué Devuelve?: Una superficie de PG
+    ``¿Qué Devuelve?:`` 
+        Una superficie de PG
     """
     imagen_raw = pg.image.load(path_imagen)
     alto = int(imagen_raw.get_height() * float(f'0.{porcentaje}'))
@@ -132,13 +137,16 @@ def achicar_imagen_card(path_imagen: str, porcentaje: int) -> pg.Surface:
 
 def generar_mazo(mazo_dict_original: list[dict]) -> list[dict]:
     """ 
-    Parametros: Recibe:mazo_dict_original que es un listado de diccionarios.
+    ``Parametros:``
+        - "mazo_dict_original" que es un listado de diccionarios.
 
-    ¿Qué hace?: Inicializa una lista vacía, recorre el mazo que recibe por params\n
-    Acto seguido inicializa las cartas con ayuda de "inicializar_carta", y una vez creada. \n
-    Se agrega al listado, se mezcla y devuelve una lista de mazo mezclada y lista para usar
+    ``¿Qué hace?:`` 
+        Inicializa una lista vacía, recorre el mazo que recibe por params\n
+        Acto seguido inicializa las cartas con ayuda de "inicializar_carta", y una vez creada. \n
+        Se agrega al listado, se mezcla y devuelve una lista de mazo mezclada y lista para usar
 
-    ¿Qué Devuelve?: una lista de diccionarios
+    ``¿Qué Devuelve?:`` 
+        Una lista de diccionarios
     """
     lista_mazo_resultado = []
     for card in mazo_dict_original:
@@ -150,12 +158,14 @@ def generar_mazo(mazo_dict_original: list[dict]) -> list[dict]:
 
 def parsear_entero(valor: str) -> int | str:
     """ 
-    Parametros: Valor en string a parsear.
+    ``Parametros:`` 
+        Valor en string a parsear.
 
-    ¿Qué hace?: Recibe un valor en string, aplica isdigit para devolverlo en numérico\n
-    Con la finalidad de asegurarse que sea un valor entero.
+    ``¿Qué hace?:`` Recibe un valor en string, aplica isdigit para devolverlo en numérico\n
+        Con la finalidad de asegurarse que sea un valor entero.
 
-    ¿Qué Devuelve?: Un string o int pero en entero
+    ``¿Qué Devuelve?:`` 
+        Un string o int pero en entero
     """
     if valor.isdigit():
         return int(valor)
@@ -163,16 +173,16 @@ def parsear_entero(valor: str) -> int | str:
 
 def mapear_valores(matriz: list[list], indice_a_aplicar: int, callback) -> None:
     """ 
-    Parametros:\n
-        -"matriz" lista de lista para recorrer su largo \n
-        -"indice_a_aplicar" número para posicionar. \n
-        -"callback" función "parsear_entero" \n
+    ``Parametros:``
+        - "matriz" lista de lista para recorrer su largo \n
+        - "indice_a_aplicar" número para posicionar. \n
+        - "callback" función "parsear_entero" \n
 
-    ¿Qué hace?: 
+    ``¿Qué hace?:`` 
         Recorre la matriz recibida por params para almacenar su valor\n
         Para luego usar el callback para pasarlo a entero.
 
-    ¿Qué Devuelve?:
+    ``¿Qué Devuelve?:``
         None
     """
     for indice_fila in range(len(matriz)):
@@ -181,17 +191,17 @@ def mapear_valores(matriz: list[list], indice_a_aplicar: int, callback) -> None:
 
 def cargar_ranking() -> list:
     """ 
-    Parametros:\n
+    ``Parametros:``
         None
 
-    ¿Qué hace?: 
+    ``¿Qué hace?:`` 
         Inicializa una lista vacía, abre el archivo CSV solo para leer\n
         Lo recorre separando linea por linea con "split", para luego \n
         Agregar información a la lista de ranking. Luego de eso mapea \n
         Los valores, y se define de qué manera mostrarlo, por short, \n
         En qué fila, etc.
 
-    ¿Qué Devuelve?:
+    ``¿Qué Devuelve?:``
         Listado de ranking
     """
     ranking = []
@@ -207,15 +217,15 @@ def cargar_ranking() -> list:
 
 def guardar_ranking(jugador_dict: dict) -> None:
     """ 
-    Parametros:\n
+    ``Parametros:``
         jugador_dict: Diccionario de jugador
 
-    ¿Qué hace?: 
+    ``¿Qué hace?:`` 
         Abre el archivo CSV en "append", para agregar información sin borrar.\n
         Define la información para agregar, que sería el nombre del usuario y puntaje \n
         Y por último lo escribe en el archivo \n
 
-    ¿Qué Devuelve?:
+    ``¿Qué Devuelve?:``
         None
     """
     with open(var.RUTA_RANKING_CSV, 'a', encoding='utf-8') as file:
@@ -226,14 +236,14 @@ def guardar_ranking(jugador_dict: dict) -> None:
 
 def cargar_configs(path: str) -> dict:
     """ 
-    Parametros:\n
-        path: Recibe la ruta del archivo con las configuraciones
+    ``Parametros:``
+        - path: Recibe la ruta del archivo con las configuraciones
 
-    ¿Qué hace?: 
+    ``¿Qué hace?:`` 
         Crea un dict vacío, luego abre el archivo (de la ruta de params) en formato lectura \n
         Se carga ese archivo JSON al dict creado previamente, y retorna el dict
 
-    ¿Qué Devuelve?:
+    ``¿Qué Devuelve?:``
         Diccionario con las configuraciones en formato JSON
     """
     configuraciones = {}

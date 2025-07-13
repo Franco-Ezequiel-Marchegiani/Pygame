@@ -7,15 +7,15 @@ import modulos.jugador as jugador_humano
 import modulos.forms.base_form as base_form
 def inicializar_nivel_cartas(jugador: dict, pantalla: pg.Surface, nro_nivel: int) -> dict:
     """ 
-    Parametro: 
+    ``Parametro:`` 
         "jugador" - Recibe la data del formulario en formato diccionario
         "pantalla" - superficie de PG
         "nro_nivel" - Número de nivel actual int
 
-    ¿Qué hace?:
+    ``¿Qué hace?:``
         Crea un diccionario y en él agrega los elementos claves para cada nivel
     
-    ¿Qué Devuelve?: 
+    ``¿Qué Devuelve?:`` 
         Un diccionario, con la estructura base ya definida.
     """
     nivel_data = {}

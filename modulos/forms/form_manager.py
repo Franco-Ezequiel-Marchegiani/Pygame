@@ -10,13 +10,16 @@ import modulos.forms.form_pause as form_pause
 
 def create_form_manager(screen: pg.Surface, datos_juego: dict) -> dict:
     """ 
-    Parametros: Recibe la superficie de la pantalla y la data del juego.
+    ``Parametros:`` 
+        Recibe la superficie de la pantalla y la data del juego.
 
-    ¿Qué hace?: Crea un formulario con una estructura base, dentro de ella \n
-    Crea una lista de formularios, que tiene los formularios que serán visibles. \n
-    Y se le pasa como parámetros diccionarios a cada uno de ellos.
+    ``¿Qué hace?:`` 
+        Crea un formulario con una estructura base, dentro de ella \n
+        Crea una lista de formularios, que tiene los formularios que serán visibles. \n
+        Y se le pasa como parámetros diccionarios a cada uno de ellos.
 
-    ¿Qué Devuelve?: El diccionario que creó.
+    ``¿Qué Devuelve?:`` 
+        El diccionario que creó.
     """
     form = {}
     form['main_screen'] = screen
@@ -115,15 +118,17 @@ def create_form_manager(screen: pg.Surface, datos_juego: dict) -> dict:
     ]
     return form
 
-
 def forms_update(form_manager: dict, event_list: pg.event.Event) -> None:
     """ 
-    Parametros: Recibe el diccionario del formulario y la lista de eventos.
+    ``Parametros:`` 
+        Recibe el diccionario del formulario y la lista de eventos.
 
-    ¿Qué hace?: Preguntar por cada uno de los formularios si esta activo \n
-    En caso de estarlo, dibujar y actualizar.
+    ``¿Qué hace?:`` 
+        Preguntar por cada uno de los formularios si esta activo \n
+        En caso de estarlo, dibujar y actualizar.
 
-    ¿Qué Devuelve?: None.
+    ``¿Qué Devuelve?:`` 
+        None.
     """
     # FORM MENU
     if form_manager.get('form_list')[0].get('active'):
@@ -161,13 +166,15 @@ def forms_update(form_manager: dict, event_list: pg.event.Event) -> None:
         form_pause.update(form_manager.get('form_list')[6])
         form_pause.draw(form_manager.get('form_list')[6])
 
-
 def update(form_manager: dict, event_list: pg.event.Event) -> None:
     """ 
-    Parametros: Recibe el diccionario del formulario y la lista de eventos.
+    ``Parametros:`` 
+        Recibe el diccionario del formulario y la lista de eventos.
 
-    ¿Qué hace?: Actualiza los formularios
+    ``¿Qué hace?:`` 
+        Actualiza los formularios
 
-    ¿Qué Devuelve?: None.
+    ``¿Qué Devuelve?:`` 
+        None.
     """
     forms_update(form_manager, event_list)

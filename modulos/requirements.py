@@ -13,6 +13,6 @@ def install_requirements():
 if __name__ == '__main__':
     install_requirements()
 
-    from main import pythonisa
+    from main import dragon_ball_tcg
     
-    pythonisa()
+    dragon_ball_tcg()

@@ -6,12 +6,16 @@ from utn_fra.pygame_widgets import (
 
 def init_form_config(dict_form_data: dict) -> dict:
     """ 
-    Parametros: Recibe la data del formulario en formato diccionario.
+    ``Parametros:`` 
+        Recibe la data del formulario en formato diccionario.
 
-    ¿Qué hace?:Crea un formulario, y se le agregan elementos como titulos y botones para
-    renderizar la vista del formulario "Config"
-    Aquí el usuario podrá seleccionar en poner o sacar la música
-    ¿Qué Devuelve?: El diccionario que creó.
+    ``¿Qué hace?:``C
+        rea un formulario, y se le agregan elementos como titulos y botones para
+        renderizar la vista del formulario "Config"
+        Aquí el usuario podrá seleccionar en poner o sacar la música
+
+    ``¿Qué Devuelve?:`` 
+        El diccionario que creó.
     """
     form = base_form.create_base_form(dict_form_data)
     
@@ -36,47 +40,57 @@ def init_form_config(dict_form_data: dict) -> dict:
 
 def click_volver(parametro: str) -> None:
     """ 
-    Parametros: Recibe el string del formulario.
+    ``Parametros:`` 
+        Recibe el string del formulario.
 
-    ¿Qué hace?: Direcciona al usuario según el valor que reciba por param \n
-    Si comienza la partida, inicializa la función para arrancar el juego.
+    ``¿Qué hace?:`` 
+        Direcciona al usuario según el valor que reciba por param \n
+        Si comienza la partida, inicializa la función para arrancar el juego.
 
-    ¿Qué Devuelve?: None.
+    ``¿Qué Devuelve?:`` 
+        None.
     """
     var.SOUND_CLICK.play()
     base_form.set_active(parametro)
 
 def click_music_on(dict_form_data: dict) -> None:
     """ 
-    Parametros: Recibe el diccionario del formulario.
+    ``Parametros:`` 
+        Recibe el diccionario del formulario.
 
-    ¿Qué hace?: Inicializa la música de manera global
+    ``¿Qué hace?:`` 
+        Inicializa la música de manera global.
 
-    ¿Qué Devuelve?: None.
+    ``¿Qué Devuelve?:`` 
+        None.
     """
     base_form.active_music(base_form.forms_dict[dict_form_data.get('name')])
     base_form.play_music(base_form.forms_dict[dict_form_data.get('name')])
 
 def click_music_off(dict_form_data: dict) -> None:
     """ 
-    Parametros: Recibe el diccionario del formulario.
+    ``Parametros:`` 
+        Recibe el diccionario del formulario.
 
-    ¿Qué hace?: Detiene la música de manera global
+    ``¿Qué hace?:`` 
+        Detiene la música de manera global.
 
-    ¿Qué Devuelve?: None.
+    ``¿Qué Devuelve?:`` 
+        None.
     """
     base_form.cancel_music(dict_form_data)
-    #aux.terminar_musica(parametro)
-    #base_form.set_active(dict_form_data)
 
 def draw(form_data: dict) -> None:
     """ 
-    Parametros: Recibe la data del formulario en formato diccionario.
+    ``Parametros:`` 
+        Recibe la data del formulario en formato diccionario.
 
-    ¿Qué hace?: Simplemente dibuja la info que recibe por parámetro, \n
-    Incluida la lista de widgets.
+    ``¿Qué hace?:`` 
+        Simplemente dibuja la info que recibe por parámetro, \n
+        Incluida la lista de widgets.
 
-    ¿Qué Devuelve?: None.
+    ``¿Qué Devuelve?:`` 
+        None.
     """
     base_form.draw(form_data)
     base_form.draw_widgets(form_data)
@@ -84,12 +98,15 @@ def draw(form_data: dict) -> None:
 
 def update(form_data: dict) -> None:
     """ 
-    Parametros: Recibe la data del formulario en formato diccionario.
+    ``Parametros:`` 
+        Recibe la data del formulario en formato diccionario.
 
-    ¿Qué hace?: Simplemente actualiza la info que recibe por parámetro, \n
+    ``¿Qué hace?:`` 
+        Simplemente actualiza la info que recibe por parámetro, \n
     Incluida la lista de widgets.
 
-    ¿Qué Devuelve?: None.
+    ``¿Qué Devuelve?:`` 
+        None.
     """
     base_form.update(form_data)
 

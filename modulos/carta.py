@@ -3,13 +3,13 @@ import modulos.auxiliar as aux
 
 def inicializar_carta(carta_dict: dict, coordenadas: tuple[int, int]) -> dict:
     """ 
-    Parametros: 
+    ``Parametros:`` 
         Recibe la data del formulario en formato diccionario y coordenadas
 
-    ¿Qué hace?:
+    ``¿Qué hace?:``
         Crea un diccionario y en él agrega los elementos claves para cada carta
     
-    ¿Qué Devuelve?: 
+    ``¿Qué Devuelve?:`` 
         Un diccionario, con la estructura base ya definida.
     """
     carta_dict_final = {}
@@ -37,14 +37,14 @@ def inicializar_carta(carta_dict: dict, coordenadas: tuple[int, int]) -> dict:
 
 def set_puntaje(card_dict: dict, puntaje: int) -> None:
     """ 
-    Parametros: 
+    ``Parametros:`` 
         "card_dict" - información de la carta en formato dict
         "puntaje" - puntaje numérico
 
-    ¿Qué hace?:
+    ``¿Qué hace?:``
         Le asigna un valor de la variable "puntaje" recibido por params, al diccionario de carta
     
-    ¿Qué Devuelve?: 
+    ``¿Qué Devuelve?:`` 
         None
     """
     #Setea el puntaje
@@ -52,14 +52,14 @@ def set_puntaje(card_dict: dict, puntaje: int) -> None:
 
 def draw_carta(card_data: dict, screen: pg.Surface) -> None:
     """ 
-    Parametros: 
-        "card_dict" - información de la carta en formato dict
-        "screen" - superficie de PG
+    ``Parametros:`` 
+        - "card_dict" - información de la carta en formato dict
+        - "screen" - superficie de PG
 
-    ¿Qué hace?:
+    ``¿Qué hace?:``
         Simula el evento de tirar una carta, revisa si es visible o no para mostrar el frente o dorso
 
-    ¿Qué Devuelve?: 
+    ``¿Qué Devuelve?:`` 
         None
     """
     if card_data.get('visible'):
@@ -69,14 +69,14 @@ def draw_carta(card_data: dict, screen: pg.Surface) -> None:
 
 def asignar_coordenadas_carta(carta_dict: dict, nueva_coordenada: tuple[int,int]) -> None:
     """ 
-    Parametros: 
+    ``Parametros:`` 
         "card_dict" - información de la carta en formato dict
         "nueva_coordenada" - Tupla de 2 ints con las nuevas coordenadas
 
-    ¿Qué hace?:
+    ``¿Qué hace?:``
         Asigna el valor de las nuevas coordenadas
 
-    ¿Qué Devuelve?: 
+    ``¿Qué Devuelve?:`` 
         None
     """
     carta_dict['rect'].topleft = nueva_coordenada
@@ -84,15 +84,15 @@ def asignar_coordenadas_carta(carta_dict: dict, nueva_coordenada: tuple[int,int]
 
 def cambiar_visibilidad_carta(carta_dict: dict) -> None:
     """ 
-    Parametros: 
-        "card_dict" - información de la carta en formato dict
-        "screen" - superficie de PG
+    ``Parametros:`` 
+        - "card_dict" - información de la carta en formato dict
+        - "screen" - superficie de PG
 
-    ¿Qué hace?:
+    ``¿Qué hace?:``
         Cambia el valor del elemento 'visible' a True, \n
         Para cambiar la visibilidad de la carta
     
-    ¿Qué Devuelve?: 
+    ``¿Qué Devuelve?:`` 
         None
     """
     carta_dict['visible'] = True
