@@ -54,7 +54,6 @@ def click_music_on(dict_form_data: dict) -> None:
 
     ¿Qué Devuelve?: None.
     """
-    #aux.inicializar_musica(dict_form_data)
     base_form.active_music(base_form.forms_dict[dict_form_data.get('name')])
     base_form.play_music(base_form.forms_dict[dict_form_data.get('name')])
 

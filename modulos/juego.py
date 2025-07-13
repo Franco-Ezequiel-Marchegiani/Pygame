@@ -26,9 +26,6 @@ def pythonisa():
         for event in event_list:
             if event.type == pg.QUIT:
                 corriendo = False
-            elif event.type == pg.USEREVENT+5:
-                print("Terminó la música inicial, comenzando bucle...")
-                aux.inicializar_bucle_musica()
         
         #Actualiza las vistas
         form_manager.update(f_manager, event_list)
