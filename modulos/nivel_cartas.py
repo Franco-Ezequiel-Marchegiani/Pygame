@@ -388,7 +388,6 @@ def jugar_mano(nivel_data: dict) -> None:
 
         jugador_humano.sumar_puntaje_actual(nivel_data.get('jugador'), resultado_ronda.get('puntaje_ronda'))
         
-
 def tiempo_esta_terminado(nivel_data: dict) -> bool:
     """ 
     ``Parametros:``
