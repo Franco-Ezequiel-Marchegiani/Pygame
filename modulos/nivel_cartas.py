@@ -39,6 +39,9 @@ def inicializar_nivel_cartas(jugador: dict, pantalla: pg.Surface, nro_nivel: int
     
     return nivel_data
 
+#25% de chance de golpe crítico
+crit_list = [1]*25 + [0]*75
+
 #Usarla cada vez que necesitemos cargar toda la data de 0, o al volver al menú inicio para refrescar la partida
 def inicializar_data_nivel(nivel_data: dict) -> None:
     """ 
@@ -121,7 +124,6 @@ def recorrer_deck_individual(deck_completo: list, contenedor_deck: list) -> None
     for index in range(len(deck_completo)):
             contenedor_deck.append(deck_completo[index])
 
-
 def cargar_bd_oponente(nivel_data: dict, oponente_name: str, cartas_mazo_juego: str, nueva_partida: bool) -> None:
     """ 
     ``Parametros:``
@@ -187,8 +189,6 @@ def cargar_bd_cartas(nivel_data: dict, nueva_partida: bool) -> None:
         cargar_bd_oponente(nivel_data,'jugador', 'cartas_mazo_juego', nueva_partida)
         cargar_bd_oponente(nivel_data,'rival', 'cartas_mazo_juego_rival', nueva_partida)
 
-
-#Al llamar a esta función con el rival, pasarle la lista de cartas que el juego eligió para el rival, y el dict del rival
 def generar_mazo(lista_cartas_nivel: list, participante: dict) -> None:
     """ 
     ``Parametros:``
@@ -213,10 +213,11 @@ def generar_mazo(lista_cartas_nivel: list, participante: dict) -> None:
     participante['cartas_mazo_juego_final'] = participante['cartas_mazo_juego_final']
     rd.shuffle(participante.get('cartas_mazo_juego_final'))
 
-def calcular_ganador_ronda(nivel_data: dict) -> dict:
+def calcular_ganador_ronda(nivel_data: dict, golpe_critico: bool) -> dict:
     """ 
     ``Parametros:``
         *nivel_data* - Recibe la data del formulario nivel_data en formato diccionario
+        *golpe_critico* - Valor bool para definir el daño crítico
 
     ``¿Qué hace?:``
         Calcula el atk y def de cada oponente. Si el ataque del jugador es mayor,\n
@@ -236,14 +237,18 @@ def calcular_ganador_ronda(nivel_data: dict) -> dict:
 
     puntaje_ronda = 0
     ganador_ronda = ''
+    multiplicador_golpe = 1
+    if golpe_critico:
+        multiplicador_golpe = 3
     #Si el ataque del usuario, es mayor al rival, ese será el puntaje
     if atk_jugador > atk_rival:
-        puntaje_ronda = atk_jugador 
+        puntaje_ronda = atk_jugador * multiplicador_golpe
         nivel_data['rival']['vida_actual'] -= puntaje_ronda
         ganador_ronda = 'jugador'
     else:
-        nivel_data['jugador']['vida_actual'] -= atk_rival
+        nivel_data['jugador']['vida_actual'] -= atk_rival * multiplicador_golpe
         ganador_ronda = 'rival'
+
     return {'ganador_ronda': ganador_ronda, 'puntaje_ronda': puntaje_ronda}
 
 def validacion_uso_bonus() -> str:
@@ -306,6 +311,37 @@ def bonus_shield(nivel_data: dict, resultado_ronda: dict) -> None:
         base_form.forms_dict['form_start_level']['bonus_shield_used'] = True
         resultado_ronda['puntaje_ronda'] = atk_rival
 
+def calculo_critico() -> bool:
+    """ 
+    ``Parametros:``
+        None
+
+    ``¿Qué hace?:``
+        Selecciona un número random desde la lista de crit_list, en caso que sea 1\n
+        Devuelve True haciendo un golpe crítico, caso contrario sigue todo normal.
+    
+    ``¿Qué Devuelve?:``
+        Booleano
+    """
+    return rd.choice(crit_list) == 1
+
+def sonido_golpe(golpe_critico: bool) -> None:
+    """ 
+    ``Parametros:``
+        Booleano
+
+    ``¿Qué hace?:``
+        Si el valor de param es True, realiza un sonido, caso contrario reproduceotro\n
+    
+    ``¿Qué Devuelve?:``
+        None
+    """
+    var.SOUND_CLICK_CRITICO.set_volume(0.15)
+    if golpe_critico:
+            var.SOUND_CLICK_CRITICO.play()
+    else:
+        var.SOUND_CLICK.play()
+
 def jugar_mano(nivel_data: dict) -> None:
     """ 
     ``Parametros:``
@@ -326,7 +362,9 @@ def jugar_mano(nivel_data: dict) -> None:
     if nivel_data.get('jugador').get('cartas_mazo_juego_final') and\
         not nivel_data.get('jugador').get('cartas_mazo_juego_final')[-1].get('visible'):
         
-        var.SOUND_CLICK.play()
+        golpe_critico = calculo_critico()
+        sonido_golpe(golpe_critico)
+        
         carta.asignar_coordenadas_carta(nivel_data.get('jugador').get('cartas_mazo_juego_final')[-1], nivel_data.get('jugador').get('coords_finales'))
         carta.cambiar_visibilidad_carta(nivel_data.get('jugador').get('cartas_mazo_juego_final')[-1])
         carta.asignar_coordenadas_carta(nivel_data.get('rival').get('cartas_mazo_juego_final')[-1], nivel_data.get('rival').get('coords_finales'))
@@ -339,7 +377,7 @@ def jugar_mano(nivel_data: dict) -> None:
 
 
         bonus_value = validacion_uso_bonus()
-        resultado_ronda = calcular_ganador_ronda(nivel_data)
+        resultado_ronda = calcular_ganador_ronda(nivel_data, golpe_critico)
         if bonus_value == 'shield':
             bonus_shield(nivel_data, resultado_ronda)
         elif bonus_value == 'heal':

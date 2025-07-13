@@ -64,48 +64,6 @@ def stop_music() -> None:
     """
     pg.mixer.music.stop()
 
-def cancel_music(form_dict: dict) -> None:
-    """ 
-    ``Parametros:`` 
-        Recibe la data del formulario en formato diccionario.
-
-    ``¿Qué hace?:`` 
-        Detiene la música.
-
-    ``¿Qué Devuelve?:`` 
-        None.
-    """
-    stop_music()
-    form_dict['music_on'] = False
-
-def active_music(form_dict: dict) -> None:
-    """ 
-    ``Parametros:`` 
-        Recibe la data del formulario en formato diccionario.
-
-    ``¿Qué hace?:`` 
-        Activa la música.
-
-    ``¿Qué Devuelve?:`` 
-        None.
-    """
-    form_dict['music_on'] = True
-
-def form_music(form_dict: dict, form_name: str) -> None:
-    """ 
-    ``Parametros:`` 
-        Recibe la data del formulario en formato diccionario \n
-        Y el nombre del form.
-
-    ``¿Qué hace?:`` 
-        Detiene la música que está sonando, y comienza la música \n
-        Según el nombre del form_name que recibe por params.
-
-    ``¿Qué Devuelve?:`` 
-        None.
-    """
-    stop_music()
-    play_music(form_dict[form_name])
 
 def play_bonus_music(route: str) -> None:
     """ 
