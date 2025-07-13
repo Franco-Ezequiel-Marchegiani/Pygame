@@ -5,12 +5,15 @@ forms_dict = {}
 # def create_base_form(name: str, screen: pg.Surface, active: bool, coords: tuple[int, int], level_num: int, music_path: str) -> dict:
 def create_base_form(dict_form_data: dict) -> dict:
     """ 
-    Parametros: Recibe la data del formulario en formato diccionario.
+    Parametros: 
+        Recibe la data del formulario en formato diccionario.
 
-    ¿Qué hace?:Crea un diccionario y en él agrega los elementos base que cada
+    ¿Qué hace?:
+        Crea un diccionario y en él agrega los elementos base que cada
     formulario en la aplicación contará.
     
-    ¿Qué Devuelve?: Un diccionario, con la estructura base ya definida.
+    ¿Qué Devuelve?: 
+        Un diccionario, con la estructura base ya definida.
     """
     form = {}
     form['name'] = dict_form_data.get('name')
