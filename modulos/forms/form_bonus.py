@@ -1,18 +1,17 @@
 import modulos.forms.base_form as base_form
-import modulos.jugador as jugador_mod
 import modulos.variables as var
 import pygame as pg
 from utn_fra.pygame_widgets import(
-    Button, Label, TextBox
+    Button, Label
 )
-def init_form_bonus(dict_form_data: dict, jugador: dict) -> None:
+def init_form_bonus(dict_form_data: dict, jugador: dict) -> dict:
     """ 
-    Parametros:Recibe la data del formulario en formato diccionario.
+    Parametros: Recibe la data del formulario en formato diccionario.
 
     ¿Qué hace?:Crea un formulario, y se le agregan elementos como titulos y botones para
     renderizar la vista del formulario "Bonus"
     Aquí el usuario podrá elegir en activar el bonus, o volver a la partida
-    ¿Qué Devuelve?: None.
+    ¿Qué Devuelve?: El diccionario que creó.
     """
     form = base_form.create_base_form(dict_form_data)
     form['jugador'] = jugador
@@ -42,13 +41,30 @@ def init_form_bonus(dict_form_data: dict, jugador: dict) -> None:
     
     return form
 
-def click_change_form(param: str):
+def click_change_form(param: str) -> None:
+    """ 
+    Parametros: Recibe el string del formulario.
+
+    ¿Qué hace?: Envía al usuario al juego nuevamente sin hacer nada más. \n
+    Comienza la música y activa el valor recibido por param.
+
+    ¿Qué Devuelve?: None.
+    """
     var.SOUND_CLICK.play()
     base_form.stop_music()
     base_form.play_music(base_form.forms_dict[param])
     base_form.set_active(param)
 
-def click_select_bonus(form_dict: dict):
+def click_select_bonus(form_dict: dict) -> None:
+    """ 
+    Parametros: Recibe la data del formulario en formato diccionario.
+
+    ¿Qué hace?: Según la info de bonus info, actualiza con valor True el \n
+    Valor de bonus activo del dict que recibió por params. \n
+    Sumado a eso inicializa un sonido, espera 6segs y envía al form "Start Level"
+
+    ¿Qué Devuelve?: None.
+    """
     #Lee la info que esté en bonus_info, y en base a eso selecciona el bonus
     option = form_dict.get('bonus_info')
     match option:
@@ -65,15 +81,38 @@ def click_select_bonus(form_dict: dict):
     click_change_form('form_start_level') 
     
 #Función para actualizar "btn_select" label o Button
-def update_button_bonus(form_dict: dict, new_text: str):
+def update_button_bonus(form_dict: dict, new_text: str) -> None:
+    """ 
+    Parametros: Recibe la data del formulario en formato diccionario, y el texto.
+
+    ¿Qué hace?: Actualiza el texto del "Bonus Info", para mostrar en pantalla.
+
+    ¿Qué Devuelve?: None.
+    """
     #Meter acá un "confirm", si se clickea "click_select_bonus", sino siempre será False
     form_dict['bonus_info'] = new_text
     #Actualiza el texto con el bonus que seleccionó el usuario
     form_dict.get('widgets_list')[2].update_text(form_dict.get('bonus_info'), var.COLOR_NARANJA)
 
-def draw(form_dict: dict):
+def draw(form_dict: dict) -> None:
+    """ 
+    Parametros: Recibe la data del formulario en formato diccionario.
+
+    ¿Qué hace?: Simplemente dibuja la info que recibe por parámetro, \n
+    Incluida la lista de widgets.
+
+    ¿Qué Devuelve?: None.
+    """
     base_form.draw(form_dict)
     base_form.draw_widgets(form_dict)
 
-def update(form_data: dict):
+def update(form_data: dict) -> None:
+    """ 
+    Parametros: Recibe la data del formulario en formato diccionario.
+
+    ¿Qué hace?: Simplemente actualiza la info que recibe por parámetro, \n
+    Incluida la lista de widgets.
+
+    ¿Qué Devuelve?: None.
+    """
     base_form.update(form_data)

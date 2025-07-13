@@ -5,7 +5,7 @@ forms_dict = {}
 # def create_base_form(name: str, screen: pg.Surface, active: bool, coords: tuple[int, int], level_num: int, music_path: str) -> dict:
 def create_base_form(dict_form_data: dict) -> dict:
     """ 
-    Parametros:Recibe la data del formulario en formato diccionario.
+    Parametros: Recibe la data del formulario en formato diccionario.
 
     ¿Qué hace?:Crea un diccionario y en él agrega los elementos base que cada
     formulario en la aplicación contará.
@@ -29,29 +29,75 @@ def create_base_form(dict_form_data: dict) -> dict:
     form['rect'].y = dict_form_data.get('coords')[1]
     return form
 
-def stop_music():
+def stop_music() -> None:
+    """ 
+    Parametros: None.
+
+    ¿Qué hace?: Detiene la música.
+
+    ¿Qué Devuelve?: None.
+    """
     pg.mixer.music.stop()
 
-def cancel_music(form_dict: dict):
+def cancel_music(form_dict: dict) -> None:
+    """ 
+    Parametros: Recibe la data del formulario en formato diccionario.
+
+    ¿Qué hace?: Detiene la música.
+
+    ¿Qué Devuelve?: None.
+    """
     stop_music()
     form_dict['music_on'] = False
 
 
-def active_music(form_dict: dict, form_name: str):
+def active_music(form_dict: dict) -> None:
+    """ 
+    Parametros: Recibe la data del formulario en formato diccionario.
+
+    ¿Qué hace?: Activa la música.
+
+    ¿Qué Devuelve?: None.
+    """
     form_dict['music_on'] = True
     # form_music(form_dict, form_name)
 
-def form_music(form_dict: dict, form_name: str):
+def form_music(form_dict: dict, form_name: str) -> None:
+    """ 
+    Parametros: Recibe la data del formulario en formato diccionario \n
+    Y el nombre del form.
+
+    ¿Qué hace?: Detiene la música que está sonando, y comienza la música \n
+    Según el nombre del form_name que recibe por params.
+
+    ¿Qué Devuelve?: None.
+    """
     stop_music()
     play_music(form_dict[form_name])
 
 
-def play_bonus_music(route: str):
+def play_bonus_music(route: str) -> None:
+    """ 
+    Parametros: Recibe la ruta del sonido a reproducir.
+
+    ¿Qué hace?: Inicializa la secuencia de cargar la ruta, definir volumen \n
+    Y lo ejecuta una sola vez, con un fade de 200 mili segundos.
+    
+    ¿Qué Devuelve?: None.
+    """
     pg.mixer.music.load(route)
     pg.mixer.music.set_volume(0.2)
     pg.mixer.music.play(loops=1, fade_ms=200)
 
-def play_music(form_dict: dict):
+def play_music(form_dict: dict) -> None:
+    """ 
+    Parametros: Recibe la data del formulario en formato diccionario.
+
+    ¿Qué hace?: Si music_on es true, inicializa la secuencia de cargar la ruta, \n 
+    Definir volumen, y lo ejecuta una sola vez, con un fade de 200 mili segundos.
+
+    ¿Qué Devuelve?: None.
+    """
     if form_dict['music_on']:
         #Pone la música que tenga según el path en cada form
         #Con el volumen seteado y en loop
@@ -59,28 +105,61 @@ def play_music(form_dict: dict):
         pg.mixer.music.set_volume(0.2)
         pg.mixer.music.play(loops=-1, fade_ms=400)
 
-def set_active(name: str):
+def set_active(name: str) -> None:
+    """ 
+    Parametros: Nombre del form en str.
+
+    ¿Qué hace?: Funciona como un swich, recorre el listado de form \n
+    Y según el nombre del param, activa solo ese, los otros quedan en False
+
+    ¿Qué Devuelve?: None.
+    """
     for form in forms_dict.values():
         form['active'] = False
     forms_dict[name]['active'] = True
-    print(f'Form Activo: {name}')
 
-def update_widgets(form_data: dict):
-    #Itera la lista de widgets y los actualiza
+def update_widgets(form_data: dict) -> None:
+    """ 
+    Parametros: Recibe la data del formulario en formato diccionario.
+
+    ¿Qué hace?: Itera la lista de widgets y los actualiza.
+
+    ¿Qué Devuelve?: None.
+    """
     for widget in form_data.get('widgets_list'):
         widget.update()
 
-def draw_widgets(form_data: dict):
-    #Itera la lista de widgets y los dibuja
+def draw_widgets(form_data: dict) -> None:
+    """ 
+    Parametros: Recibe la data del formulario en formato diccionario.
+
+    ¿Qué hace?: Itera la lista de widgets y los dibuja.
+
+    ¿Qué Devuelve?: None.
+    """
     for widget in form_data.get('widgets_list'):
         widget.draw()
 
-def draw(form_data: dict):
-    #Muestra las superficies en pantalla, y dsp llama a draw_widgets
+def draw(form_data: dict) -> None:
+    """ 
+    Parametros: Recibe la data del formulario en formato diccionario.
+
+    ¿Qué hace?: Simplemente dibuja la info que recibe por parámetro, \n
+    Incluida la lista de widgets.
+
+    ¿Qué Devuelve?: None.
+    """
     form_data['screen'].blit(form_data.get('surface'), form_data.get('rect'))
 
-def update(form_data: dict):
-    #Pasa por parámetro el dict/listado de widgets
+def update(form_data: dict) -> None:
+    """ 
+    Parametros: Recibe la data del formulario en formato diccionario.
+
+    ¿Qué hace?: Simplemente actualiza la info que recibe por parámetro, \n
+    Incluida la lista de widgets.
+
+    ¿Qué Devuelve?: None.
+    """
     update_widgets(form_data)
     
     

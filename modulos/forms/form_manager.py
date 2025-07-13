@@ -7,9 +7,17 @@ import modulos.forms.form_ranking as form_ranking
 import modulos.forms.form_bonus as form_bonus
 import modulos.forms.form_enter_name as form_enter_name
 import modulos.forms.form_pause as form_pause
-import modulos.nivel_cartas as nivel_cartas
 
-def create_form_manager(screen: pg.Surface, datos_juego: dict):
+def create_form_manager(screen: pg.Surface, datos_juego: dict) -> dict:
+    """ 
+    Parametros: Recibe la superficie de la pantalla y la data del juego.
+
+    ¿Qué hace?: Crea un formulario con una estructura base, dentro de ella \n
+    Crea una lista de formularios, que tiene los formularios que serán visibles. \n
+    Y se le pasa como parámetros diccionarios a cada uno de ellos.
+
+    ¿Qué Devuelve?: El diccionario que creó.
+    """
     form = {}
     form['main_screen'] = screen
     form['current_level'] = 1
@@ -108,10 +116,15 @@ def create_form_manager(screen: pg.Surface, datos_juego: dict):
     return form
 
 
-def forms_update(form_manager: dict, event_list: pg.event.Event):
-    # Preguntar por cada uno de los formularios si esta activo
-    # en caso de estarlo, dibujar y actualizar
-    
+def forms_update(form_manager: dict, event_list: pg.event.Event) -> None:
+    """ 
+    Parametros: Recibe el diccionario del formulario y la lista de eventos.
+
+    ¿Qué hace?: Preguntar por cada uno de los formularios si esta activo \n
+    En caso de estarlo, dibujar y actualizar.
+
+    ¿Qué Devuelve?: None.
+    """
     # FORM MENU
     if form_manager.get('form_list')[0].get('active'):
         form_main_menu.update(form_manager.get('form_list')[0])
@@ -149,5 +162,12 @@ def forms_update(form_manager: dict, event_list: pg.event.Event):
         form_pause.draw(form_manager.get('form_list')[6])
 
 
-def update(form_manager: dict, event_list: pg.event.Event):
+def update(form_manager: dict, event_list: pg.event.Event) -> None:
+    """ 
+    Parametros: Recibe el diccionario del formulario y la lista de eventos.
+
+    ¿Qué hace?: Actualiza los formularios
+
+    ¿Qué Devuelve?: None.
+    """
     forms_update(form_manager, event_list)

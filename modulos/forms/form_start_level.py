@@ -2,20 +2,19 @@ import pygame as pg
 import modulos.forms.base_form as base_form
 import modulos.variables as var
 from utn_fra.pygame_widgets import Label
-import modulos.auxiliar as aux
 import modulos.nivel_cartas as nivel_cartas
 import modulos.forms.form_bonus as form_bonus
 from utn_fra.pygame_widgets import(
     Label, TextPoster, ButtonImage
 )
-def init_form_start_level(dict_form_data: dict, jugador: dict) -> None:
+def init_form_start_level(dict_form_data: dict, jugador: dict) -> dict:
     """ 
-    Parametros:Recibe la data del formulario en formato diccionario.
+    Parametros: Recibe la data del formulario en formato diccionario.
 
     ¿Qué hace?:Crea un formulario, y se le agregan elementos como titulos y botones para
     renderizar la vista del formulario "Start Level"
     Aquí el usuario estará jugando la partida.
-    ¿Qué Devuelve?: None.
+    ¿Qué Devuelve?: El diccionario que creó.
     """
     form = base_form.create_base_form(dict_form_data)
     form['jugador'] = jugador
@@ -83,7 +82,7 @@ def init_form_start_level(dict_form_data: dict, jugador: dict) -> None:
 
 def select_bonus(bonus_name: str) -> None:
     """ 
-    Parametros:Recibe el nombre del bonus en formato str
+    Parametros: Recibe el nombre del bonus en formato str
 
     ¿Qué hace?: Detiene la música que estaba sonando, y comienza la del formulario "Bonus".
     Luego actualiza el texto para mostrar el nombre del bonus en pantalla.
@@ -94,14 +93,8 @@ def select_bonus(bonus_name: str) -> None:
     """
     base_form.stop_music()
     base_form.play_music(base_form.forms_dict['form_bonus'])
-    #Recibimos un dict, activamos la vista de form_bonus
-    #Actualizamos los botones, y también revisamos si ya utilizó
-    #Algunos de los bonus, y cambia su valor de Bool
-    #Activamos la vista de form_bonus
     form_bonus.update_button_bonus(base_form.forms_dict['form_bonus'], bonus_name)
 
-    #Le pasamos por parámetro el texto del bonus que el usuario seleccionó para mostrar en pantalla
-    #Y a la vez, para que se guarde el valor
     base_form.set_active('form_bonus')
     
     base_form.play_bonus_music(var.RUTA_SONIDO_BONUS_INICIO)
@@ -110,7 +103,7 @@ def select_bonus(bonus_name: str) -> None:
 
 def actualizar_timer(form_data: dict) -> None:
     """ 
-    Parametros:Recibe la data del formulario en formato diccionario.
+    Parametros: Recibe la data del formulario en formato diccionario.
 
     ¿Qué hace?: Se asegura que el valor level_timer del dict sea mayor a 0, para acto seguido
     restarle 1seg (1000) siempre y cuando al restar este valor, en el tiempo actual sea mayor a 1seg
@@ -143,33 +136,11 @@ def events_handler(events_list: list[pg.event.Event]) -> None:
                     base_form.set_active('form_pause')
                     base_form.stop_music()
                     base_form.play_music(base_form.forms_dict['form_pause'])
-    
-def condition_btn_draw(form_data: dict, bonus_used: str, btn_active: str, btn_form_active: str, btn_bonus: str) -> None:
-    """ 
-    Parametros:Recibe: \n
-    -La data del formulario \n
-    -El nombre del bonus usado \n
-    -Texto del botón activo\n
-    -Widget del botón\n
-    -Widget botón bonus\n
-    
-    ¿Qué hace?: Si el "bonus_used" es true, no muestra ningún botón, ya que de ser true, ya se usó el bufo y no se debe mostrar
-    En caso contrario, revisa si el btn_Active es true, para mostrar el ícono de que el bonus está activo.
-    Y en caso de que no sea así, simplemente muestra el botón para que el usuario pueda activar o usar el bonus
 
-    ¿Qué Devuelve?: None.
-    """
-    if form_data.get(bonus_used):
-        pass
-    else:
-        if form_data.get(btn_active):
-            form_data.get(btn_form_active).draw()
-        else:
-            form_data.get(btn_bonus).draw()
 
 def condition_btn(form_data: dict, bonus_used: str, btn_active: str, btn_form_active: str, btn_bonus: str, accionar: str) -> None:
     """ 
-    Parametros:Recibe: \n
+    Parametros: Recibe: \n
     -La data del formulario \n
     -El nombre del bonus usado \n
     -Texto del botón activo\n
@@ -200,7 +171,7 @@ def condition_btn(form_data: dict, bonus_used: str, btn_active: str, btn_form_ac
 
 def draw(form_data: dict) -> None:
     """ 
-    Parametros:Recibe la data del formulario en formato diccionario.
+    Parametros: Recibe la data del formulario en formato diccionario.
 
     ¿Qué hace?: Se encarga de dibujar/mostrar todo el listado de widgets para que
     se vea en pantalla.\n
@@ -238,7 +209,7 @@ def draw(form_data: dict) -> None:
 
 def inicializar_juego(form_data: dict) -> None:
     """ 
-    Parametros:Recibe la data del formulario en formato diccionario.
+    Parametros: Recibe la data del formulario en formato diccionario.
 
     ¿Qué hace?: Inicializa el juego, o en su defecto lo "reinicia de 0".
     Carga en el elemento 'level' del form data, toda la información necesaria
@@ -260,6 +231,14 @@ def inicializar_juego(form_data: dict) -> None:
 
 
 def check_juego_terminado(form_data: dict) -> None:
+    """ 
+    Parametros: Recibe la data del formulario en formato diccionario.
+
+    ¿Qué hace?: Revisa si el juego está terminado, de ser así detiene la música
+    Inicia la música del form "Enter name", y tmb activa dicho form.
+
+    ¿Qué Devuelve?: None.
+    """
     if nivel_cartas.juego_terminado(form_data.get('level')):
         base_form.stop_music()
         base_form.play_music(base_form.forms_dict['form_enter_name'])
@@ -267,11 +246,11 @@ def check_juego_terminado(form_data: dict) -> None:
 
 def update(form_data: dict, event_list: list[pg.event.Event]) -> None:
     """ 
-    Parametros:Recibe la data del formulario en formato diccionario.
+    Parametros: Recibe la data del formulario en formato diccionario, y la lista de eventos
 
-    ¿Qué hace?:Crea un formulario, y se le agregan elementos como titulos y botones para
-    renderizar la vista del formulario "Start Level"
-    Aquí el usuario estará jugando la partida.
+    ¿Qué hace?: Se encarga de actualizar todo el listado de widgets, incluyendo labels.\n
+    A su vez revisa la condición de los bonus de heal y shild.
+
     ¿Qué Devuelve?: None.
     """
     # base_form.update(form_data)
@@ -288,19 +267,10 @@ def update(form_data: dict, event_list: list[pg.event.Event]) -> None:
     
     widgets_list = form_data.get('widgets_list')
     
-
-    #Recorre la lista de widgets, si ya está usado el shield o escudo, añade a la lista
-    #Otro widget con el ícono ya en uso. Queda agregar que después del próximo ataque se borre 
-    # (se puede remover, no deja de ser una lista)
     for widget_index in range(len(widgets_list)):
 
         widgets_list[widget_index].update()
     
-    #Hacer una bandera nueva, y corroborar si está activado, y consumido.
-
-    #En el bonus del shield, rebotar el daño del enemigo, y si pinta tmb el daño del jugador
-    #Tmb aplica con críticos.
-    #Hacer acá mismo una condicional con la bandera, y hacer un draw acá, no añadirlo en la lista
     condition_btn(form_data, 
     'bonus_shield_used',
     'bonus_shield_active',
@@ -318,10 +288,6 @@ def update(form_data: dict, event_list: list[pg.event.Event]) -> None:
     nivel_cartas.update(form_data.get('level'), event_list)
     
     form_data['clock'].tick(var.FPS)
-    #Actualizamos el timer
     actualizar_timer(form_data)
-
     check_juego_terminado(form_data)
-
-    
     events_handler(event_list)

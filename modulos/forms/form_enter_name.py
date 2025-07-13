@@ -1,4 +1,3 @@
-import pygame as pg 
 import modulos.forms.base_form as base_form
 import modulos.jugador as jugador_mod
 import modulos.variables as var
@@ -6,18 +5,16 @@ import modulos.auxiliar as aux
 from utn_fra.pygame_widgets import (
     Button, Label, TextBox
 )
-#Centro de las dimensiones horizontales y verticales
-
-def init_form_enter_name(dict_form_data: dict, jugador: dict) -> None:
+def init_form_enter_name(dict_form_data: dict, jugador: dict) -> dict:
     """ 
-    Parametros:Recibe la data del formulario en formato diccionario.
+    Parametros: Recibe la data del formulario en formato diccionario.
 
     ¿Qué hace?:Crea un formulario, y se le agregan elementos como titulos y botones para
     renderizar la vista del formulario "Start Level"
     Aquí el usuario, luego de finalizar su partida, colocará su nombre para que se guarde
     En el ranking, junto a su puntaje.
-    
-    ¿Qué Devuelve?: None.
+
+    ¿Qué Devuelve?: El diccionario que creó.
     """
     form = base_form.create_base_form(dict_form_data)
     
@@ -67,7 +64,17 @@ def init_form_enter_name(dict_form_data: dict, jugador: dict) -> None:
     return form
 
 
-def click_confirm_name(form_dict: dict):
+def click_confirm_name(form_dict: dict) -> None:
+    """ 
+    Parametros: Recibe la data del formulario en formato diccionario.
+
+    ¿Qué hace?: Cambia el valor a True de confirm_name, setea el nombre \n
+    Que colocó el usuario y lo escribe en el csv.\n
+    Guarda nuevamente el ranking con el nuevo nombre y puntaje.\n
+    Para la música que estaba sonando, comienza la nueva, y lo envía al form de "Ranking"
+
+    ¿Qué Devuelve?: None.
+    """
     form_dict['confirm_name'] = True
     #Definimos el nombre del usuario
     jugador_mod.set_nombre(
@@ -80,9 +87,19 @@ def click_confirm_name(form_dict: dict):
     base_form.stop_music()
     # base_form.play_music(base_form.forms_dict['form_enter_name'])
     aux.inicializar_musica()
+    base_form.play_music(base_form.forms_dict['form_ranking'])
     base_form.set_active('form_ranking')
 
-def draw(form_dict: dict):
+def draw(form_dict: dict) -> None:
+    """ 
+    Parametros: Recibe la data del formulario en formato diccionario.
+
+    ¿Qué hace?: Dibuja la info que recibe por parámetro, \n
+    Incluida la lista de widgets, el "text_box" y dibuja y muestra el "writing_Text". \n
+    (Que incluye el nombre que escribe el jugador)
+
+    ¿Qué Devuelve?: None.
+    """
     base_form.draw(form_dict)
     base_form.draw_widgets(form_dict)
     form_dict.get('text_box').draw()
@@ -94,21 +111,16 @@ def draw(form_dict: dict):
 
     form_dict.get('writing_text').draw()
 
-""" def update_paths(form_dict: dict):
-    #Actualiza la imagen de fondo con la música, según el ganador
-    jugador = form_dict.get('jugador')
-    print(f"FONDO ACTUALIZADO")
-    print(f"form_dict['background_path']: {form_dict['background_path']}")
-    print(f"form_dict['music_path']: {form_dict['music_path']}")
-    if jugador.get('ganador') == 'rival':
-        form_dict['background_path'] = './modulos/assets/img/forms/img_2.jpg'
-        form_dict['music_path'] = var.RUTA_MUSICA_LOSE
-        form_dict['surface'] = pg.image.load(form_dict.get('background_path')).convert_alpha()
-        form_dict['surface'] = pg.transform.scale(form_dict.get('surface'), form_dict.get('screen_dimentions'))
-         """
-        
 
-def update(form_dict: dict, event_list: list):
+def update(form_dict: dict, event_list: list) -> None:
+    """ 
+    Parametros: Recibe la data del formulario en formato diccionario, y el listado de eventos.
+
+    ¿Qué hace?: Actualiza el valor del score, obteniendo el puntaje total. \n
+    Luego actualiza el texto y muestra el score actual, y tmb actualiza el textbox.
+
+    ¿Qué Devuelve?: None.
+    """
     # update_paths(form_dict)
     #Actualizamos el valor del score
     form_dict['score'] = jugador_mod.get_puntaje_total(form_dict.get('jugador'))
