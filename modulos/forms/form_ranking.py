@@ -5,7 +5,15 @@ import modulos.auxiliar as aux
 from utn_fra.pygame_widgets import (
     Button, Label
 )
-def init_form_ranking(dict_form_data: dict, jugador: dict):
+def init_form_ranking(dict_form_data: dict, jugador: dict) -> None:
+    """ 
+    Parametros:Recibe la data del formulario en formato diccionario.
+
+    ¿Qué hace?:Crea un formulario, y se le agregan elementos como titulos y botones para
+    renderizar la vista del formulario "Ranking"
+    Aquí el usuario puede visualizar el Ranking con puntuaciones
+    ¿Qué Devuelve?: None.
+    """
     form = base_form.create_base_form(dict_form_data)
     
     form['jugador'] = jugador

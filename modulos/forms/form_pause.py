@@ -5,7 +5,15 @@ from utn_fra.pygame_widgets import (
     Button, Label
 )
 
-def init_form_pause(dict_form_data: dict):
+def init_form_pause(dict_form_data: dict) -> None:
+    """ 
+    Parametros:Recibe la data del formulario en formato diccionario.
+
+    ¿Qué hace?:Crea un formulario, y se le agregan elementos como titulos y botones para
+    renderizar la vista del formulario "Pause"
+    Aquí el usuario puede pausar una partida en curso, y luego volver a la misma, o volver al form "Menu"
+    ¿Qué Devuelve?: None.
+    """
     form = base_form.create_base_form(dict_form_data)
     
     form['title'] = Label(

@@ -163,16 +163,20 @@ def validacion_uso_bonus() -> str:
 
     bonus_shield_active = base_form.forms_dict['form_start_level']['bonus_shield_active'] 
     bonus_heal_active = base_form.forms_dict['form_start_level']['bonus_heal_active'] 
-
+    bonus_name = ''
+    print(f"bonus_shield_active: {bonus_shield_active}")
+    print(f"bonus_heal_active: {bonus_heal_active}")
     #Si están activos alguno de los bufos, en el siguiente evento los actualiza el valur de que ya se usó
     if bonus_shield_active:
         #El escudo se activa recién cuando el rival gane la ronda, no es instantaneo
-        return 'shield'
+        bonus_name = 'shield'
     
     if bonus_heal_active:
         base_form.forms_dict['form_start_level']['bonus_heal_used'] = True
-        return 'heal'
-    return ''
+        bonus_name = 'heal'
+    if bonus_shield_active and bonus_heal_active:
+        bonus_name = 'ambos'
+    return bonus_name
 
 def bonus_heal(nivel_data: dict):
     nivel_data['jugador']['vida_actual'] = nivel_data['jugador']['vida_total']
@@ -186,13 +190,11 @@ def bonus_shield(nivel_data: dict, resultado_ronda: dict):
         base_form.forms_dict['form_start_level']['bonus_shield_used'] = True
         #Le sumamos el puntaje el daño hecho por el enemigo a sí mismo:
         resultado_ronda['puntaje_ronda'] = atk_rival
-contador_clicks = 0
 
 def jugar_mano(nivel_data: dict):
     if nivel_data.get('jugador').get('cartas_mazo_juego_final') and\
         not nivel_data.get('jugador').get('cartas_mazo_juego_final')[-1].get('visible'):
         
-        print(f"contador_clicks: {contador_clicks}")
         var.SOUND_CLICK.play()
         carta.asignar_coordenadas_carta(nivel_data.get('jugador').get('cartas_mazo_juego_final')[-1], nivel_data.get('jugador').get('coords_finales'))
         carta.cambiar_visibilidad_carta(nivel_data.get('jugador').get('cartas_mazo_juego_final')[-1])
@@ -212,12 +214,17 @@ def jugar_mano(nivel_data: dict):
         bonus_value = validacion_uso_bonus()
 
         resultado_ronda = calcular_ganador_ronda(nivel_data)
-        
+        print(f"bonus_value: {bonus_value}")
         #Según el valor que retorne, activa un bonus o el otro
         if bonus_value == 'shield':
             bonus_shield(nivel_data, resultado_ronda)
         elif bonus_value == 'heal':
             bonus_heal(nivel_data)
+        elif bonus_value == 'ambos':
+            bonus_shield(nivel_data, resultado_ronda)
+            bonus_heal(nivel_data)
+
+            
         #Sumamos los puntos de cada ronda con esta función
         jugador_humano.sumar_puntaje_actual(nivel_data.get('jugador'), resultado_ronda.get('puntaje_ronda'))
         

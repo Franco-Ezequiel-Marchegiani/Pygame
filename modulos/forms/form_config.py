@@ -6,7 +6,15 @@ from utn_fra.pygame_widgets import (
     Button, Label, TextBox, TextBoxSound
 )
 
-def init_form_config(dict_form_data: dict):
+def init_form_config(dict_form_data: dict) -> None:
+    """ 
+    Parametros:Recibe la data del formulario en formato diccionario.
+
+    ¿Qué hace?:Crea un formulario, y se le agregan elementos como titulos y botones para
+    renderizar la vista del formulario "Config"
+    Aquí el usuario podrá seleccionar en poner o sacar la música
+    ¿Qué Devuelve?: None.
+    """
     form = base_form.create_base_form(dict_form_data)
     
     form['texto'] = 'HOLA MUNDO'

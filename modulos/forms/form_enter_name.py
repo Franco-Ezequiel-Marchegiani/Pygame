@@ -8,7 +8,17 @@ from utn_fra.pygame_widgets import (
 )
 #Centro de las dimensiones horizontales y verticales
 
-def init_form_enter_name(dict_form_data: dict, jugador: dict):
+def init_form_enter_name(dict_form_data: dict, jugador: dict) -> None:
+    """ 
+    Parametros:Recibe la data del formulario en formato diccionario.
+
+    ¿Qué hace?:Crea un formulario, y se le agregan elementos como titulos y botones para
+    renderizar la vista del formulario "Start Level"
+    Aquí el usuario, luego de finalizar su partida, colocará su nombre para que se guarde
+    En el ranking, junto a su puntaje.
+    
+    ¿Qué Devuelve?: None.
+    """
     form = base_form.create_base_form(dict_form_data)
     
     #Creamos un form que se activa entre el nivel del juego, y el ranking

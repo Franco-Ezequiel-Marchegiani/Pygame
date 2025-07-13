@@ -4,6 +4,14 @@ forms_dict = {}
 
 # def create_base_form(name: str, screen: pg.Surface, active: bool, coords: tuple[int, int], level_num: int, music_path: str) -> dict:
 def create_base_form(dict_form_data: dict) -> dict:
+    """ 
+    Parametros:Recibe la data del formulario en formato diccionario.
+
+    ¿Qué hace?:Crea un diccionario y en él agrega los elementos base que cada
+    formulario en la aplicación contará.
+    
+    ¿Qué Devuelve?: Un diccionario, con la estructura base ya definida.
+    """
     form = {}
     form['name'] = dict_form_data.get('name')
     form['screen'] = dict_form_data.get('screen')
@@ -20,6 +28,9 @@ def create_base_form(dict_form_data: dict) -> dict:
     form['rect'].x = dict_form_data.get('coords')[0]
     form['rect'].y = dict_form_data.get('coords')[1]
     return form
+
+def stop_music():
+    pg.mixer.music.stop()
 
 def cancel_music(form_dict: dict):
     stop_music()
@@ -48,9 +59,6 @@ def play_music(form_dict: dict):
         pg.mixer.music.set_volume(0.2)
         pg.mixer.music.play(loops=-1, fade_ms=400)
 
-def stop_music():
-    pg.mixer.music.stop()
-
 def set_active(name: str):
     for form in forms_dict.values():
         form['active'] = False
@@ -70,8 +78,6 @@ def draw_widgets(form_data: dict):
 def draw(form_data: dict):
     #Muestra las superficies en pantalla, y dsp llama a draw_widgets
     form_data['screen'].blit(form_data.get('surface'), form_data.get('rect'))
-    #Ya no es necesario que llame a draw_widgets
-    #draw_widgets(form_data)
 
 def update(form_data: dict):
     #Pasa por parámetro el dict/listado de widgets

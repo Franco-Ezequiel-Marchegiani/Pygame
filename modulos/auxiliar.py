@@ -102,11 +102,9 @@ def generar_mazo(mazo_dict_original: list[dict]):
     for card in mazo_dict_original:
         carta_final = carta.inicializar_carta(card, var.COORDENADA_CARTA_MAZO)
         lista_mazo_resultado.append(carta_final)
-
     rd.shuffle(lista_mazo_resultado)
 
     return lista_mazo_resultado
-
 
 
 def inicializar_musica():
@@ -119,7 +117,6 @@ def inicializar_musica():
     #Musica inicial
     pg.mixer.music.load(var.RUTA_MUSICA)
     pg.mixer.music.play() #Suena una sola vez
-
 
 
 def inicializar_bucle_musica():
