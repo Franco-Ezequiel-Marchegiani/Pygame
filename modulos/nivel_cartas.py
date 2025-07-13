@@ -512,13 +512,7 @@ def update(nivel_data: dict, cola_eventos: list[pg.event.Event]) -> None:
     ``¿Qué Devuelve?:``
         None
     """
-    #Manejar acá todo lo que se tenga que actualizar, ya sea la vida, barrera, etc.
-    #Revisa si la partida/juego ya terminó
     check_juego_terminado(nivel_data)
-    #Si el juego terminó, y NO se guardó el puntaje...
     if juego_terminado(nivel_data) and not nivel_data.get('puntaje_guardado'):
-        #Actualiza el puntaje del jugador
         jugador_humano.actualizar_puntaje_total(nivel_data.get("jugador"))
-        
-        #Guardamos una sola vez el puntaje guardado.
         nivel_data['puntaje_guardado'] = True 
